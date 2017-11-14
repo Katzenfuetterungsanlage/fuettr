@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="container-fluid">
+                <div class="jumbotron text-center">
+                    <p>Letzte erfolgte Fütterung: {{last_time}} </p>
+                    <p>Nächste Fütterung erfolgt um: {{next_time}}</p>
+                    <p>Nächste Fütterung erfolgt in: {{next_time_in}}</p>
+                </div>
+                <ul *ngIf="warning" style="list-style-type: none; margin-left: -40px;">
+                    <li *ngFor="let warning_message of warning_messages">
+                        <div class="alert alert-warning alert-dismissable fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Warning! </strong>{{warning_message.warning}}
+                        </div>
+                    </li>
+                </ul>
+                <ul *ngIf="danger" style="list-style-type: none; margin-left: -40px;">
+                    <li *ngFor="let error_message of error_messages">
+                        <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Error! </strong>{{error_message.error}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <h2 class="text-center">Fütterungszeiten</h2>
+            <div class="container-fluid">
+                <table class="table">
+                    <tbody>
+                        <tr *ngIf="time1_show">
+                            <td class="text-right">
+                                <h4>Zeit 1:</h4>
+                            </td>
+                            <td>
+                                <span class="btn btn-secondary">{{time1}}</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="time2_show">
+                            <td class="text-right">
+                                <h4>Zeit 2:</h4>
+                            </td>
+                            <td>
+                                <span class="btn btn-secondary">{{time2}}</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="time3_show">
+                            <td class="text-right">
+                                <h4>Zeit 3:</h4>
+                            </td>
+                            <td>
+                                <span class="btn btn-secondary">{{time3}}</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="time4_show">
+                            <td class="text-right">
+                                <h4>Zeit 4:</h4>
+                            </td>
+                            <td>
+                                <span class="btn btn-secondary">{{time4}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a class="fixed-bottom text-right" style="margin-bottom: 35px;" href="https://afk.cat/signup?ref=NMYNkIShTYk5"><img src="https://afk.cat/static/img/raf_banner.png" width="25%"></a>
+    <nav class="navbar fixed-bottom">Maschine: {{machine_state}}</nav>
+</div>

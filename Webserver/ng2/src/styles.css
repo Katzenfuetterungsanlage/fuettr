@@ -1,0 +1,68 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'bootstrap.css';
+@import url('https://fonts.googleapis.com/css?family=Concert+One');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Allerta');
+.navbar {
+    margin-bottom: 0;
+    background-color: #191816;
+    border: 0;
+    letter-spacing: 1px;
+    border-radius: 0px;
+    font-size: 18px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.navbar-toggler {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.navbar li a,
+.navbar .navbar-brand {
+    color: #c6bfb9 !important;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li.active a {
+    color: #c6bfb9 !important;
+    background-color: #62584c !important;
+    font-size: 18px;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #000000 !important;
+}
+
+.dropdown-menu {
+    margin-bottom: 0;
+    background-color: #191816;
+    border: 0;
+    letter-spacing: 1px;
+    border-radius: 0px;
+    font-size: 18px;
+}
+
+.all {
+    font-family: 'Allerta', sans-serif;
+}
+
+.btn {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.logo {
+    font-family: 'Concert One', cursive;
+    font-size: 32px;
+    margin: 0px;
+    border: 0px;
+    margin-right: 12px;
+    margin-bottom: -3px;
+}
+
+.logo-picture {
+    margin-bottom: 6px;
+    margin-right: -8px;
+}

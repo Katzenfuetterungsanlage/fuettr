@@ -1,0 +1,6 @@
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@java -jar USERR/git/fuettr/Java_Application/Java/prj/dist/Diplomarbeit_Prototyping.jar
+@xscreensaver -no-splash
+@point-rpi
+

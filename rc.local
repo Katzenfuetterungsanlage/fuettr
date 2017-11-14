@@ -1,0 +1,17 @@
+#!/bin/sh -e
+#
+# rc.local
+
+sudo service cron start &
+
+echo "
+--> Starting server"
+cd USERR/git/fuettr/Web_Application/Webserver/ng2 && sudo npm start &
+
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+
+exit 0

@@ -1,0 +1,66 @@
+#!/bin/bash -e
+# install script for Fuettr Server and Java-Application
+
+THISUSER=/home/$USER
+
+echo "
+--> downloading and installing node.js..."
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt install -y nodejs
+
+echo "
+--> downloading and installing git..."
+sudo apt install -y git
+sudo apt install -y rpl
+sudo apt -y autoremove
+
+echo "
+--> setting git credentials..."
+sudo git config --global user.name "fuettr"
+sudo git config --global user.email "fuettr@gmail.com"
+
+echo "
+--> downloading..."
+cd $THISUSER && sudo mkdir git
+cd $THISUSER/git && sudo git clone https://github.com/Katzenfuetterungsanlage/fuettr.git
+cd $THISUSER/git/fuettr && sudo git pull
+
+echo "
+--> copy rc.local..."
+sudo rsync -aP $THISUSER/git/fuettr/rc.local /etc/rc.local
+
+echo "
+--> editing rc.local..."
+sudo rpl USERR $THISUSER /etc/rc.local
+sudo chmod +x /etc/rc.local
+
+echo "
+--> copying autostart..."
+rsync -aP $THISUSER/git/fuettr/autostart $THISUSER/.config/lxsession/LXDE-$USER/autostart
+
+echo "
+--> edititng autostart..."
+sudo rpl USERR $THISUSER $THISUSER/.config/lxsession/LXDE-$USER/autostart
+
+echo "
+--> installing node dependencies..."
+sudo npm i -g npm
+sudo npm i -g @angular/cli gulp npm-install-missing
+cd $THISUSER/git/fuettr/Web_Application/Webserver/ng2 && sudo npm i --unsafe-perm
+cd $THISUSER/git/fuettr/Web_Application/Webserver/server && sudo npm i
+
+echo "
+--> building server..."
+cd $THISUSER/git/fuettr/Web_Application/Webserver/ng2 && sudo ng build
+cd $THISUSER/git/fuettr/Web_Application/Webserver/server && sudo gulp cleanAndBuild
+
+echo "
+--> starting server..."
+cd $THISUSER/git/fuettr/Web_Application/Webserver/server/dist && sudo node main.js &
+
+echo "
+--> starting java application..."
+cd $THISUSER/git/fuettr/Java_Application/Java/prj/dist && java -jar Diplomarbeit_Prototyping.jar &
+
+echo "
+done"

@@ -1,0 +1,9 @@
+{
+    "errors": [{
+        "error": "error 1"
+    }, {
+        "error": "error 2"
+    }, {
+        "error": "error 3"
+    }]
+}

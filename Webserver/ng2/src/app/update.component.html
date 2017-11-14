@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <h1>Update</h1>
+</div>
+<div class="container-fluid">
+    <h4>Klick the button to check for updates:</h4>
+    <br>
+    <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#myModal">Check for updates</button>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>{{message}}</p>
+                <div *ngIf="show">{{newVersion}}</div>
+                <div *ngIf="progress" class="progress">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; color: black;">{{prgbar}}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!show2" type="button" class="btn btn-secondary" (click)="refresh()">Check again</button>
+                <button *ngIf="show2" type="button" class="btn btn-secondary">Check again</button>
+                <button *ngIf="show" type="button" class="btn btn-primary" (click)="update()">Update {{updater}}</button>
+                <button *ngIf="show2" type="button" class="btn btn-primary">Update {{updater}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="shutdownModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <strong>WARNING!</strong>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to shutdown? Your device will power off and can't be started via the network again. You have to pull the power cable and put it back in.</p>
+                <img src="/assets/put_it_back.jpg" width="100%" class="text-center">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" (click)="shutdown()">Shutdown</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar fixed-bottom navbar-inverse" style="background-color: #191816;">
+    <form class="form-inline">
+        <img src="assets/shutdown.png" data-toggle="modal" data-target="#shutdownModal">
+    </form>
+</nav>
