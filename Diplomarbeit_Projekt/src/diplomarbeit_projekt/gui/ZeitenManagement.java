@@ -39,7 +39,7 @@ public class ZeitenManagement extends javax.swing.JDialog
     private void spinnerFuellen ()
     {
         StreamReader streamReader = new StreamReader(); 
-        String string = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt",true);
+        String string = streamReader.einlesen("testZeit.txt",false);
         
         //test
         System.out.format("%s %n",string);
@@ -465,7 +465,7 @@ public class ZeitenManagement extends javax.swing.JDialog
             else 
             {
                 StreamWriter streamWriter = new StreamWriter(); 
-                streamWriter.schreiben("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt",string,true);
+                streamWriter.schreiben("testZeit.txt",string,true);
 
                 System.out.println("Zeiten gespeichert!"); 
         

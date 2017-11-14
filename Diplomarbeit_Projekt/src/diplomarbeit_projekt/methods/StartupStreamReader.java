@@ -6,21 +6,21 @@
 package diplomarbeit_projekt.methods;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
  *
  * @author Florian
  */
-public class StreamReader
+public class StartupStreamReader
 {
-    public String einlesen(String pfad, Boolean nachricht)
+    public String einlesen(InputStream datei, Boolean nachricht)
     {
         String text = null;
         
         try (final BufferedReader reader = new BufferedReader( //fasst in blöcke zusammen
-            new InputStreamReader(new FileInputStream(pfad),"utf8"))) 
+            new InputStreamReader(datei))) 
             //in doInBackground kann nur auf final Objekte zugegriffen werden - file2
         {
             text = reader.readLine(); 

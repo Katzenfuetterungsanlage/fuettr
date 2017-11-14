@@ -14,7 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import diplomarbeit_projekt.methods.NaechsteFuetterung;
+import diplomarbeit_projekt.methods.StartupStreamReader;
 import diplomarbeit_projekt.methods.StreamReader;
+import diplomarbeit_projekt.methods.StreamWriter;
 
 /**
  *
@@ -772,7 +774,7 @@ public class Hauptfenster extends javax.swing.JFrame
                 {
                     StreamReader streamReader = new StreamReader();
                     //string = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt", false);
-                    string = streamReader.einlesen("data/testZeit.txt",false);
+                    string = streamReader.einlesen("testZeit.txt",false);
                     
                     publish(string);
 
@@ -920,7 +922,7 @@ public class Hauptfenster extends javax.swing.JFrame
                 {
                     StreamReader streamReader = new StreamReader();
                     //String zeiten = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt", false);
-                    String zeiten = streamReader.einlesen("data/testZeit.txt",false);
+                    String zeiten = streamReader.einlesen("testZeit.txt",false);
                     NaechsteFuetterung naechsteFuetterung = new NaechsteFuetterung();
                     string1 = naechsteFuetterung.naechsteFuetterung(letzteFuetterung, zeiten);
                 }
@@ -950,6 +952,22 @@ public class Hauptfenster extends javax.swing.JFrame
         }
     }
     
-    
+    private class StartupWorker extends SwingWorker<Object, Object> 
+    {
+
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            //must du für jede Datei wiederholen
+            StartupStreamReader streamReader = new StartupStreamReader();
+            String zeiten = streamReader.einlesen(getClass().getResourceAsStream("/data/testZeiten"),false);
+            
+            StreamWriter streamWriter = new StreamWriter();
+            streamWriter.schreiben("testZeit.txt",zeiten,true);
+            
+            return 0;
+        }
+        
+    }
 
 }
