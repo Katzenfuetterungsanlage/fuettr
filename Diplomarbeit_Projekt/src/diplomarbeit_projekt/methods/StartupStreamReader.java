@@ -18,14 +18,14 @@ public class StartupStreamReader
     public String einlesen(InputStream datei, Boolean nachricht)
     {
         String text = null;
-        
+
         try (final BufferedReader reader = new BufferedReader( //fasst in blöcke zusammen
-            new InputStreamReader(datei))) 
+            new InputStreamReader(datei)))
             //in doInBackground kann nur auf final Objekte zugegriffen werden - file2
         {
-            text = reader.readLine(); 
+            text = reader.readLine();
             if (nachricht == true)
-                System.out.println("StreamReader: Streams wurden erfolgreich gelesen!");
+                System.out.println("StartupStreamReader: Streams wurden erfolgreich gelesen!");
         }
         catch (Exception ex)
         {

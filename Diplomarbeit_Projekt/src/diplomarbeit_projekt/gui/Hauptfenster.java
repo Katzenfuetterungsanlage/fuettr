@@ -47,12 +47,15 @@ public class Hauptfenster extends javax.swing.JFrame
             this.setSize(800, 480);
             this.setVisible(true);
 //        }
-        initComponents();
+        initComponents();      
 
         if (zustand == false)
         {
             lbZustand.setText("Aus");
         }
+        
+        StartupWorker sWorker = new StartupWorker();
+        sWorker.execute();
 
         UhrzeitWorker uWorker = new UhrzeitWorker();
         uWorker.execute();
@@ -589,7 +592,7 @@ public class Hauptfenster extends javax.swing.JFrame
         {
             //TODO
             
-            dispose();
+            System.exit(0);
         }
     }//GEN-LAST:event_onHerunterfahren
 
@@ -774,7 +777,7 @@ public class Hauptfenster extends javax.swing.JFrame
                 {
                     StreamReader streamReader = new StreamReader();
                     //string = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt", false);
-                    string = streamReader.einlesen("testZeit.txt",false);
+                    string = streamReader.einlesen("testZeit.txt", false);
                     
                     publish(string);
 
@@ -922,7 +925,7 @@ public class Hauptfenster extends javax.swing.JFrame
                 {
                     StreamReader streamReader = new StreamReader();
                     //String zeiten = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt", false);
-                    String zeiten = streamReader.einlesen("testZeit.txt",false);
+                    String zeiten = streamReader.einlesen("testZeit.txt", false);
                     NaechsteFuetterung naechsteFuetterung = new NaechsteFuetterung();
                     string1 = naechsteFuetterung.naechsteFuetterung(letzteFuetterung, zeiten);
                 }
@@ -957,13 +960,13 @@ public class Hauptfenster extends javax.swing.JFrame
 
         @Override
         protected Object doInBackground() throws Exception
-        {
+        {          
             //must du für jede Datei wiederholen
             StartupStreamReader streamReader = new StartupStreamReader();
-            String zeiten = streamReader.einlesen(getClass().getResourceAsStream("/data/testZeiten"),false);
+            String zeiten = streamReader.einlesen(getClass().getResourceAsStream("/data/testZeit.txt"), false);
             
             StreamWriter streamWriter = new StreamWriter();
-            streamWriter.schreiben("testZeit.txt",zeiten,true);
+            streamWriter.schreiben("testZeit.txt", zeiten, false);
             
             return 0;
         }

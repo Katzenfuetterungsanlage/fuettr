@@ -22,8 +22,16 @@ public class MilliZuStundenUndMinuten
     else
       minuten = millisekunden / 1000 / 60 % 60;
     
-    String std = Long.toString(stunden);
-    String min = Long.toString(minuten);
+    String std = "";
+    String min = "";
+    
+    if (stunden < 10)
+      std = "0";
+    std += Long.toString(stunden);
+    
+    if (minuten < 10)
+      min = "0";
+    min += Long.toString(minuten);
     
 //      System.out.println(min);
 //      System.out.println(std);
