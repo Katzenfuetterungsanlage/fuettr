@@ -5,6 +5,7 @@
  */
 package diplomarbeit_projekt.gui;
 
+import diplomarbeit_projekt.methods.StreamReader;
 import static java.lang.String.valueOf;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -28,6 +29,11 @@ public class BenutzerAnlegen extends javax.swing.JDialog
                
         initComponents();
          
+        StreamReader streamReader = new StreamReader();
+        String string = streamReader.einlesen("benutzer_passwort.txt", false);
+        String[] token = string.split(";");
+        lbBenutzer.setText(token[0]);
+        
         setLocationRelativeTo(parent);
         pack();
     }
@@ -41,9 +47,16 @@ public class BenutzerAnlegen extends javax.swing.JDialog
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         pBenutzer = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lbBenutzer = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -67,7 +80,28 @@ public class BenutzerAnlegen extends javax.swing.JDialog
         pBenutzer.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         pBenutzer.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 16, 32));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        jLabel2.setText("Der Benutzer");
+        jPanel5.add(jLabel2);
+        jLabel2.getAccessibleContext().setAccessibleName("Der Benutzer");
+
+        lbBenutzer.setText("<Benutzer>");
+        jPanel5.add(lbBenutzer);
+
+        jLabel6.setText("ist angelegt.");
+        jPanel5.add(jLabel6);
+
+        jPanel4.add(jPanel5, new java.awt.GridBagConstraints());
+
+        jLabel4.setText("Wenn ein neuer Benutzer angelegt wird, wird der Andere gelöscht.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 4, 2);
+        jPanel4.add(jLabel4, gridBagConstraints);
+
+        pBenutzer.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 2, 0, 4));
 
@@ -178,10 +212,12 @@ public class BenutzerAnlegen extends javax.swing.JDialog
                 String string = benutzername + ";" + stringPw;
 
                 StreamWriter streamWriter = new StreamWriter(); 
-                streamWriter.schreiben("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\benutzer_passwort.txt",string,true);
+                streamWriter.schreiben("benutzer_passwort.txt",string,true);
             
                 System.out.println("Benutzerdaten gespeichert!"); 
-        
+      
+                lbBenutzer.setText(benutzername);
+                
                 JOptionPane.showMessageDialog(this, String.format("Der Benutzer %s wurde erfolgreich angelegt!",benutzername), "Hinweis",INFORMATION_MESSAGE);
             
                 gespeichert = true; 
@@ -253,13 +289,19 @@ public class BenutzerAnlegen extends javax.swing.JDialog
     private javax.swing.JButton btSchließen1;
     private javax.swing.JButton btSpeichern;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JLabel lbBenutzer;
     private javax.swing.JPanel pBenutzer;
     private javax.swing.JPanel pButton;
     private javax.swing.JPasswordField pwtfPasswort;

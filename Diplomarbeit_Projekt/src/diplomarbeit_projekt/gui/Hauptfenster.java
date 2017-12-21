@@ -394,6 +394,7 @@ public class Hauptfenster extends javax.swing.JFrame
         });
         raspberry.add(neustarten);
 
+        herunterfahren.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/powerIcon16x16.png"))); // NOI18N
         herunterfahren.setText("Herunterfahren");
         herunterfahren.addActionListener(new java.awt.event.ActionListener()
         {
@@ -415,6 +416,7 @@ public class Hauptfenster extends javax.swing.JFrame
             }
         });
 
+        ein_aus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/switchIcon16x16.png"))); // NOI18N
         ein_aus.setText("Ein-/Ausschalten");
         ein_aus.addActionListener(new java.awt.event.ActionListener()
         {
@@ -426,6 +428,7 @@ public class Hauptfenster extends javax.swing.JFrame
         fuetterung.add(ein_aus);
         fuetterung.add(jSeparator1);
 
+        fuetterungszeiten_verwalten.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/timeIcon16x16.png"))); // NOI18N
         fuetterungszeiten_verwalten.setText("Fütterungszeiten verwalten");
         fuetterungszeiten_verwalten.addActionListener(new java.awt.event.ActionListener()
         {
@@ -440,6 +443,7 @@ public class Hauptfenster extends javax.swing.JFrame
 
         steuerung.setText("Steuerung");
 
+        manuelleSteuerung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"))); // NOI18N
         manuelleSteuerung.setText("manuelle Steuerung");
         manuelleSteuerung.addActionListener(new java.awt.event.ActionListener()
         {
@@ -451,6 +455,7 @@ public class Hauptfenster extends javax.swing.JFrame
         steuerung.add(manuelleSteuerung);
         steuerung.add(jSeparator3);
 
+        positionsinformationen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/infoIcon16x16.png"))); // NOI18N
         positionsinformationen.setText("Positionsinformationen");
         positionsinformationen.addActionListener(new java.awt.event.ActionListener()
         {
@@ -465,6 +470,7 @@ public class Hauptfenster extends javax.swing.JFrame
 
         einstellungen.setText("Einstellungen");
 
+        update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/downloadIcon16x16.png"))); // NOI18N
         update.setText("Update");
         update.addActionListener(new java.awt.event.ActionListener()
         {
@@ -475,6 +481,7 @@ public class Hauptfenster extends javax.swing.JFrame
         });
         einstellungen.add(update);
 
+        benutzer_anlegen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/userIcon16x16.png"))); // NOI18N
         benutzer_anlegen.setText("Benutzer anlegen");
         benutzer_anlegen.addActionListener(new java.awt.event.ActionListener()
         {
@@ -486,6 +493,7 @@ public class Hauptfenster extends javax.swing.JFrame
         einstellungen.add(benutzer_anlegen);
         einstellungen.add(jSeparator2);
 
+        geraeteinformation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/info_aboutIcon16x16.png"))); // NOI18N
         geraeteinformation.setText("Geräteinformation");
         geraeteinformation.addActionListener(new java.awt.event.ActionListener()
         {
