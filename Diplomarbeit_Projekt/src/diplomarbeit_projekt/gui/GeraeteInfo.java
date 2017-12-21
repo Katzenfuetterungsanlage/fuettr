@@ -5,7 +5,6 @@
  */
 package diplomarbeit_projekt.gui;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import diplomarbeit_projekt.methods.StreamReader;
 
 /**
@@ -25,11 +24,11 @@ public class GeraeteInfo extends javax.swing.JDialog
         initComponents();
          
         StreamReader streamReader = new StreamReader(); 
-        String internerRechner = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\internerRechner.txt",true);
+        String internerRechner = streamReader.einlesen("internerRechner.txt",false);
         
         lbInternerRechner.setText(internerRechner);
         
-        String seriennummer = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\seriennummer.txt",true);
+        String seriennummer = streamReader.einlesen("seriennummer.txt",false);
         
         lbSeriennummer.setText(seriennummer);
         
