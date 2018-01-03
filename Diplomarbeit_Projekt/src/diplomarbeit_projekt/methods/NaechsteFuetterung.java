@@ -57,6 +57,8 @@ public class NaechsteFuetterung
         MilliZuStundenUndMinuten milliZuStdUndMin = new MilliZuStundenUndMinuten();
         DatumPlusEinTag datumPlusEinTag = new DatumPlusEinTag();
         
+        // switch case nicht verwenden sondern nur die Abfrage von default machen 
+        
         switch(letzteFuetterung)
         {
             case 1:

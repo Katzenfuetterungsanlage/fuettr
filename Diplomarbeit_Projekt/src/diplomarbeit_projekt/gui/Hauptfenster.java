@@ -10,7 +10,6 @@ import java.awt.GraphicsEnvironment;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import diplomarbeit_projekt.methods.NaechsteFuetterung;
@@ -970,8 +969,12 @@ public class Hauptfenster extends javax.swing.JFrame
         protected Object doInBackground() throws Exception
         {          
             //must du für jede Datei wiederholen
+            
+//            StreamReader streamReader = new StreamReader();
+//            String zeiten = streamReader.einlesen("testZeit.txt", false);
+            
             StartupStreamReader streamReader = new StartupStreamReader();
-            String zeiten = streamReader.einlesen(getClass().getResourceAsStream("/data/testZeit.txt"), false);
+            String zeiten = streamReader.einlesen(getClass().getResourceAsStream("testZeit.txt"), false);
             
             StreamWriter streamWriter = new StreamWriter();
             streamWriter.schreiben("testZeit.txt", zeiten, false);
