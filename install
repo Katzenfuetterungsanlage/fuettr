@@ -3,64 +3,93 @@
 
 THISUSER=/home/$USER
 
-echo "
---> downloading and installing node.js..."
+echo -e "\e[92m
+--> downloading and installing node.js...\e[0m"
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt install -y nodejs
 
-echo "
---> downloading and installing git..."
+echo -e "\e[92m
+--> downloading and installing git...\e[0m"
 sudo apt install -y git
 sudo apt install -y rpl
+
+echo -e "\e[92m
+--> downloading and installing mongodb...\e[0m"
+sudo apt install -y mongodb
 sudo apt -y autoremove
 
-echo "
---> setting git credentials..."
-sudo git config --global user.name "fuettr"
-sudo git config --global user.email "fuettr@gmail.com"
+echo -e "\e[92m
+--> setting git credentials...\e[0m"
+git config --global user.name "fuettr"
+git config --global user.email "fuettr@gmail.com"
 
-echo "
---> downloading..."
-cd $THISUSER && sudo mkdir git
-cd $THISUSER/git && sudo git clone https://github.com/Katzenfuetterungsanlage/fuettr.git
-cd $THISUSER/git/fuettr && sudo git pull
+echo -e "\e[92m
+--> create logfolder...\e[0m"
+cd /var/log && sudo mkdir fuettr
+sudo chown $USER /var/log/fuettr
+chmod 755 /var/log/fuettr
 
-echo "
---> copy rc.local..."
+echo -e "\e[92m
+--> downloading...\e[0m"
+cd $THISUSER && mkdir git
+sudo chown $USER $THISUSER/git
+chmod 755 $THISUSER/git
+cd $THISUSER/git && git clone https://github.com/Katzenfuetterungsanlage/fuettr.git
+cd $THISUSER/git/fuettr && git reset --hard
+cd $THISUSER/git/fuettr && git pull
+
+echo -e "\e[92m
+--> copy rc.local...\e[0m"
 sudo rsync -aP $THISUSER/git/fuettr/rc.local /etc/rc.local
 
-echo "
---> editing rc.local..."
-sudo rpl USERR $THISUSER /etc/rc.local
+echo -e "\e[92m
+--> editing rc.local...\e[0m"
+sudo rpl HOMEE $THISUSER /etc/rc.local
+sudo rpl USERR $USER /etc/rc.local
 sudo chmod +x /etc/rc.local
 
-echo "
---> copying autostart..."
+echo -e "\e[92m
+--> copying autostart...\e[0m"
 rsync -aP $THISUSER/git/fuettr/autostart $THISUSER/.config/lxsession/LXDE-$USER/autostart
 
-echo "
---> edititng autostart..."
-sudo rpl USERR $THISUSER $THISUSER/.config/lxsession/LXDE-$USER/autostart
+echo -e "\e[92m
+--> edititng autostart...\e[0m"
+rpl USERR $THISUSER $THISUSER/.config/lxsession/LXDE-$USER/autostart
 
-echo "
---> installing node dependencies..."
+echo -e "\e[92m
+--> getting serialnumber...\e[0m"
+IFACE=$(ip route show default | awk '/default/ {print $5}' )
+read MAC </sys/class/net/$IFACE/address
+JSON={\"mac\":\"$MAC\"}
+curl -X POST \
+-H "Content-type: application/json" \
+-d $JSON \
+'sorogon.duckdns.org:2525/serialnumber' < $THISUSER/git/fuettr/seriennummer.txt
+
+echo -e "\e[92m
+--> installing node dependencies...\e[0m"
 sudo npm i -g npm
 sudo npm i -g @angular/cli gulp npm-install-missing
 cd $THISUSER/git/fuettr/Web_Application/Webserver/ng2 && sudo npm i --unsafe-perm
 cd $THISUSER/git/fuettr/Web_Application/Webserver/server && sudo npm i
 
-echo "
---> building server..."
+echo -e "\e[92m
+--> initializing database...\e[0m"
+sudo systemctl start mongodb
+
+echo -e "\e[92m
+--> building server...\e[0m"
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
 cd $THISUSER/git/fuettr/Web_Application/Webserver/ng2 && sudo ng build
 cd $THISUSER/git/fuettr/Web_Application/Webserver/server && sudo gulp cleanAndBuild
 
-echo "
---> starting server..."
-cd $THISUSER/git/fuettr/Web_Application/Webserver/server/dist && sudo node main.js &
+echo -e "\e[92m
+--> starting server...\e[0m"
+cd $THISUSER/git/fuettr/Web_Application/Webserver/server/dist && node main.js #&
 
-echo "
---> starting java application..."
-cd $THISUSER/git/fuettr/Java_Application/Java/prj/dist && java -jar Diplomarbeit_Prototyping.jar &
+echo -e "\e[92m
+--> starting java application...\e[0m"
+cd $THISUSER/git/fuettr/Diplomarbeit_Project/dist && java -jar Diplomarbeit_Project.jar &
 
-echo "
-done"
+echo -e "\e[92m
+done\e[0m"
