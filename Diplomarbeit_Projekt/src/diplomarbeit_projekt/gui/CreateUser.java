@@ -5,34 +5,56 @@
  */
 package diplomarbeit_projekt.gui;
 
-import diplomarbeit_projekt.methods.StreamReader;
-import static java.lang.String.valueOf;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.combine;
+import static com.mongodb.client.model.Updates.set;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import diplomarbeit_projekt.methods.StreamWriter;
+import java.io.StringReader;
+import static java.lang.String.valueOf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import org.bson.Document;
 
 /**
  *
  * @author Florian
  */
-public class BenutzerAnlegen extends javax.swing.JDialog
+public class CreateUser extends javax.swing.JDialog
 {
-    boolean gespeichert = false; 
+    boolean saved = false; 
 
+    MongoClient mongodb = new MongoClient();
+    MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");  
+    MongoCollection<Document> collUser = database.getCollection("data_user");
+    
     /**
      * Creates new form BenutzerAnlegen
      */
-    public BenutzerAnlegen(java.awt.Frame parent, boolean modal)
+    public CreateUser(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
                
         initComponents();
          
-        StreamReader streamReader = new StreamReader();
-        String string = streamReader.einlesen("benutzer_passwort.txt", false);
-        String[] token = string.split(";");
-        lbBenutzer.setText(token[0]);
+        Document userDoc = collUser.find(eq("identifier", "User")).first();
+        String strUser = userDoc.toJson();
+        
+        Logger.getLogger("User imported").log(Level.FINE, "User imported");
+        
+        JsonReader jsonReader = Json.createReader(new StringReader(strUser));
+        JsonObject obj = jsonReader.readObject();
+        jsonReader.close();
+
+        String user_name = obj.getString("user_name");
+        lbUser.setText(user_name);
         
         setLocationRelativeTo(parent);
         pack();
@@ -54,17 +76,17 @@ public class BenutzerAnlegen extends javax.swing.JDialog
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        lbBenutzer = new javax.swing.JLabel();
+        lbUser = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfBenutzername = new javax.swing.JFormattedTextField();
+        tfUser_name = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
-        pwtfPasswort = new javax.swing.JPasswordField();
+        pwtfUser_password = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        pwtfPasswortWhd = new javax.swing.JPasswordField();
+        pwtfUser_passwordConfirm = new javax.swing.JPasswordField();
         pButton = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -84,10 +106,9 @@ public class BenutzerAnlegen extends javax.swing.JDialog
 
         jLabel2.setText("Der Benutzer");
         jPanel5.add(jLabel2);
-        jLabel2.getAccessibleContext().setAccessibleName("Der Benutzer");
 
-        lbBenutzer.setText("<Benutzer>");
-        jPanel5.add(lbBenutzer);
+        lbUser.setText("<Benutzer>");
+        jPanel5.add(lbUser);
 
         jLabel6.setText("ist angelegt.");
         jPanel5.add(jLabel6);
@@ -108,16 +129,16 @@ public class BenutzerAnlegen extends javax.swing.JDialog
         jLabel1.setText("Benutername:");
         jPanel2.add(jLabel1);
 
-        tfBenutzername.setColumns(16);
-        jPanel2.add(tfBenutzername);
+        tfUser_name.setColumns(16);
+        jPanel2.add(tfUser_name);
 
         jLabel3.setText("Passwort:");
         jPanel2.add(jLabel3);
-        jPanel2.add(pwtfPasswort);
+        jPanel2.add(pwtfUser_password);
 
         jLabel5.setText("Passwort wiederholen:");
         jPanel2.add(jLabel5);
-        jPanel2.add(pwtfPasswortWhd);
+        jPanel2.add(pwtfUser_passwordConfirm);
 
         jPanel3.add(jPanel2);
 
@@ -166,65 +187,58 @@ public class BenutzerAnlegen extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
-        if (gespeichert == false)
+        if (saved == false)
        {
            if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
                  "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
            {
+               mongodb.close();
                dispose();
            }
        }
        else
-       {                     
+       {          
+           mongodb.close();
            dispose();
        }
     }//GEN-LAST:event_onSchließen
 
     private void onSpeichern(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSpeichern
     {//GEN-HEADEREND:event_onSpeichern
-        
-        String benutzername = tfBenutzername.getText();
-        char[] passwort = pwtfPasswort.getPassword();
-        char[] passwortWhd = pwtfPasswortWhd.getPassword();
+        String user_name = tfUser_name.getText();
+        char[] user_password = pwtfUser_password.getPassword();
+        char[] user_passwordConfirm = pwtfUser_passwordConfirm.getPassword();
 
-        String stringPw = valueOf(passwort);
-        String stringPwWhd = valueOf(passwortWhd);
+        String strUser_password = valueOf(user_password);
+        String strUser_passwordConfirm = valueOf(user_passwordConfirm);
         
-        System.out.println("Benutzer anlegen");
-        System.out.println(benutzername);
-        System.out.println(stringPw);
-        System.out.println(stringPwWhd);
-        
-        if ("".equals(stringPwWhd) || "".equals(benutzername) || "".equals(stringPw))
+        if ("".equals(strUser_passwordConfirm) || "".equals(user_name) || "".equals(strUser_password))
         {
             JOptionPane.showMessageDialog(this, "Benutzername und Passwort dürfen nicht leer sein!", "Fehler",ERROR_MESSAGE);
         }
         else
         {
-            if (!stringPw.equals(stringPwWhd))
+            if (!strUser_password.equals(strUser_passwordConfirm))
             {
                 JOptionPane.showMessageDialog(this, "Die Passwörter stimmen nicht überein!", "Fehler",ERROR_MESSAGE);
-                pwtfPasswort.setText("");
-                pwtfPasswortWhd.setText("");
+                pwtfUser_password.setText("");
+                pwtfUser_passwordConfirm.setText("");
             }
             else
             {
-                String string = benutzername + ";" + stringPw;
+                collUser.updateOne(eq("identifier", "User"), combine(set("user_name", user_name), set("user_password", strUser_password)));
 
-                StreamWriter streamWriter = new StreamWriter(); 
-                streamWriter.schreiben("benutzer_passwort.txt",string,true);
-            
-                System.out.println("Benutzerdaten gespeichert!"); 
+                Logger.getLogger("User saved").log(Level.FINE, "User saved");  
       
-                lbBenutzer.setText(benutzername);
+                lbUser.setText(user_name);
                 
-                JOptionPane.showMessageDialog(this, String.format("Der Benutzer %s wurde erfolgreich angelegt!",benutzername), "Hinweis",INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, String.format("Der Benutzer %s wurde erfolgreich angelegt!",user_name), "Hinweis",INFORMATION_MESSAGE);
             
-                gespeichert = true; 
+                saved = true; 
             
-                tfBenutzername.setText(""); 
-                pwtfPasswort.setText("");
-                pwtfPasswortWhd.setText("");
+                tfUser_name.setText(""); 
+                pwtfUser_password.setText("");
+                pwtfUser_passwordConfirm.setText("");
             }
         }
     
@@ -252,17 +266,19 @@ public class BenutzerAnlegen extends javax.swing.JDialog
             }
         } catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(BenutzerAnlegen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(BenutzerAnlegen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(BenutzerAnlegen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(BenutzerAnlegen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -271,7 +287,7 @@ public class BenutzerAnlegen extends javax.swing.JDialog
         {
             public void run()
             {
-                BenutzerAnlegen dialog = new BenutzerAnlegen(new javax.swing.JFrame(), true);
+                CreateUser dialog = new CreateUser(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter()
                 {
                     @Override
@@ -301,11 +317,11 @@ public class BenutzerAnlegen extends javax.swing.JDialog
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JLabel lbBenutzer;
+    private javax.swing.JLabel lbUser;
     private javax.swing.JPanel pBenutzer;
     private javax.swing.JPanel pButton;
-    private javax.swing.JPasswordField pwtfPasswort;
-    private javax.swing.JPasswordField pwtfPasswortWhd;
-    private javax.swing.JFormattedTextField tfBenutzername;
+    private javax.swing.JPasswordField pwtfUser_password;
+    private javax.swing.JPasswordField pwtfUser_passwordConfirm;
+    private javax.swing.JFormattedTextField tfUser_name;
     // End of variables declaration//GEN-END:variables
 }

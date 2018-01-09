@@ -78,11 +78,8 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Der Benutzer"/>
                       </Properties>
-                      <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Der Benutzer"/>
-                      </AccessibilityProperties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lbBenutzer">
+                    <Component class="javax.swing.JLabel" name="lbUser">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&lt;Benutzer&gt;"/>
                       </Properties>
@@ -128,7 +125,7 @@
                         <Property name="text" type="java.lang.String" value="Benutername:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JFormattedTextField" name="tfBenutzername">
+                    <Component class="javax.swing.JFormattedTextField" name="tfUser_name">
                       <Properties>
                         <Property name="columns" type="int" value="16"/>
                       </Properties>
@@ -138,14 +135,14 @@
                         <Property name="text" type="java.lang.String" value="Passwort:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JPasswordField" name="pwtfPasswort">
+                    <Component class="javax.swing.JPasswordField" name="pwtfUser_password">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel5">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Passwort wiederholen:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JPasswordField" name="pwtfPasswortWhd">
+                    <Component class="javax.swing.JPasswordField" name="pwtfUser_passwordConfirm">
                     </Component>
                   </SubComponents>
                 </Container>

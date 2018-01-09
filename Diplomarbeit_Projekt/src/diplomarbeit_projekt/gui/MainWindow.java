@@ -23,6 +23,7 @@ import javax.json.Json;
 import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  *
@@ -604,7 +605,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onBenutzerAnlegen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onBenutzerAnlegen
     {//GEN-HEADEREND:event_onBenutzerAnlegen
-        final BenutzerAnlegen infoDlg = new BenutzerAnlegen(this, true);
+        final CreateUser infoDlg = new CreateUser(this, true);
         infoDlg.setVisible(true);
     }//GEN-LAST:event_onBenutzerAnlegen
 
@@ -619,7 +620,7 @@ public class MainWindow extends javax.swing.JFrame
                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
             //TODO
-            ;
+            
             System.exit(0);
         }
     }//GEN-LAST:event_onHerunterfahren
