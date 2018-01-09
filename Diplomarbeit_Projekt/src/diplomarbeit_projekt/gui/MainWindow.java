@@ -23,9 +23,7 @@ import javax.json.Json;
 import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.eq;
+import diplomarbeit_projekt.pi4j.FeedingCycle;
 
 /**
  *
@@ -40,7 +38,7 @@ public class MainWindow extends javax.swing.JFrame
     String time1_active_str, time2_active_str, time3_active_str, time4_active_str;
     Boolean time1_active, time2_active, time3_active, time4_active;
     int lastFeeding = 0;
-    String nextFeedingAt, nextFeedingIn;
+    String nextFeedingAt, nextFeedingIn, lastFeedingTime;
     JsonObject times;
       
     CountDownLatch latch = new CountDownLatch(1);
@@ -756,7 +754,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
 
-                publish(timeOfDay); // gibt Text an process weiter
+                publish(timeOfDay); 
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
@@ -780,7 +778,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
 
-                publish(date); // gibt Text an process weiter
+                publish(date); 
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
@@ -796,18 +794,18 @@ public class MainWindow extends javax.swing.JFrame
     // executes feedingCycle and updates gui
     private class FeedingCycleWorker extends SwingWorker<Object, String>
     {
-        String lastFeedingTime;
-
         @Override
         protected Object doInBackground() throws Exception
         {
+            FeedingCycle feedingCycle = new FeedingCycle();
+            
             while (true)
             {
                 if (machineState == true)
                 {
                     if (time1.equals(timeOfDay) )
                     {
-                        //TODO add feedingCycle
+                        //feedingCycle.feed();
                         lastFeeding = 1;
                         lastFeedingTime = time1;
                         publish(lastFeedingTime);
@@ -815,7 +813,7 @@ public class MainWindow extends javax.swing.JFrame
                     else 
                         if (time2.equals(timeOfDay) )
                          {
-                            //TODO add feedingCycle
+                            //feedingCycle.feed();
                             lastFeeding = 2;
                             lastFeedingTime = time2;
                             publish(lastFeedingTime);
@@ -823,7 +821,7 @@ public class MainWindow extends javax.swing.JFrame
                         else 
                             if (time3.equals(timeOfDay) )
                             {
-                                //TODO add feedingCycle
+                                //feedingCycle.feed();
                                 lastFeeding = 3;
                                 lastFeedingTime = time3;
                                 publish(lastFeedingTime);
@@ -831,7 +829,7 @@ public class MainWindow extends javax.swing.JFrame
                             else 
                                 if (time4.equals(timeOfDay) )
                                 {
-                                    //TODO add feedingCycle
+                                    //feedingCycle.feed();
                                     lastFeeding = 4;
                                     lastFeedingTime = time4;
                                     publish(lastFeedingTime);

@@ -65,7 +65,7 @@ public class FeedingCycle
     
     // 7. move bowl to the feeding location
     
-    public static void feed ()
+    public void feed ()
     {
         // number of max usages 
         int maxbowlUsageIndex = 4;
@@ -238,11 +238,5 @@ public class FeedingCycle
         // shutdown gpio controller
         gpio.shutdown();
         Logger.getLogger("shutdown GPIO controller").log(Level.FINE, "shutdown GPIO controller");
-    }
-
-    public static void main(String[] args)
-    {
-        feed();
-    }
-    
+    }    
 }

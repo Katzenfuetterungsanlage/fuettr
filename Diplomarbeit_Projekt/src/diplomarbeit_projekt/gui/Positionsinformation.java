@@ -5,13 +5,52 @@
  */
 package diplomarbeit_projekt.gui;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.RaspiPin;
+import java.util.List;
+import javax.swing.SwingWorker;
+
 /**
  *
  * @author Florian
  */
+
+/*
+    Notification:
+    sensor1: bowl
+        GPIO_00
+    sensor2: conveyor belt - feed bag
+        GPIO_01
+    engine1: bowl
+        Transistor_1.1 GPIO_02
+        Transistor_1.2 GPIO_03
+        Transistor_1.3 GPIO_04
+        Transistor_1.4 GPIO_05
+    engine2: conveyor belt - feed bag
+        Transistor_2.1 GPIO_06
+        Transistor_2.2 GPIO_10
+        Transistor_2.3 GPIO_08
+        Transistor_2.4 GPIO_09
+
+    1-4 -> clockwise
+    2-3 -> counterclockwise
+
+    transistor is active when voltage is supplied => pin state = high
+    sensor return high when the object is in front of it
+*/
+
 public class Positionsinformation extends javax.swing.JDialog
 {
-
+    Boolean stop = true;
+    
+    // create gpio controller
+    final GpioController gpio = GpioFactory.getInstance();
+    
     /**
      * Creates new form Positionsinformation
      */
@@ -23,6 +62,21 @@ public class Positionsinformation extends javax.swing.JDialog
          
         setLocationRelativeTo(parent);
         pack();
+
+        // Workers
+        // Workers will stop when Button "Schließen"/close is pressed and stop = true
+        Sensor1PositionWorker sensor1PositionWorker = new Sensor1PositionWorker();
+        sensor1PositionWorker.execute();
+        
+        Sensor2PositionWorker sensor2PositionWorker = new Sensor2PositionWorker();
+        sensor2PositionWorker.execute();
+        
+        Engine1PositionWorker engine1PositionWorker = new Engine1PositionWorker();
+        engine1PositionWorker.execute();
+        
+        Engine2PositionWorker engine2PositionWorker = new Engine2PositionWorker();
+        engine2PositionWorker.execute();
+        
     }
 
     /**
@@ -47,26 +101,22 @@ public class Positionsinformation extends javax.swing.JDialog
         jLabel1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lbEngine1 = new javax.swing.JLabel();
         pMotor2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lbEngine2 = new javax.swing.JLabel();
         pSensor1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lbSensor1 = new javax.swing.JLabel();
         pSensor2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        lbSensor2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Positionsinformation");
@@ -115,11 +165,8 @@ public class Positionsinformation extends javax.swing.JDialog
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 0, 8, 0));
 
-        jLabel5.setText("Pos1");
-        jPanel7.add(jLabel5);
-
-        jLabel6.setText("Pos2");
-        jPanel7.add(jLabel6);
+        lbEngine1.setText("Pos1");
+        jPanel7.add(lbEngine1);
 
         jPanel9.add(jPanel7);
 
@@ -136,11 +183,8 @@ public class Positionsinformation extends javax.swing.JDialog
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 0, 8, 0));
 
-        jLabel7.setText("Pos1");
-        jPanel8.add(jLabel7);
-
-        jLabel8.setText("Pos2");
-        jPanel8.add(jLabel8);
+        lbEngine2.setText("Pos1");
+        jPanel8.add(lbEngine2);
 
         jPanel17.add(jPanel8);
 
@@ -157,11 +201,8 @@ public class Positionsinformation extends javax.swing.JDialog
 
         jPanel19.setLayout(new java.awt.GridLayout(1, 0, 8, 0));
 
-        jLabel11.setText("(nicht)betätigt");
-        jPanel19.add(jLabel11);
-
-        jLabel10.setText("Pos1");
-        jPanel19.add(jLabel10);
+        lbSensor1.setText("(nicht)betätigt");
+        jPanel19.add(lbSensor1);
 
         jPanel18.add(jPanel19);
 
@@ -178,11 +219,8 @@ public class Positionsinformation extends javax.swing.JDialog
 
         jPanel21.setLayout(new java.awt.GridLayout(1, 0, 8, 0));
 
-        jLabel14.setText("(nicht)betätigt");
-        jPanel21.add(jLabel14);
-
-        jLabel13.setText("Pos1");
-        jPanel21.add(jLabel13);
+        lbSensor2.setText("(nicht)betätigt");
+        jPanel21.add(lbSensor2);
 
         jPanel20.add(jPanel21);
 
@@ -203,6 +241,7 @@ public class Positionsinformation extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
+        stop = false; //stops PositionWorker
         dispose();
     }//GEN-LAST:event_onSchließen
 
@@ -264,16 +303,8 @@ public class Positionsinformation extends javax.swing.JDialog
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSchließen;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
@@ -288,6 +319,10 @@ public class Positionsinformation extends javax.swing.JDialog
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lbEngine1;
+    private javax.swing.JLabel lbEngine2;
+    private javax.swing.JLabel lbSensor1;
+    private javax.swing.JLabel lbSensor2;
     private javax.swing.JPanel pButton;
     private javax.swing.JPanel pMotor1;
     private javax.swing.JPanel pMotor2;
@@ -295,4 +330,160 @@ public class Positionsinformation extends javax.swing.JDialog
     private javax.swing.JPanel pSensor1;
     private javax.swing.JPanel pSensor2;
     // End of variables declaration//GEN-END:variables
+
+    private class Sensor1PositionWorker extends SwingWorker<Object, String>
+    {   
+        String strSensor1;
+        
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            // sensor1: bowl -> GPIO_00
+            final GpioPinDigitalInput pin00 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00,PinPullResistance.PULL_DOWN);
+            pin00.setShutdownOptions(true);
+                        
+            while (stop != true)
+            {
+                if(pin00.getState() == PinState.HIGH)
+                    strSensor1 = "Betätigt";
+                else
+                    strSensor1 = "Unbetätigt";
+                
+                publish(strSensor1);
+            } 
+            return 1;            
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            if (stop != true)
+                lbSensor1.setText(strSensor1);
+        }  
+    }
+
+    private class Sensor2PositionWorker extends SwingWorker<Object, String>
+    {   
+        String strSensor2;
+        
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            // sensor2: conveyor belt - feed bag -> GPIO_01
+            final GpioPinDigitalInput pin01 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_01,PinPullResistance.PULL_DOWN);
+            pin01.setShutdownOptions(true);
+                        
+            while (stop != true)
+            {
+                if(pin01.getState() == PinState.HIGH)
+                    strSensor2 = "Betätigt";
+                else
+                    strSensor2 = "Unbetätigt";
+                
+                publish(strSensor2);
+            }
+            return 1;
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            if (stop != true)
+                lbSensor2.setText(strSensor2);
+        }  
+    }
+    
+    private class Engine1PositionWorker extends SwingWorker<Object, String>
+    {   
+        String strEngine1;
+        
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            // engine1: bowl -> Transistor_1.1 -> GPIO_02
+            final GpioPinDigitalOutput pin02 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02  ,PinState.HIGH);
+            pin02.setShutdownOptions(true, PinState.LOW);
+        
+            // engine1: bowl -> Transistor_1.2 -> GPIO_03
+            final GpioPinDigitalOutput pin03 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03  ,PinState.HIGH);
+            pin03.setShutdownOptions(true, PinState.LOW);
+        
+            // engine1: bowl -> Transistor_1.3 -> GPIO_04
+            final GpioPinDigitalOutput pin04 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04  ,PinState.HIGH);
+            pin04.setShutdownOptions(true, PinState.LOW);
+        
+            // engine1: bowl -> Transistor_1.4 -> GPIO_05
+            final GpioPinDigitalOutput pin05 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05  ,PinState.HIGH);
+            pin05.setShutdownOptions(true, PinState.LOW);
+                        
+            while (stop != true)
+            {
+                if (pin02.getState() == PinState.HIGH && pin05.getState() == PinState.HIGH)
+                    strEngine1 = "Dreht im Uhrzeigersinn";
+                else
+                    if (pin03.getState() == PinState.HIGH && pin04.getState() == PinState.HIGH)
+                        strEngine1 = "Dreht gegen Uhrzeigersin";
+                    else
+                        strEngine1 = "Motor steht still";
+                
+                publish(strEngine1);
+            }
+            return 1;
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            if (stop != true)
+                lbEngine1.setText(strEngine1);
+        }  
+    }
+    
+    private class Engine2PositionWorker extends SwingWorker<Object, String>
+    {   
+        String strEngine2;
+        
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            // engine2: conveyor belt - feed bag -> Transistor_2.1 -> GPIO_06
+            final GpioPinDigitalOutput pin06 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06  ,PinState.HIGH);
+            pin06.setShutdownOptions(true, PinState.LOW);
+        
+            // engine2: conveyor belt - feed bag -> Transistor_2.2 -> GPIO_07
+            final GpioPinDigitalOutput pin07 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10  ,PinState.HIGH); // use GPIO_10 instead of GPIO_7 because of error
+            pin07.setShutdownOptions(true, PinState.LOW);
+        
+            // engine2: conveyor belt - feed bag -> Transistor_2.3 -> GPIO_08
+            final GpioPinDigitalOutput pin08 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08  ,PinState.HIGH);
+            pin08.setShutdownOptions(true, PinState.LOW);
+        
+            // engine2: conveyor belt - feed bag -> Transistor_2.4 -> GPIO_09
+            final GpioPinDigitalOutput pin09 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09  ,PinState.HIGH);
+            pin09.setShutdownOptions(true, PinState.LOW);
+                        
+            while (stop != true)
+            {
+                if (pin06.getState() == PinState.HIGH && pin09.getState() == PinState.HIGH)
+                    strEngine2 = "Dreht im Uhrzeigersinn";
+                else
+                    if (pin07.getState() == PinState.HIGH && pin08.getState() == PinState.HIGH)
+                        strEngine2 = "Dreht gegen Uhrzeigersin";
+                    else
+                        strEngine2 = "Motor steht still";
+                
+                publish(strEngine2);
+            }
+            return 1;
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            if (stop != true)
+                lbEngine2.setText(strEngine2);
+        }  
+    }
+    
+    
 }

@@ -175,14 +175,9 @@
                                 <Property name="rows" type="int" value="1"/>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel5">
+                                <Component class="javax.swing.JLabel" name="lbEngine1">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Pos1"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel6">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Pos2"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -224,14 +219,9 @@
                                 <Property name="rows" type="int" value="1"/>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel7">
+                                <Component class="javax.swing.JLabel" name="lbEngine2">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Pos1"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel8">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Pos2"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -273,14 +263,9 @@
                                 <Property name="rows" type="int" value="1"/>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel11">
+                                <Component class="javax.swing.JLabel" name="lbSensor1">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="(nicht)bet&#xe4;tigt"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel10">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Pos1"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -322,14 +307,9 @@
                                 <Property name="rows" type="int" value="1"/>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel14">
+                                <Component class="javax.swing.JLabel" name="lbSensor2">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="(nicht)bet&#xe4;tigt"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel13">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Pos1"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
