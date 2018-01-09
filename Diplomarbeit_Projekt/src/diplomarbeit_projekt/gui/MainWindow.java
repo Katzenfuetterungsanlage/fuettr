@@ -5,35 +5,47 @@
  */
 package diplomarbeit_projekt.gui;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import diplomarbeit_projekt.methods.NaechsteFuetterung;
-import diplomarbeit_projekt.methods.StartupStreamReader;
-import diplomarbeit_projekt.methods.StreamReader;
-import diplomarbeit_projekt.methods.StreamWriter;
+import diplomarbeit_projekt.methods.NextFeeding;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.json.JsonObject;
+import org.bson.Document;
+import java.io.StringReader;
+import javax.json.Json;
+import javax.json.JsonReader;
+import java.util.concurrent.CountDownLatch;
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  *
  * @author Florian
  */
-public class Hauptfenster extends javax.swing.JFrame
+public class MainWindow extends javax.swing.JFrame
 {
 
-    boolean zustand = false;
-    boolean zeitenVeraendert = true;
-    String uhrzeit, zeit1, zeit2, zeit3, zeit4;
-    int letzteFuetterung = 0;
-    String naechsteFuetterungUm, naechsteFuetterungIn;
-
+    boolean machineState = false;
+    boolean timesChanged = true;
+    String timeOfDay, time1, time2, time3, time4;
+    String time1_active_str, time2_active_str, time3_active_str, time4_active_str;
+    Boolean time1_active, time2_active, time3_active, time4_active;
+    int lastFeeding = 0;
+    String nextFeedingAt, nextFeedingIn;
+    JsonObject times;
+      
+    CountDownLatch latch = new CountDownLatch(1);
+    
     /**
      * Creates new form Hauptfenster
      */
-    public Hauptfenster()
+    public MainWindow()
     {
         //GraphicsDevice d = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 //        if (d.isFullScreenSupported())
@@ -48,29 +60,37 @@ public class Hauptfenster extends javax.swing.JFrame
 //        }
         initComponents();      
 
-        if (zustand == false)
+        if (machineState == false)
         {
-            lbZustand.setText("Aus");
+            lbState.setText("Aus");
         }
-        
-        StartupWorker sWorker = new StartupWorker();
-        sWorker.execute();
-
-        UhrzeitWorker uWorker = new UhrzeitWorker();
+            
+        TimeOfDayWorker uWorker = new TimeOfDayWorker();
         uWorker.execute();
+        Logger.getLogger("TimeOfDayWorker started").log(Level.FINE, "TimeOfDayWorker started");
 
-        DatumWorker dWorker = new DatumWorker();
+        DateWorker dWorker = new DateWorker();
         dWorker.execute();
+        Logger.getLogger("DateWorker started").log(Level.FINE, "DateWorker started");
+        
+        ImportTimesWorker importTimesWorker = new ImportTimesWorker();
+        importTimesWorker.execute();
+        
+     
+        // ShowTimesWorker must wait until Times got imported at least ones
+   
+        ShowTimesWorker showTimesWorker = new ShowTimesWorker();
+        showTimesWorker.execute();
+       
+//        ZeitenAnzeigenWorker zaWorker = new ZeitenAnzeigenWorker();
+//        zaWorker.execute();
 
-        ZeitenAnzeigenWorker zaWorker = new ZeitenAnzeigenWorker();
-        zaWorker.execute();
+        lbLastFeeding.setText("ausstehend");
 
-        lbLetzteFuetterung.setText("ausstehend");
-
-        AutomatischeFuetterungAblaufWorker automatischeFuetterungAblaufWorker = new AutomatischeFuetterungAblaufWorker();
+        FeedingCycleWorker automatischeFuetterungAblaufWorker = new FeedingCycleWorker();
         automatischeFuetterungAblaufWorker.execute();
 
-        NaechsteFuetterungWorker naechsteFuetterungWorker = new NaechsteFuetterungWorker();
+        NextFeedingWorker naechsteFuetterungWorker = new NextFeedingWorker();
         naechsteFuetterungWorker.execute();
 
     }
@@ -99,14 +119,14 @@ public class Hauptfenster extends javax.swing.JFrame
         jPanel8 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        lbZeit1Beschreibung = new javax.swing.JLabel();
-        lbZeit2Beschreibung = new javax.swing.JLabel();
-        lbZeit3Beschreibung = new javax.swing.JLabel();
-        lbZeit4Beschreibung = new javax.swing.JLabel();
-        lbZeit1 = new javax.swing.JLabel();
-        lbZeit2 = new javax.swing.JLabel();
-        lbZeit3 = new javax.swing.JLabel();
-        lbZeit4 = new javax.swing.JLabel();
+        lbTime1Description = new javax.swing.JLabel();
+        lbTime2Description = new javax.swing.JLabel();
+        lbTime3Description = new javax.swing.JLabel();
+        lbTime4Description = new javax.swing.JLabel();
+        lbTime1 = new javax.swing.JLabel();
+        lbTime2 = new javax.swing.JLabel();
+        lbTime3 = new javax.swing.JLabel();
+        lbTime4 = new javax.swing.JLabel();
         pCenter = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         CenterSouth = new javax.swing.JPanel();
@@ -120,22 +140,22 @@ public class Hauptfenster extends javax.swing.JFrame
         jPanel13 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        lbLetzteFuetterung = new javax.swing.JLabel();
+        lbLastFeeding = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        lbNaechsteFuetterungUm = new javax.swing.JLabel();
+        lbNextFeedingAt = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        lbNaechsteFuetterungIn = new javax.swing.JLabel();
+        lbNextFeedingIn = new javax.swing.JLabel();
         pSouth = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lbZustand = new javax.swing.JLabel();
+        lbState = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        lbUhrzeit = new javax.swing.JLabel();
-        lbDatum = new javax.swing.JLabel();
+        lbTimeOfDay = new javax.swing.JLabel();
+        lbDate = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         raspberry = new javax.swing.JMenu();
         neustarten = new javax.swing.JMenuItem();
@@ -193,65 +213,65 @@ public class Hauptfenster extends javax.swing.JFrame
 
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
-        lbZeit1Beschreibung.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit1Beschreibung.setText("Zeit 1:");
+        lbTime1Description.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime1Description.setText("Zeit 1:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit1Beschreibung, gridBagConstraints);
+        jPanel9.add(lbTime1Description, gridBagConstraints);
 
-        lbZeit2Beschreibung.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit2Beschreibung.setText("Zeit 2:");
+        lbTime2Description.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime2Description.setText("Zeit 2:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit2Beschreibung, gridBagConstraints);
+        jPanel9.add(lbTime2Description, gridBagConstraints);
 
-        lbZeit3Beschreibung.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit3Beschreibung.setText("Zeit 3:");
+        lbTime3Description.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime3Description.setText("Zeit 3:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit3Beschreibung, gridBagConstraints);
+        jPanel9.add(lbTime3Description, gridBagConstraints);
 
-        lbZeit4Beschreibung.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit4Beschreibung.setText("Zeit 4:");
+        lbTime4Description.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime4Description.setText("Zeit 4:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit4Beschreibung, gridBagConstraints);
+        jPanel9.add(lbTime4Description, gridBagConstraints);
 
-        lbZeit1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit1.setText("<Zeit>");
+        lbTime1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime1.setText("<Zeit>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit1, gridBagConstraints);
+        jPanel9.add(lbTime1, gridBagConstraints);
 
-        lbZeit2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit2.setText("<Zeit>");
+        lbTime2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime2.setText("<Zeit>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit2, gridBagConstraints);
+        jPanel9.add(lbTime2, gridBagConstraints);
 
-        lbZeit3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit3.setText("<Zeit>");
+        lbTime3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime3.setText("<Zeit>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit3, gridBagConstraints);
+        jPanel9.add(lbTime3, gridBagConstraints);
 
-        lbZeit4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbZeit4.setText("<Zeit>");
+        lbTime4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTime4.setText("<Zeit>");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel9.add(lbZeit4, gridBagConstraints);
+        jPanel9.add(lbTime4, gridBagConstraints);
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.CENTER);
 
@@ -309,9 +329,9 @@ public class Hauptfenster extends javax.swing.JFrame
         jLabel15.setText("Letzte erfolgte Fütterung: ");
         jPanel17.add(jLabel15);
 
-        lbLetzteFuetterung.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbLetzteFuetterung.setText("<Uhrzeit>");
-        jPanel17.add(lbLetzteFuetterung);
+        lbLastFeeding.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbLastFeeding.setText("<Uhrzeit>");
+        jPanel17.add(lbLastFeeding);
 
         jPanel13.add(jPanel17);
 
@@ -319,9 +339,9 @@ public class Hauptfenster extends javax.swing.JFrame
         jLabel17.setText("Nächste Fütterung erfolgt um: ");
         jPanel18.add(jLabel17);
 
-        lbNaechsteFuetterungUm.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbNaechsteFuetterungUm.setText("<Uhrzeit>");
-        jPanel18.add(lbNaechsteFuetterungUm);
+        lbNextFeedingAt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbNextFeedingAt.setText("<Uhrzeit>");
+        jPanel18.add(lbNextFeedingAt);
 
         jPanel13.add(jPanel18);
 
@@ -329,9 +349,9 @@ public class Hauptfenster extends javax.swing.JFrame
         jLabel18.setText("Nächste Fütterung erfolgt in: ");
         jPanel19.add(jLabel18);
 
-        lbNaechsteFuetterungIn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbNaechsteFuetterungIn.setText("<Stunden:Minuten>");
-        jPanel19.add(lbNaechsteFuetterungIn);
+        lbNextFeedingIn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbNextFeedingIn.setText("<Stunden:Minuten>");
+        jPanel19.add(lbNextFeedingIn);
 
         jPanel13.add(jPanel19);
 
@@ -357,18 +377,18 @@ public class Hauptfenster extends javax.swing.JFrame
         jLabel1.setText("Maschine: ");
         jPanel5.add(jLabel1);
 
-        lbZustand.setText("Ein/Aus");
-        jPanel5.add(lbZustand);
+        lbState.setText("Ein/Aus");
+        jPanel5.add(lbState);
 
         jPanel3.add(jPanel5, java.awt.BorderLayout.WEST);
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
-        lbUhrzeit.setText("Uhrzeit");
-        jPanel4.add(lbUhrzeit);
+        lbTimeOfDay.setText("Uhrzeit");
+        jPanel4.add(lbTimeOfDay);
 
-        lbDatum.setText("Datum");
-        jPanel4.add(lbDatum);
+        lbDate.setText("Datum");
+        jPanel4.add(lbDate);
 
         jPanel3.add(jPanel4, java.awt.BorderLayout.EAST);
 
@@ -512,14 +532,14 @@ public class Hauptfenster extends javax.swing.JFrame
 
     private void onEinAusSchalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onEinAusSchalten
     {//GEN-HEADEREND:event_onEinAusSchalten
-        if (zustand != true)
+        if (machineState != true)
         {
-            zustand = true;
-            lbZustand.setText("Ein");
+            machineState = true;
+            lbState.setText("Ein");
         } else
         {
-            zustand = false;
-            lbZustand.setText("Aus");
+            machineState = false;
+            lbState.setText("Aus");
         }
     }//GEN-LAST:event_onEinAusSchalten
 
@@ -530,13 +550,13 @@ public class Hauptfenster extends javax.swing.JFrame
 
     private void onManuelleSteuerung(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onManuelleSteuerung
     {//GEN-HEADEREND:event_onManuelleSteuerung
-        if (zustand == true)
+        if (machineState == true)
         {
             if (JOptionPane.showConfirmDialog(this, "Um fortzufahren müssen Sie die automatische Fütterung deaktivieren. \n Wollen sie diese deaktivieren? ",
                     "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
             {
-                zustand = false;
-                lbZustand.setText("Aus");
+                machineState = false;
+                lbState.setText("Aus");
 
                 final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
                 strDlg.setVisible(true);
@@ -567,12 +587,12 @@ public class Hauptfenster extends javax.swing.JFrame
         zeitenDlg.setVisible(true); //Dialog sichtbar setzen
         //An dieser Stelle "blockiert" das Programm, solange der Dialog geöffnet ist!   
 
-        if (zeitenDlg.zeitenVeraendert())
-        {
-            zeitenVeraendert = true;
-            ZeitenAnzeigenWorker zaWorker = new ZeitenAnzeigenWorker();
-            zaWorker.execute();
-        }
+//        if (zeitenDlg.zeitenVeraendert())
+//        {
+//            timesChanged = true;
+//            ZeitenAnzeigenWorker zaWorker = new ZeitenAnzeigenWorker();
+//            zaWorker.execute();
+//        }
     }//GEN-LAST:event_onFuetterungszeitenVerwalten
 
     private void onGeraeteinformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onGeraeteinformation
@@ -625,17 +645,19 @@ public class Hauptfenster extends javax.swing.JFrame
             }
         } catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(Hauptfenster.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -645,7 +667,7 @@ public class Hauptfenster extends javax.swing.JFrame
             @Override
             public void run()
             {
-                Hauptfenster frame = new Hauptfenster();
+                MainWindow frame = new MainWindow();
 
             }
         });
@@ -696,20 +718,20 @@ public class Hauptfenster extends javax.swing.JFrame
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JLabel lbDatum;
-    private javax.swing.JLabel lbLetzteFuetterung;
-    private javax.swing.JLabel lbNaechsteFuetterungIn;
-    private javax.swing.JLabel lbNaechsteFuetterungUm;
-    private javax.swing.JLabel lbUhrzeit;
-    private javax.swing.JLabel lbZeit1;
-    private javax.swing.JLabel lbZeit1Beschreibung;
-    private javax.swing.JLabel lbZeit2;
-    private javax.swing.JLabel lbZeit2Beschreibung;
-    private javax.swing.JLabel lbZeit3;
-    private javax.swing.JLabel lbZeit3Beschreibung;
-    private javax.swing.JLabel lbZeit4;
-    private javax.swing.JLabel lbZeit4Beschreibung;
-    private javax.swing.JLabel lbZustand;
+    private javax.swing.JLabel lbDate;
+    private javax.swing.JLabel lbLastFeeding;
+    private javax.swing.JLabel lbNextFeedingAt;
+    private javax.swing.JLabel lbNextFeedingIn;
+    private javax.swing.JLabel lbState;
+    private javax.swing.JLabel lbTime1;
+    private javax.swing.JLabel lbTime1Description;
+    private javax.swing.JLabel lbTime2;
+    private javax.swing.JLabel lbTime2Description;
+    private javax.swing.JLabel lbTime3;
+    private javax.swing.JLabel lbTime3Description;
+    private javax.swing.JLabel lbTime4;
+    private javax.swing.JLabel lbTime4Description;
+    private javax.swing.JLabel lbTimeOfDay;
     private javax.swing.JMenuItem manuelleSteuerung;
     private javax.swing.JMenuItem neustarten;
     private javax.swing.JPanel pCenter;
@@ -721,17 +743,16 @@ public class Hauptfenster extends javax.swing.JFrame
     private javax.swing.JMenuItem update;
     // End of variables declaration//GEN-END:variables
 
-    private class UhrzeitWorker extends SwingWorker<Object, String>
+    private class TimeOfDayWorker extends SwingWorker<Object, String>
     {
-
         @Override
         protected Object doInBackground() throws Exception
         {
             while (true)
             {
-                uhrzeit = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
+                timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
 
-                publish(uhrzeit); // gibt Text an process weiter
+                publish(timeOfDay); // gibt Text an process weiter
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
@@ -740,23 +761,22 @@ public class Hauptfenster extends javax.swing.JFrame
         @Override
         protected void process(List<String> chunks)
         {
-            lbUhrzeit.setText(uhrzeit);
+            lbTimeOfDay.setText(timeOfDay);
         }
     }
 
-    private class DatumWorker extends SwingWorker<Object, String>
+    private class DateWorker extends SwingWorker<Object, String>
     {
-
-        String datum;
+        String date;
 
         @Override
         protected Object doInBackground() throws Exception
         {
             while (true)
             {
-                datum = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
+                date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
 
-                publish(datum); // gibt Text an process weiter
+                publish(date); // gibt Text an process weiter
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
@@ -765,143 +785,52 @@ public class Hauptfenster extends javax.swing.JFrame
         @Override
         protected void process(List<String> chunks)
         {
-            lbDatum.setText(datum);
+            lbDate.setText(date);
         }
     }
 
-    private class ZeitenAnzeigenWorker extends SwingWorker<Object, String>
+    // executes feedingCycle and updates gui
+    private class FeedingCycleWorker extends SwingWorker<Object, String>
     {
-
-        String string;
-
-        //ZeitenManagement zeitenManagement = new ZeitenManagement(this, true);
-        @Override
-        protected Object doInBackground() throws Exception
-        {
-            while (true)
-            {
-                if (zeitenVeraendert == true /*|| zeitenManagement.ZeitenVeraendert() == true*/)
-                {
-                    StreamReader streamReader = new StreamReader();
-                    //string = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt", false);
-                    string = streamReader.einlesen("testZeit.txt", false);
-                    
-                    publish(string);
-
-                    zeitenVeraendert = false;
-                }
-            }
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
-            System.out.format("Hauptfenster - ZeitenAnzeigeWorker: %s", string);
-
-            String[] token = string.split(";");
-            zeit1 = token[0];
-            zeit2 = token[1];
-            zeit3 = token[2];
-            zeit4 = token[3];
-            String b1 = token[4];
-            String b2 = token[5];
-            String b3 = token[6];
-            String b4 = token[7];
-
-            boolean bZeit1 = Boolean.valueOf(b1);
-            boolean bZeit2 = Boolean.valueOf(b2);
-            boolean bZeit3 = Boolean.valueOf(b3);
-            boolean bZeit4 = Boolean.valueOf(b4);
-
-            if (bZeit1 != true)
-            {
-                lbZeit1.setVisible(false);
-                lbZeit1Beschreibung.setVisible(false);
-            } else
-            {
-                lbZeit1.setVisible(true);
-                lbZeit1Beschreibung.setVisible(true);
-                lbZeit1.setText(zeit1);
-            }
-
-            if (bZeit2 != true)
-            {
-                lbZeit2.setVisible(false);
-                lbZeit2Beschreibung.setVisible(false);
-            } else
-            {
-                lbZeit2.setVisible(true);
-                lbZeit2Beschreibung.setVisible(true);
-                lbZeit2.setText(zeit2);
-            }
-
-            if (bZeit3 != true)
-            {
-                lbZeit3.setVisible(false);
-                lbZeit3Beschreibung.setVisible(false);
-            } else
-            {
-                lbZeit3.setVisible(true);
-                lbZeit3Beschreibung.setVisible(true);
-                lbZeit3.setText(zeit3);
-            }
-
-            if (bZeit4 != true)
-            {
-                lbZeit4.setVisible(false);
-                lbZeit4Beschreibung.setVisible(false);
-            } else
-            {
-                lbZeit4.setVisible(true);
-                lbZeit4Beschreibung.setVisible(true);
-                lbZeit4.setText(zeit4);
-            }
-
-        }
-    }
-
-    private class AutomatischeFuetterungAblaufWorker extends SwingWorker<Object, String>
-    {
-
-        String letzteFuetterungHilfsstring;
+        String lastFeedingTime;
 
         @Override
         protected Object doInBackground() throws Exception
         {
             while (true)
             {
-                if (zustand == true)
+                if (machineState == true)
                 {
-                    if (zeit1.equals(uhrzeit) )
+                    if (time1.equals(timeOfDay) )
                     {
-                        //TODO Fütterung
-                        letzteFuetterung = 1;
-                        letzteFuetterungHilfsstring = zeit1;
-                        publish(letzteFuetterungHilfsstring);
+                        //TODO add feedingCycle
+                        lastFeeding = 1;
+                        lastFeedingTime = time1;
+                        publish(lastFeedingTime);
                     } 
                     else 
-                        if (zeit2.equals(uhrzeit) )
+                        if (time2.equals(timeOfDay) )
                          {
-                            //TODO Fütterung
-                            letzteFuetterung = 2;
-                            letzteFuetterungHilfsstring = zeit2;
-                            publish(letzteFuetterungHilfsstring);
+                            //TODO add feedingCycle
+                            lastFeeding = 2;
+                            lastFeedingTime = time2;
+                            publish(lastFeedingTime);
                         }
                         else 
-                            if (zeit3.equals(uhrzeit) )
+                            if (time3.equals(timeOfDay) )
                             {
-                                //TODO Fütterung
-                                letzteFuetterung = 3;
-                                letzteFuetterungHilfsstring = zeit3;
-                                publish(letzteFuetterungHilfsstring);
+                                //TODO add feedingCycle
+                                lastFeeding = 3;
+                                lastFeedingTime = time3;
+                                publish(lastFeedingTime);
                             } 
                             else 
-                                if (zeit4.equals(uhrzeit) )
+                                if (time4.equals(timeOfDay) )
                                 {
-                                    //TODO Fütterung
-                                    letzteFuetterung = 4;
-                                    letzteFuetterungHilfsstring = zeit4;
-                                    publish(letzteFuetterungHilfsstring);
+                                    //TODO add feedingCycle
+                                    lastFeeding = 4;
+                                    lastFeedingTime = time4;
+                                    publish(lastFeedingTime);
                                 } 
                                 else
                                 {
@@ -914,27 +843,24 @@ public class Hauptfenster extends javax.swing.JFrame
         @Override
         protected void process(List<String> chunks)
         {
-            lbLetzteFuetterung.setText(letzteFuetterungHilfsstring);
+            lbLastFeeding.setText(lastFeedingTime);
         }
     }
-
-    private class NaechsteFuetterungWorker extends SwingWorker<Object, String>
+    
+    // calculates the nextFeedingAt and NextFeedingIn
+    private class NextFeedingWorker extends SwingWorker<Object, String>
     {
-
-        String string1;
+        String string1, strLog;
 
         @Override
         protected Object doInBackground() throws Exception
         {
             while (true)
             {
-                if (zustand == true)
+                if (machineState == true)
                 {
-                    StreamReader streamReader = new StreamReader();
-                    //String zeiten = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\testZeit.txt", false);
-                    String zeiten = streamReader.einlesen("testZeit.txt", false);
-                    NaechsteFuetterung naechsteFuetterung = new NaechsteFuetterung();
-                    string1 = naechsteFuetterung.naechsteFuetterung(letzteFuetterung, zeiten);
+                    NextFeeding naechsteFuetterung = new NextFeeding();
+                    string1 = naechsteFuetterung.naechsteFuetterung(lastFeeding, times);
                 }
                 else
                 {
@@ -942,7 +868,7 @@ public class Hauptfenster extends javax.swing.JFrame
                 }
                 publish(string1);
 
-                TimeUnit.MILLISECONDS.sleep(500); //muss klein sein damit nach einer Fütterung die Zeiten schnell aktualisiert werden
+                TimeUnit.MILLISECONDS.sleep(500); // should be low to quickly update the times in the gui
             }
         }
 
@@ -950,38 +876,165 @@ public class Hauptfenster extends javax.swing.JFrame
         protected void process(List<String> chunks)
         {
             String[] token = string1.split(";");
-            naechsteFuetterungUm = token[0];
-            naechsteFuetterungIn = token[1];
-
+            nextFeedingAt = token[0];
+            nextFeedingIn = token[1];
             
-//            System.out.println(string1);
-//            System.out.println(naechsteFuetterungIn);
+            strLog = "nextFeedingAt: " + nextFeedingAt + " || " + "NextFeedingIn: " + nextFeedingIn;
+            Logger.getLogger(strLog).log(Level.FINE, strLog);
             
-            lbNaechsteFuetterungUm.setText(naechsteFuetterungUm);
-            lbNaechsteFuetterungIn.setText(naechsteFuetterungIn);
+            lbNextFeedingAt.setText(nextFeedingAt);
+            lbNextFeedingIn.setText(nextFeedingIn);
         }
     }
-    
-    private class StartupWorker extends SwingWorker<Object, Object> 
-    {
+        
+    // Import times from mongodb
+    private class ImportTimesWorker extends SwingWorker<Object, String>
+    {     
+        // Connect to Database
+        MongoClient mongodb = new MongoClient();
+        MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");   
+        MongoCollection<Document> collTimes = database.getCollection("data_times");
+
+        String strTimes;
+        String str;
 
         @Override
         protected Object doInBackground() throws Exception
-        {          
-            //must du für jede Datei wiederholen
+        {        
+            String strCnt = "cnt: " + collTimes.count();
+            Logger.getLogger(strCnt).log(Level.FINE, strCnt);
+            if(collTimes.count() < 4)
+            {
+                // collection drop
+                // Collection mit Standard-Werten erstellen
+            }
+
+            while (true)
+            {
+                                
+                Document doc = collTimes.find(eq("identifier", "Times")).first();
+                
+                strTimes = doc.toJson();
+                
+                publish(strTimes);
+            }
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            int i = 0;
             
-//            StreamReader streamReader = new StreamReader();
-//            String zeiten = streamReader.einlesen("testZeit.txt", false);
+            JsonReader jsonReader = Json.createReader(new StringReader(strTimes));
+            JsonObject obj = jsonReader.readObject();
+            jsonReader.close();
             
-            StartupStreamReader streamReader = new StartupStreamReader();
-            String zeiten = streamReader.einlesen(getClass().getResourceAsStream("testZeit.txt"), false);
+            times = obj;
             
-            StreamWriter streamWriter = new StreamWriter();
-            streamWriter.schreiben("testZeit.txt", zeiten, false);
+            str = "importet doc: " + strTimes;
+            Logger.getLogger(str).log(Level.FINEST, str);
             
-            return 0;
+            time1 = obj.getString("time1");
+            time2 = obj.getString("time2");
+            time3 = obj.getString("time3");
+            time4 = obj.getString("time4");
+            
+            time1_active = obj.getBoolean("time1_active");
+            time2_active = obj.getBoolean("time2_active");
+            time3_active = obj.getBoolean("time3_active");
+            time4_active = obj.getBoolean("time4_active");
+            
+            if (i < 1)
+            {
+                latch.countDown();
+                i++;
+            }
         }
         
+    }
+    
+    // ShowTimesWorker must wait until Times got imported at least ones
+    private class ShowTimesWorker extends SwingWorker<Object, String>
+    {       
+        String str;
+
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            latch.await();
+            
+            while (true)
+            {
+                if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
+                    str = "true";
+                else
+                    str = "false";
+                
+                publish(str);
+                
+                TimeUnit.SECONDS.sleep(1);
+            }
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            if ("true".equals(str))
+            {
+                if (time1_active != true)
+                {
+                    lbTime1.setVisible(false);
+                    lbTime1Description.setVisible(false);
+                } 
+                else
+                {
+                    lbTime1.setVisible(true);
+                    lbTime1Description.setVisible(true);
+                    lbTime1.setText(time1);
+                }
+
+                if (time2_active != true)
+                {
+                    lbTime2.setVisible(false);
+                    lbTime2Description.setVisible(false);
+                } 
+                else
+                {
+                    lbTime2.setVisible(true);
+                    lbTime2Description.setVisible(true);
+                    lbTime2.setText(time2);
+                }
+
+                if (time3_active != true)
+                {
+                    lbTime3.setVisible(false);
+                    lbTime3Description.setVisible(false);
+                } 
+                else
+                {
+                    lbTime3.setVisible(true);
+                    lbTime3Description.setVisible(true);
+                    lbTime3.setText(time3);
+                }
+
+                if (time4_active != true)
+                {
+                    lbTime4.setVisible(false);
+                    lbTime4Description.setVisible(false);
+                } 
+                else
+                {
+                    lbTime4.setVisible(true);
+                    lbTime4Description.setVisible(true);
+                    lbTime4.setText(time4);
+                }
+            }
+            else
+            {
+                // Error: One of the times is empty
+                Logger.getLogger("Error: One of the times is empty").log(Level.SEVERE, "Error: One of the times is empty");
+            }
+        }
     }
 
 }

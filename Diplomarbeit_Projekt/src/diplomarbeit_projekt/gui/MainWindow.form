@@ -306,7 +306,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="lbZeit1Beschreibung">
+                            <Component class="javax.swing.JLabel" name="lbTime1Description">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -319,7 +319,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit2Beschreibung">
+                            <Component class="javax.swing.JLabel" name="lbTime2Description">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -332,7 +332,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit3Beschreibung">
+                            <Component class="javax.swing.JLabel" name="lbTime3Description">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -345,7 +345,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit4Beschreibung">
+                            <Component class="javax.swing.JLabel" name="lbTime4Description">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -358,7 +358,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit1">
+                            <Component class="javax.swing.JLabel" name="lbTime1">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -371,7 +371,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit2">
+                            <Component class="javax.swing.JLabel" name="lbTime2">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -384,7 +384,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit3">
+                            <Component class="javax.swing.JLabel" name="lbTime3">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -397,7 +397,7 @@
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JLabel" name="lbZeit4">
+                            <Component class="javax.swing.JLabel" name="lbTime4">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Tahoma" size="14" style="0"/>
@@ -598,7 +598,7 @@
                                     <Property name="text" type="java.lang.String" value="Letzte erfolgte F&#xfc;tterung: "/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="lbLetzteFuetterung">
+                                <Component class="javax.swing.JLabel" name="lbLastFeeding">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Tahoma" size="14" style="0"/>
@@ -620,7 +620,7 @@
                                     <Property name="text" type="java.lang.String" value="N&#xe4;chste F&#xfc;tterung erfolgt um: "/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="lbNaechsteFuetterungUm">
+                                <Component class="javax.swing.JLabel" name="lbNextFeedingAt">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Tahoma" size="14" style="0"/>
@@ -642,7 +642,7 @@
                                     <Property name="text" type="java.lang.String" value="N&#xe4;chste F&#xfc;tterung erfolgt in: "/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="lbNaechsteFuetterungIn">
+                                <Component class="javax.swing.JLabel" name="lbNextFeedingIn">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Tahoma" size="14" style="0"/>
@@ -724,7 +724,7 @@
                             <Property name="text" type="java.lang.String" value="Maschine: "/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lbZustand">
+                        <Component class="javax.swing.JLabel" name="lbState">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Ein/Aus"/>
                           </Properties>
@@ -742,12 +742,12 @@
                         <Property name="horizontalGap" type="int" value="10"/>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lbUhrzeit">
+                        <Component class="javax.swing.JLabel" name="lbTimeOfDay">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Uhrzeit"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lbDatum">
+                        <Component class="javax.swing.JLabel" name="lbDate">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Datum"/>
                           </Properties>
