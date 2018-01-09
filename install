@@ -80,7 +80,7 @@ cd $THISUSER/git/fuettr/Webserver/server && sudo npm i
 echo -e "\e[92m
 --> initializing database...\e[0m"
 sudo mkdir -p /data/db
-sudo mongod
+sudo mongod &
 
 echo -e "\e[92m
 --> building server...\e[0m"
