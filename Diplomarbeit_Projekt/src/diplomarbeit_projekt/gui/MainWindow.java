@@ -41,7 +41,7 @@ public class MainWindow extends javax.swing.JFrame
     String nextFeedingAt, nextFeedingIn, lastFeedingTime;
     JsonObject times;
       
-    CountDownLatch latch = new CountDownLatch(1);
+    CountDownLatch latch = new CountDownLatch(1);       
     
     /**
      * Creates new form Hauptfenster
@@ -60,7 +60,7 @@ public class MainWindow extends javax.swing.JFrame
             this.setVisible(true);
 //        }
         initComponents();      
-
+        
         if (machineState == false)
         {
             lbState.setText("Aus");
