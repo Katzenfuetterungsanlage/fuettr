@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import * as itf from './interfaces';
+
+import * as itf from '../interfaces';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -8,6 +9,7 @@ import 'rxjs/add/operator/toPromise';
 export class HttpgetService {
 
   private api = '/api/callMeMaybe?q=';
+  private ip = '/api/ip';
 
   constructor(private http: Http) { }
 
@@ -43,6 +45,20 @@ export class HttpgetService {
     return this.http.get(this.api + 'info')
       .toPromise()
       .then(response => response.json() as itf.Info)
+      .catch(this.handleError);
+  }
+
+  getIp(): Promise<itf.Ip> {
+    return this.http.get(this.ip)
+      .toPromise()
+      .then(response => response.json() as itf.Ip)
+      .catch(this.handleError);
+  }
+
+  getPositions(): Promise<itf.Positions> {
+    return this.http.get(this.api + 'positions')
+      .toPromise()
+      .then(response => response.json() as itf.Positions)
       .catch(this.handleError);
   }
 

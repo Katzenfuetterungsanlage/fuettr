@@ -1,25 +1,42 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ControlComponent } from './control.component';
-import { HomeComponent } from './home.component';
-import { FeedComponent } from './feed.component';
-import { InfoComponent } from './info.component';
-import { UpdateComponent } from './update.component';
-import { Error404Component } from './error404.component';
+import { PositionComponent } from './components/position.component';
+import { HomeComponent } from './components/home.component';
+import { FeedComponent } from './components/feed.component';
+import { InfoComponent } from './components/info.component';
+import { UpdateComponent } from './components/update.component';
+import { Error404Component } from './components/error404.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, data: { title: 'Füttr' } },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'control', component: ControlComponent },
-  { path: 'feed', component: FeedComponent },
-  { path: 'info', component: InfoComponent },
-  { path: 'update', component: UpdateComponent },
-  { path: '**', component: Error404Component }
+  { path: 'api/login', pathMatch: 'full', redirectTo: 'home' },
+  {
+    path: 'position',
+    component: PositionComponent,
+    data: { title: 'Füttr - Positionen' }
+  },
+  {
+    path: 'feed',
+    component: FeedComponent,
+    data: { title: 'Füttr - Fütterung' }
+  },
+  { path: 'info', component: InfoComponent, data: { title: 'Füttr - Info' } },
+  {
+    path: 'update',
+    component: UpdateComponent,
+    data: { title: 'Füttr - Update' }
+  },
+  {
+    path: '**',
+    component: Error404Component,
+    data: { title: 'Füttr - 404 (not found)' }
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

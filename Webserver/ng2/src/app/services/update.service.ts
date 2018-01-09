@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Version } from './interfaces';
+import { Version } from '../interfaces';
 
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UpdateService {
   private getUrl = 'api/getUpdate';
-  private checkUrl = 'https://raw.githubusercontent.com/Katzenfuetterungsanlage/fuettr/master/version.json';
+  private checkUrl = 'https://raw.githubusercontent.com/Katzenfuetterungsanlage/fuettr_prototype/master/version.json';
   private lVersionUrl = 'api/version';
   private shutdownUrl = 'api/shutdown';
 

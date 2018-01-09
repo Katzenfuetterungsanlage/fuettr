@@ -1,0 +1,77 @@
+<div class="container-fluid">
+  <h1 class="bigger-h1">Fütterungszeiten</h1>
+  <br>
+</div>
+<div class="container-fluid bigger">
+  <form #time="ngForm" (ngSubmit)="save()">
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <h2>Zeit 1</h2>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">
+            <input (change)="onKey()" type="checkbox" id="check1" name="time1_active" [(ngModel)]="check1">
+          </span>
+          <input (keyup)="onKey()" type="text" id="time1" name="time1" [(ngModel)]="time1" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+            maxlength="5" #time1_="ngModel" [class.input-error]="!time1_.pattern && !time1_.pristine && !time1_.valid || !time1Valid">
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <h2>Zeit 2</h2>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">
+            <input (change)="onKey()" type="checkbox" id="check2" name="time2_active" [(ngModel)]="check2">
+          </span>
+          <input (keyup)="onKey()" type="text" id="time2" name="time2" [(ngModel)]="time2" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+            maxlength="5" #time2_="ngModel" [class.input-error]="!time2_.pattern && !time2_.pristine && !time2_.valid || !time2ValidMin && time1Valid || !time2Valid">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <h2>Zeit 3</h2>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">
+            <input (change)="onKey()" type="checkbox" id="check3" name="time3_active" [(ngModel)]="check3">
+          </span>
+          <input (keyup)="onKey()" type="text" id="time3" name="time3" [(ngModel)]="time3" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+            maxlength="5" #time3_="ngModel" [class.input-error]="!time3_.pattern && !time3_.pristine && !time3_.valid || !time3ValidMin && time2Valid || !time3Valid">
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <h2>Zeit 4</h2>
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">
+            <input (change)="onKey()" type="checkbox" id="check4" name="time4_active" [(ngModel)]="check4">
+          </span>
+          <input (keyup)="onKey()" type="text" id="time4" name="time4" [(ngModel)]="time4" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+            maxlength="5" #time4_="ngModel" [class.input-error]="!time4_.pattern && !time4_.pristine && !time4_.valid || !time4ValidMin && time3Valid || !time4Valid">
+        </div>
+      </div>
+    </div>
+  </form>
+  <br>
+  <div>
+    <span class="btn btn-danger" [hidden]="(time1_.pattern || time1_.pristine || time1_.valid) && (time2_.pattern || time2_.pristine || time2_.valid) && (time3_.pattern || time3_.pristine || time3_.valid) && (time4_.pattern || time4_.pristine || time4_.valid)">Format: HH:MM</span>
+    <span class="btn btn-danger" [hidden]="time1Valid">Zeit 1 muss eine gültige Zeit sein</span>
+    <span class="btn btn-danger" [hidden]="time1notNull">Zeit 1 darf nicht leer sein!</span>
+    <span class="btn btn-danger" [hidden]="time2ValidMin || !time1Valid">Zeit 2 muss größer als {{time1}} sein</span>
+    <span class="btn btn-danger" [hidden]="time2Valid">Zeit 2 muss eine gültige Zeit sein</span>
+    <span class="btn btn-danger" [hidden]="time2notNull">Zeit 2 darf nicht leer sein!</span>
+    <span class="btn btn-danger" [hidden]="time3ValidMin || !time2Valid">Zeit 3 muss größer als {{time2}} sein</span>
+    <span class="btn btn-danger" [hidden]="time3Valid">Zeit 3 muss eine gültige Zeit sein</span>
+    <span class="btn btn-danger" [hidden]="time3notNull">Zeit 3 darf nicht leer sein!</span>
+    <span class="btn btn-danger" [hidden]="time4ValidMin || !time3Valid">Zeit 4 muss größer als {{time3}} sein</span>
+    <span class="btn btn-danger" [hidden]="time4Valid">Zeit 4 muss eine gültige Zeit sein</span>
+    <span class="btn btn-danger" [hidden]="time4notNull">Zeit 4 darf nicht leer sein!</span>
+  </div>
+  <br>
+  <div class="text-center row justify-content-end">
+    <div class="btn-group col-lg-4">
+      <button type="cancel" class="btn btn-secondary" (click)="cancel()" style="z-index: 1020 !important;">Abbrechen</button>
+      <button type="submit" class="btn btn-success" (click)="save()" style="z-index: 1020 !important;" [disabled]="!time.form.valid || !time1Valid || !time2ValidMin || !time2Valid || !time3ValidMin || !time3Valid || !time4ValidMin || !time4Valid || !time1notNull || !time2notNull || !time3notNull || !time4notNull">Speichern</button>
+      <button class="btn" style="background-color: #2B3E50; z-index: 1010 !important; margin-left: -126px !important; color: #2B3E50">Gespeichert.</button>
+      <button *ngIf="saved" class="btn btn-success savedAnimate" [@SaveAnimation]="savedstate" disabled>Gespeichert.</button>
+      <button *ngIf="failed" class="btn btn-danger failedAnimate" disabled>Misslungen.</button>
+    </div>
+  </div>
+</div>

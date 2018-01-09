@@ -5,64 +5,122 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 @import url('https://fonts.googleapis.com/css?family=Allerta');
 .navbar {
-    margin-bottom: 0;
-    background-color: #191816;
-    border: 0;
-    letter-spacing: 1px;
-    border-radius: 0px;
-    font-size: 18px;
-    font-family: 'Ubuntu', sans-serif;
+  margin-bottom: 0;
+  background-color: #191816;
+  border: 0;
+  letter-spacing: 1px;
+  border-radius: 0px;
+  font-size: 18px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .navbar-toggler {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .navbar li a,
 .navbar .navbar-brand {
-    color: #c6bfb9 !important;
+  color: #c6bfb9 !important;
 }
 
 .navbar-nav li a:hover,
 .navbar-nav li.active a {
-    color: #c6bfb9 !important;
-    background-color: #62584c !important;
-    font-size: 18px;
+  color: #c6bfb9 !important;
+  background-color: #62584c !important;
+  font-size: 18px;
 }
 
 .navbar-default .navbar-toggle {
-    border-color: transparent;
-    color: #000000 !important;
+  border-color: transparent;
+  color: #000000 !important;
 }
 
 .dropdown-menu {
-    margin-bottom: 0;
-    background-color: #191816;
-    border: 0;
-    letter-spacing: 1px;
-    border-radius: 0px;
-    font-size: 18px;
+  margin-bottom: 0;
+  background-color: #191816;
+  border: 0;
+  letter-spacing: 1px;
+  border-radius: 0px;
+  font-size: 18px;
 }
 
 .all {
-    font-family: 'Allerta', sans-serif;
+  font-family: 'Allerta', sans-serif;
 }
 
 .btn {
-    font-family: 'Ubuntu', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .logo {
-    font-family: 'Concert One', cursive;
-    font-size: 32px;
-    margin: 0px;
-    border: 0px;
-    margin-right: 12px;
-    margin-bottom: -3px;
+  font-family: 'Concert One', cursive;
+  font-size: 32px;
+  margin: 0px;
+  border: 0px;
+  margin-right: 12px;
+  margin-bottom: -3px;
 }
 
 .logo-picture {
-    margin-bottom: 6px;
-    margin-right: -8px;
+  margin-bottom: 6px;
+  margin-right: -8px;
+}
+
+.input-group-addon {
+  font-size: 12pt !important;
+  padding: 0.1rem 0.5rem !important;
+}
+
+.bigger {
+  font-size: 120% !important;
+}
+
+.savedAnimate {
+  margin-left: -126px;
+}
+
+.failedAnimate {
+  margin-left: -113px;
+}
+
+.input-error {
+  border: 2px solid #c9302c;
+}
+
+@media only screen and (max-width: 576px) {
+  body {
+    font-size: 0.5rem !important;
+  }
+  .bigger-h1 {
+    font-size: 1.4rem !important;
+    border-bottom: 2px solid white;
+  }
+}
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 0.7rem !important;
+  }
+  .bigger-h1 {
+    font-size: 1.6rem !important;
+    border-bottom: 2px solid white;
+  }
+}
+@media only screen and (max-width: 992px) {
+  body {
+    font-size: 0.9rem !important;
+  }
+  .bigger-h1 {
+    font-size: 1.8rem !important;
+    border-bottom: 2px solid white;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  body {
+    font-size: 1.1rem !important;
+  }
+  .bigger-h1 {
+    font-size: 2rem !important;
+    border-bottom: 2px solid white;
+  }
 }

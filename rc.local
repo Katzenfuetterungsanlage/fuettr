@@ -4,13 +4,17 @@
 
 sudo service cron start &
 
-echo "
---> Starting server"
-cd USERR/git/fuettr/Web_Application/Webserver/ng2 && sudo npm start &
+echo "\e[92m
+--> Starting server\e[0m"
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
+systemctl start mongodb
+mongod &
+su USERR -c 'cd HOMEE/git/fuettr/Web_Application/Webserver/ng2 && npm start &'
 
 _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
-  printf "My IP address is %s\n" "$_IP"
+  echo "
+\e[41m My IP address is \e[30m$_IP\e[0m\n"
 fi
 
 
