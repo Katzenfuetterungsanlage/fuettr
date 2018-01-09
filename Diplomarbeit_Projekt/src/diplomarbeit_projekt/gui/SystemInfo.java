@@ -8,14 +8,18 @@ package diplomarbeit_projekt.gui;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import static com.mongodb.client.model.Filters.eq;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import org.bson.Document;
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  *
@@ -48,13 +52,46 @@ public class SystemInfo extends javax.swing.JDialog
 
         String internal = obj.getString("internal");
         String serialnumber = obj.getString("serialnumber");
-        String version = obj.getString("version");
         String wlanState = obj.getString("wlanState");
         
+        String versionJson = null, ipJson = null;
+        
+        try
+        {
+            URL urlVersion = new URL("http://localhost:17325/api/version");
+            URL urlIp = new URL("http://localhost:17325/api/ip");
+
+            URLConnection conVersion = urlVersion.openConnection();
+            URLConnection conIp = urlIp.openConnection();
+            
+            BufferedReader bReaderVersion = new BufferedReader(new InputStreamReader(conVersion.getInputStream())); 
+            BufferedReader bReaderIp = new BufferedReader(new InputStreamReader(conIp.getInputStream())); 
+            
+            versionJson = bReaderVersion.readLine();
+            ipJson = bReaderIp.readLine();
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(Update.UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        jsonReader = Json.createReader(new StringReader(versionJson));
+        JsonObject versionObj = jsonReader.readObject();
+        jsonReader.close();
+        
+        String version = versionObj.getString("version");
+        
+        jsonReader = Json.createReader(new StringReader(ipJson));
+        JsonObject ipObj = jsonReader.readObject();
+        jsonReader.close();
+        
+        String ip = ipObj.getString("ip");
+
         lbInternal.setText(internal);       
         lbSerialnumber.setText(serialnumber);
         lbVersion.setText(version);
         lbWlanState.setText(wlanState);
+        lbIpAddress.setText(ip);
         
         mongodb.close();
         
@@ -91,7 +128,7 @@ public class SystemInfo extends javax.swing.JDialog
         lbWlanState = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        lbIpAddresse = new javax.swing.JLabel();
+        lbIpAddress = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         lbVersion = new javax.swing.JLabel();
@@ -168,8 +205,8 @@ public class SystemInfo extends javax.swing.JDialog
         jLabel7.setText("IP-Adresse: ");
         jPanel9.add(jLabel7);
 
-        lbIpAddresse.setText("<10.0.0.10>");
-        jPanel9.add(lbIpAddresse);
+        lbIpAddress.setText("<10.0.0.10>");
+        jPanel9.add(lbIpAddress);
 
         jPanel2.add(jPanel9);
 
@@ -274,7 +311,7 @@ public class SystemInfo extends javax.swing.JDialog
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lbInternal;
-    private javax.swing.JLabel lbIpAddresse;
+    private javax.swing.JLabel lbIpAddress;
     private javax.swing.JLabel lbSerialnumber;
     private javax.swing.JLabel lbVersion;
     private javax.swing.JLabel lbWlanState;

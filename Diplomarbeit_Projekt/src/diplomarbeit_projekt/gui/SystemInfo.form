@@ -222,7 +222,7 @@
                             <Property name="text" type="java.lang.String" value="IP-Adresse: "/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lbIpAddresse">
+                        <Component class="javax.swing.JLabel" name="lbIpAddress">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="&lt;10.0.0.10&gt;"/>
                           </Properties>
