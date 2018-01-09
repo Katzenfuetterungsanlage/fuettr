@@ -46,7 +46,7 @@ import javax.swing.SwingWorker;
 
 public class Positionsinformation extends javax.swing.JDialog
 {
-    Boolean stop = true;
+    Boolean stop = false;
     
     // create gpio controller
     final GpioController gpio = GpioFactory.getInstance();
