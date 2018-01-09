@@ -242,6 +242,7 @@ public class Positionsinformation extends javax.swing.JDialog
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
         stop = false; //stops all PositionWorkers
+        gpio.shutdown();
         dispose();
     }//GEN-LAST:event_onSchließen
 
