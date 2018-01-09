@@ -12,49 +12,11 @@ echo -e "\e[92m
 --> downloading and installing git...\e[0m"
 sudo apt install -y git
 sudo apt install -y rpl
-sudo apt -y autoremove
 
 echo -e "\e[92m
 --> downloading and installing mongodb...\e[0m"
-sudo adduser --ingroup nogroup --shell /etc/false --disabled-password --gecos "" \
---no-create-home mongodb &
-
-sudo rm -R mongodb/
-mkdir mongodb
-cd mongodb
-wget http://andyfelong.com/downloads/mongodb_stretch_3_0_14_core.zip
-unzip mongodb_stretch_3_0_14_core.zip
-cd core
-sudo chown root:root mongo* && sudo chmod 755 mongo* && sudo strip mongo* && sudo cp -p mongo* /usr/bin
-sudo mkdir /var/log/mongodb
-sudo chown mongodb:nogroup /var/log/mongodb
-sudo mkdir /var/lib/mongodb
-sudo chown mongodb:root /var/lib/mongodb
-sudo chmod 775 /var/lib/mongodb
-sudo cat <<EOF > /etc/mongodb.conf
-# /etc/mongodb.conf
-# minimal config file (old style)
-# Run mongod --help to see a list of options
-
-bind_ip = 127.0.0.1
-quiet = true
-dbpath = /var/lib/mongodb
-logpath = /var/log/mongodb/mongod.log
-logappend = true
-storageEngine = mmapv1
-EOF
-sudo cat <<EOF > /lib/systemd/system/mongodb.service
-[Unit]
-Description=High-performance, schema-free document-oriented database
-After=network.target
-
-[Service]
-User=mongodb
-ExecStart=/usr/bin/mongod --quiet --config /etc/mongodb.conf
-
-[Install]
-WantedBy=multi-user.target
-EOF
+sudo apt install -y mongodb
+sudo apt -y autoremove
 
 echo -e "\e[92m
 --> setting git credentials...\e[0m"

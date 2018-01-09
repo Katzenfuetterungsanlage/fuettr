@@ -1,0 +1,45 @@
+{
+    "name": "server",
+    "version": "0.0.3",
+    "description": "express server for fuettr",
+    "main": "main.js",
+    "scripts": {
+        "prestart": "gulp cleanAndBuild",
+        "restart": "gulp cleanAndBuild",
+        "start": "node dist/main.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Florian Greistorfer",
+    "license": "ISC",
+    "private": true,
+    "repository": {},
+    "dependencies": {
+        "bootstrap": "^4.0.0-beta.2",
+        "debug": "^2.6.9",
+        "debug-sx": "^0.1.7",
+        "express": "^4.16.2",
+        "express-jwt": "^5.3.0",
+        "jsonwebtoken": "^8.1.0",
+        "mongodb": "^3.0.1",
+        "pug": "^2.0.0-rc.4",
+        "spin": "0.0.1"
+    },
+    "devDependencies": {
+        "@types/debug": "0.0.29",
+        "@types/express": "^4.0.38",
+        "@types/express-jwt": "0.0.38",
+        "@types/jsonwebtoken": "^7.2.5",
+        "@types/mongodb": "^2.2.18",
+        "@types/node": "^8.0.47",
+        "@types/pug": "^2.0.4",
+        "del": "^3.0.0",
+        "gulp": "^3.9.1",
+        "gulp-changed": "^3.1.0",
+        "gulp-sourcemaps": "^2.6.1",
+        "gulp-typescript": "^3.2.3",
+        "gulp-using": "^0.1.1",
+        "merge-stream": "^1.0.1",
+        "run-sequence": "^1.2.2",
+        "typescript": "^2.5.3"
+    }
+}
