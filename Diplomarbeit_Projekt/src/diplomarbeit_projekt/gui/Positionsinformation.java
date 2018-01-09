@@ -241,7 +241,7 @@ public class Positionsinformation extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
-        stop = false; //stops PositionWorker
+        stop = false; //stops all PositionWorkers
         dispose();
     }//GEN-LAST:event_onSchließen
 
@@ -484,6 +484,5 @@ public class Positionsinformation extends javax.swing.JDialog
                 lbEngine2.setText(strEngine2);
         }  
     }
-    
-    
+  
 }
