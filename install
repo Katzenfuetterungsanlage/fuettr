@@ -19,6 +19,7 @@ echo -e "\e[92m
 sudo adduser --ingroup nogroup --shell /etc/false --disabled-password --gecos "" \
 --no-create-home mongodb &
 
+sudo rm -R mongodb/
 mkdir mongodb
 cd mongodb
 wget http://andyfelong.com/downloads/mongodb_stretch_3_0_14_core.zip
