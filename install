@@ -16,7 +16,11 @@ sudo apt -y autoremove
 
 echo -e "\e[92m
 --> downloading and installing mongodb...\e[0m"
-sudo apt install mongodb-server
+curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.1.tgz
+tar -zxvf mongodb-linux-x86_64-3.6.1.tgz
+mkdir -p mongodb
+cp -R -n mongodb-linux-x86_64-3.6.1/ mongodb
+export PATH=mongodb/bin:$PATH
 
 echo -e "\e[92m
 --> setting git credentials...\e[0m"
@@ -75,8 +79,8 @@ cd $THISUSER/git/fuettr/Webserver/server && sudo npm i
 
 echo -e "\e[92m
 --> initializing database...\e[0m"
-sudo systemctl start mongodb
-sudo mongod &
+sudo mkdir -p /data/db
+sudo mongod
 
 echo -e "\e[92m
 --> building server...\e[0m"
