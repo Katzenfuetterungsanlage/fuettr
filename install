@@ -18,9 +18,9 @@ echo -e "\e[92m
 --> downloading and installing mongodb...\e[0m"
 curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.1.tgz
 tar -zxvf mongodb-linux-x86_64-3.6.1.tgz
-mkdir -p mongodb
+cd $THISUSER && mkdir -p mongodb
 cp -R -n mongodb-linux-x86_64-3.6.1/ mongodb
-export PATH=mongodb/mongodb-linux-x86_64-3.6.1/bin:$PATH
+export PATH=$THISUSER/mongodb/mongodb-linux-x86_64-3.6.1/bin:$PATH
 
 echo -e "\e[92m
 --> setting git credentials...\e[0m"
