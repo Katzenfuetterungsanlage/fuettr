@@ -75,24 +75,22 @@ public class MainWindow extends javax.swing.JFrame
         
         ImportTimesWorker importTimesWorker = new ImportTimesWorker();
         importTimesWorker.execute();
+        Logger.getLogger("ImportTimeWorker started").log(Level.FINE, "ImportTimeWorker started");
         
-     
         // ShowTimesWorker must wait until Times got imported at least ones
-   
         ShowTimesWorker showTimesWorker = new ShowTimesWorker();
         showTimesWorker.execute();
-       
-//        ZeitenAnzeigenWorker zaWorker = new ZeitenAnzeigenWorker();
-//        zaWorker.execute();
+        Logger.getLogger("ShowTimesWorker started").log(Level.FINE, "ShowTimesWorker started");
 
         lbLastFeeding.setText("ausstehend");
 
         FeedingCycleWorker automatischeFuetterungAblaufWorker = new FeedingCycleWorker();
         automatischeFuetterungAblaufWorker.execute();
+        Logger.getLogger("FeedingCycleWorker started").log(Level.FINE, "FeedingCycleWorker started");
 
         NextFeedingWorker naechsteFuetterungWorker = new NextFeedingWorker();
         naechsteFuetterungWorker.execute();
-
+        Logger.getLogger("NextFeedingWorker started").log(Level.FINE, "NextFeedingWorker started");
     }
 
     /**
@@ -541,6 +539,9 @@ public class MainWindow extends javax.swing.JFrame
             machineState = false;
             lbState.setText("Aus");
         }
+        
+        // write machineState to mongodb
+        
     }//GEN-LAST:event_onEinAusSchalten
 
     private void onFütterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFütterungszeitenVerwalten
@@ -583,7 +584,7 @@ public class MainWindow extends javax.swing.JFrame
     private void onFuetterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFuetterungszeitenVerwalten
     {//GEN-HEADEREND:event_onFuetterungszeitenVerwalten
         //Objektobjekt erzeugen ==> Dialog ist MODAL! (modal ... blockieren des Elternfensters) 
-        final ZeitenManagement zeitenDlg = new ZeitenManagement(this, true); // true = modal (blockiert das Hauptfenster) , false = nicht modal 
+        final TimeManagement zeitenDlg = new TimeManagement(this, true); // true = modal (blockiert das Hauptfenster) , false = nicht modal 
         zeitenDlg.setVisible(true); //Dialog sichtbar setzen
         //An dieser Stelle "blockiert" das Programm, solange der Dialog geöffnet ist!   
 
@@ -618,7 +619,7 @@ public class MainWindow extends javax.swing.JFrame
                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
             //TODO
-            
+            ;
             System.exit(0);
         }
     }//GEN-LAST:event_onHerunterfahren
