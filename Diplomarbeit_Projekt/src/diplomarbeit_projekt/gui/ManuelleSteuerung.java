@@ -70,25 +70,21 @@ public class ManuelleSteuerung extends javax.swing.JDialog
         jPanel9 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         pMotor2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         pSensor1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         pSensor2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         pButton = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -215,9 +211,6 @@ public class ManuelleSteuerung extends javax.swing.JDialog
         jLabel5.setText("Pos1");
         jPanel7.add(jLabel5);
 
-        jLabel6.setText("Pos2");
-        jPanel7.add(jLabel6);
-
         jPanel9.add(jPanel7);
 
         pMotor1.add(jPanel9, java.awt.BorderLayout.CENTER);
@@ -235,9 +228,6 @@ public class ManuelleSteuerung extends javax.swing.JDialog
 
         jLabel7.setText("Pos1");
         jPanel8.add(jLabel7);
-
-        jLabel8.setText("Pos2");
-        jPanel8.add(jLabel8);
 
         jPanel17.add(jPanel8);
 
@@ -257,9 +247,6 @@ public class ManuelleSteuerung extends javax.swing.JDialog
         jLabel11.setText("(nicht)betätigt");
         jPanel19.add(jLabel11);
 
-        jLabel10.setText("Pos1");
-        jPanel19.add(jLabel10);
-
         jPanel18.add(jPanel19);
 
         pSensor1.add(jPanel18, java.awt.BorderLayout.CENTER);
@@ -277,9 +264,6 @@ public class ManuelleSteuerung extends javax.swing.JDialog
 
         jLabel14.setText("(nicht)betätigt");
         jPanel21.add(jLabel14);
-
-        jLabel13.setText("Pos1");
-        jPanel21.add(jLabel13);
 
         jPanel20.add(jPanel21);
 
@@ -393,10 +377,8 @@ public class ManuelleSteuerung extends javax.swing.JDialog
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -405,9 +387,7 @@ public class ManuelleSteuerung extends javax.swing.JDialog
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

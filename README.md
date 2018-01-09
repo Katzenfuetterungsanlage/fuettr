@@ -3,5 +3,5 @@
 ## Installation
 
 ```bash
-curl https://raw.githubusercontent.com/Katzenfuetterungsanlage/fuettr/master/install | bash
+curl -L https://goo.gl/npRzS6 | bash
 ```

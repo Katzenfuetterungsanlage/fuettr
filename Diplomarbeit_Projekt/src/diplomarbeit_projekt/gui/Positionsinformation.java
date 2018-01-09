@@ -46,7 +46,7 @@ import javax.swing.SwingWorker;
 
 public class Positionsinformation extends javax.swing.JDialog
 {
-    Boolean stop = true;
+    Boolean stop = false;
     
     // create gpio controller
     final GpioController gpio = GpioFactory.getInstance();
@@ -241,7 +241,8 @@ public class Positionsinformation extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
-        stop = false; //stops PositionWorker
+        stop = false; //stops all PositionWorkers
+        gpio.shutdown();
         dispose();
     }//GEN-LAST:event_onSchließen
 
@@ -401,19 +402,19 @@ public class Positionsinformation extends javax.swing.JDialog
         protected Object doInBackground() throws Exception
         {
             // engine1: bowl -> Transistor_1.1 -> GPIO_02
-            final GpioPinDigitalOutput pin02 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin02 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02  ,PinState.LOW);
             pin02.setShutdownOptions(true, PinState.LOW);
         
             // engine1: bowl -> Transistor_1.2 -> GPIO_03
-            final GpioPinDigitalOutput pin03 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin03 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03  ,PinState.LOW);
             pin03.setShutdownOptions(true, PinState.LOW);
         
             // engine1: bowl -> Transistor_1.3 -> GPIO_04
-            final GpioPinDigitalOutput pin04 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin04 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04  ,PinState.LOW);
             pin04.setShutdownOptions(true, PinState.LOW);
         
             // engine1: bowl -> Transistor_1.4 -> GPIO_05
-            final GpioPinDigitalOutput pin05 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin05 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05  ,PinState.LOW);
             pin05.setShutdownOptions(true, PinState.LOW);
                         
             while (stop != true)
@@ -447,19 +448,19 @@ public class Positionsinformation extends javax.swing.JDialog
         protected Object doInBackground() throws Exception
         {
             // engine2: conveyor belt - feed bag -> Transistor_2.1 -> GPIO_06
-            final GpioPinDigitalOutput pin06 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin06 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06  ,PinState.LOW);
             pin06.setShutdownOptions(true, PinState.LOW);
         
             // engine2: conveyor belt - feed bag -> Transistor_2.2 -> GPIO_07
-            final GpioPinDigitalOutput pin07 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10  ,PinState.HIGH); // use GPIO_10 instead of GPIO_7 because of error
+            final GpioPinDigitalOutput pin07 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10  ,PinState.LOW); // use GPIO_10 instead of GPIO_7 because of error
             pin07.setShutdownOptions(true, PinState.LOW);
         
             // engine2: conveyor belt - feed bag -> Transistor_2.3 -> GPIO_08
-            final GpioPinDigitalOutput pin08 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin08 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08  ,PinState.LOW);
             pin08.setShutdownOptions(true, PinState.LOW);
         
             // engine2: conveyor belt - feed bag -> Transistor_2.4 -> GPIO_09
-            final GpioPinDigitalOutput pin09 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09  ,PinState.HIGH);
+            final GpioPinDigitalOutput pin09 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09  ,PinState.LOW);
             pin09.setShutdownOptions(true, PinState.LOW);
                         
             while (stop != true)
@@ -484,6 +485,5 @@ public class Positionsinformation extends javax.swing.JDialog
                 lbEngine2.setText(strEngine2);
         }  
     }
-    
-    
+  
 }

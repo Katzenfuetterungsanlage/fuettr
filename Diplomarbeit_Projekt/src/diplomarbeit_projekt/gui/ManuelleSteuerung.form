@@ -356,11 +356,6 @@
                                         <Property name="text" type="java.lang.String" value="Pos1"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel6">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="Pos2"/>
-                                      </Properties>
-                                    </Component>
                                   </SubComponents>
                                 </Container>
                               </SubComponents>
@@ -403,11 +398,6 @@
                                     <Component class="javax.swing.JLabel" name="jLabel7">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Pos1"/>
-                                      </Properties>
-                                    </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel8">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="Pos2"/>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
@@ -454,11 +444,6 @@
                                         <Property name="text" type="java.lang.String" value="(nicht)bet&#xe4;tigt"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel10">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="Pos1"/>
-                                      </Properties>
-                                    </Component>
                                   </SubComponents>
                                 </Container>
                               </SubComponents>
@@ -501,11 +486,6 @@
                                     <Component class="javax.swing.JLabel" name="jLabel14">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="(nicht)bet&#xe4;tigt"/>
-                                      </Properties>
-                                    </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel13">
-                                      <Properties>
-                                        <Property name="text" type="java.lang.String" value="Pos1"/>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
