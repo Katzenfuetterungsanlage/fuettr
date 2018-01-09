@@ -5,32 +5,58 @@
  */
 package diplomarbeit_projekt.gui;
 
-import diplomarbeit_projekt.methods.StreamReader;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.eq;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import org.bson.Document;
 
 /**
  *
  * @author Florian
  */
-public class GeraeteInfo extends javax.swing.JDialog
+public class SystemInfo extends javax.swing.JDialog
 {
 
     /**
      * Creates new form GeraeteInfo
      */
-    public GeraeteInfo(java.awt.Frame parent, boolean modal)
+    public SystemInfo(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
                
         initComponents();
          
-        StreamReader streamReader = new StreamReader(); 
-        String internerRechner = streamReader.einlesen("internerRechner.txt",false);
+        MongoClient mongodb = new MongoClient();
+        MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");  
+        MongoCollection<Document> collInfo = database.getCollection("data_info");
         
-        lbInternerRechner.setText(internerRechner);
+        Document infoDoc = collInfo.find(eq("identifier", "Info")).first();
+        String strInfo = infoDoc.toJson();
         
-        String seriennummer = streamReader.einlesen("seriennummer.txt",false);
+        Logger.getLogger("Info imported").log(Level.FINE, "Info imported");
         
-        lbSeriennummer.setText(seriennummer);
+        JsonReader jsonReader = Json.createReader(new StringReader(strInfo));
+        JsonObject obj = jsonReader.readObject();
+        jsonReader.close();
+
+        String internal = obj.getString("internal");
+        String serialnumber = obj.getString("serialnumber");
+        String version = obj.getString("version");
+        String wlanState = obj.getString("wlanState");
+        
+        lbInternal.setText(internal);       
+        lbSerialnumber.setText(serialnumber);
+        lbVersion.setText(version);
+        lbWlanState.setText(wlanState);
+        
+        mongodb.close();
         
         setLocationRelativeTo(parent);
         pack();
@@ -54,16 +80,21 @@ public class GeraeteInfo extends javax.swing.JDialog
         pInfo = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        lbSeriennummer = new javax.swing.JLabel();
+        lbSerialnumber = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        lbInternerRechner = new javax.swing.JLabel();
+        lbInternal = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        lbWlanStatus = new javax.swing.JLabel();
+        lbWlanState = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        lbIpAdresse = new javax.swing.JLabel();
+        lbIpAddresse = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        lbVersionsnummer = new javax.swing.JLabel();
+        lbVersion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Geräteinformation");
@@ -100,37 +131,57 @@ public class GeraeteInfo extends javax.swing.JDialog
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 16, 32));
 
-        jPanel2.setLayout(new java.awt.GridLayout(0, 2));
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1, 4, 4));
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel1.setText("Seriennummer:");
-        jPanel2.add(jLabel1);
+        jPanel6.add(jLabel1);
 
-        lbSeriennummer.setText("<seriennummer>");
-        jPanel2.add(lbSeriennummer);
+        lbSerialnumber.setText("<seriennummer>");
+        jPanel6.add(lbSerialnumber);
+
+        jPanel2.add(jPanel6);
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel3.setText("interner Rechner: ");
-        jPanel2.add(jLabel3);
+        jPanel8.add(jLabel3);
 
-        lbInternerRechner.setText("<raspberry_x>");
-        jPanel2.add(lbInternerRechner);
+        lbInternal.setText("<raspberry_x>");
+        jPanel8.add(lbInternal);
+
+        jPanel2.add(jPanel8);
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel5.setText("WLAN-Status: ");
-        jPanel2.add(jLabel5);
+        jPanel7.add(jLabel5);
 
-        lbWlanStatus.setText("<verbunden>");
-        jPanel2.add(lbWlanStatus);
+        lbWlanState.setText("<verbunden>");
+        jPanel7.add(lbWlanState);
+
+        jPanel2.add(jPanel7);
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel7.setText("IP-Adresse: ");
-        jPanel2.add(jLabel7);
+        jPanel9.add(jLabel7);
 
-        lbIpAdresse.setText("<10.0.0.10>");
-        jPanel2.add(lbIpAdresse);
+        lbIpAddresse.setText("<10.0.0.10>");
+        jPanel9.add(lbIpAddresse);
+
+        jPanel2.add(jPanel9);
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel9.setText("Version: ");
-        jPanel2.add(jLabel9);
+        jPanel10.add(jLabel9);
 
-        lbVersionsnummer.setText("<versionsnummer>");
-        jPanel2.add(lbVersionsnummer);
+        lbVersion.setText("<versionsnummer>");
+        jPanel10.add(lbVersion);
+
+        jPanel2.add(jPanel10);
 
         jPanel3.add(jPanel2);
 
@@ -170,17 +221,19 @@ public class GeraeteInfo extends javax.swing.JDialog
             }
         } catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(GeraeteInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SystemInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(GeraeteInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SystemInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(GeraeteInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SystemInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(GeraeteInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SystemInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -189,7 +242,7 @@ public class GeraeteInfo extends javax.swing.JDialog
         {
             public void run()
             {
-                GeraeteInfo dialog = new GeraeteInfo(new javax.swing.JFrame(), true);
+                SystemInfo dialog = new SystemInfo(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter()
                 {
                     @Override
@@ -211,15 +264,20 @@ public class GeraeteInfo extends javax.swing.JDialog
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JLabel lbInternerRechner;
-    private javax.swing.JLabel lbIpAdresse;
-    private javax.swing.JLabel lbSeriennummer;
-    private javax.swing.JLabel lbVersionsnummer;
-    private javax.swing.JLabel lbWlanStatus;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lbInternal;
+    private javax.swing.JLabel lbIpAddresse;
+    private javax.swing.JLabel lbSerialnumber;
+    private javax.swing.JLabel lbVersion;
+    private javax.swing.JLabel lbWlanState;
     private javax.swing.JPanel pButton;
     private javax.swing.JPanel pInfo;
     // End of variables declaration//GEN-END:variables

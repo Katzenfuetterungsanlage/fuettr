@@ -24,6 +24,8 @@ import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  *
@@ -599,7 +601,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onGeraeteinformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onGeraeteinformation
     {//GEN-HEADEREND:event_onGeraeteinformation
-        final GeraeteInfo infoDlg = new GeraeteInfo(this, true);
+        final SystemInfo infoDlg = new SystemInfo(this, true);
         infoDlg.setVisible(true);
     }//GEN-LAST:event_onGeraeteinformation
 
