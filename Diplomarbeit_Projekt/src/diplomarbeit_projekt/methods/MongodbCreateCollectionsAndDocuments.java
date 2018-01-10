@@ -17,7 +17,7 @@ import javax.json.JsonReader;
 
 /**
  *
- * @author Florian
+ * @author Florian et Florian
  */
 public class MongodbCreateCollectionsAndDocuments
 {
@@ -68,10 +68,10 @@ public class MongodbCreateCollectionsAndDocuments
             collInfo.insertOne(infoDoc);
             
             Document infoStatusDoc = new Document ("identifier", "Status")
-                    .append("nextFeeding", "0001 0002 0003 0004")
-                    .append("lastFeedung", "Raspberry Pi 3 Model B")
-                    .append("nextFeedingIn", "1.1 beta")
-                    .append("machineState", "not connected");
+                    .append("nextFeeding", "10:10")
+                    .append("lastFeeding", "ausstehend")
+                    .append("nextFeedingIn", "10min")
+                    .append("machineState", "AUS");
             
             collInfo.insertOne(infoStatusDoc);
             

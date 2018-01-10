@@ -45,7 +45,7 @@ export class ApiRoutes {
       res.sendFile(path.join(__dirname, 'views/README.html'));
     });
     this._routes.get('/version', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../../../version.json'));
+      res.sendFile(path.join(__dirname, '../../../version.json'));
     });
     this._routes.get('/face', (req, res) => {
       res.sendFile(path.join(__dirname, 'views/face.html'));
