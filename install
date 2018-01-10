@@ -92,7 +92,7 @@ cd $THISUSER/git/fuettr/Webserver/server/dist && node main.js #&
 
 echo -e "\e[92m
 --> starting java application...\e[0m"
-cd $THISUSER/git/fuettr/Diplomarbeit_Project/dist && java -jar Diplomarbeit_Project.jar &
+cd $THISUSER/git/fuettr/Diplomarbeit_Projekt/dist && java -jar Diplomarbeit_Projekt.jar &
 
 echo -e "\e[92m
 done\e[0m"
