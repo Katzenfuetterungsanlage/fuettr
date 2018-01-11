@@ -10,7 +10,6 @@ sudo apt install -y nodejs
 
 echo -e "\e[92m
 --> downloading and installing jdk...\e[0m"
-sudo apt install -y openjdk-7-jdk
 sudo apt install -y ant
 
 echo -e "\e[92m
