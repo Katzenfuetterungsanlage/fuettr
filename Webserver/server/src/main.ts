@@ -44,11 +44,10 @@ class Main {
   constructor() {}
 
   public async init() {
-    const db = await FuettrDB.createInstance().catch(err => {
-      log.severe(err);
-    });
+    const db = await FuettrDB.createInstance().catch();
     Server.Instance.start(port).catch(err => {
-      log.warn(err);
+      log.severe(err);
+      throw new Error('Error accured');
     });
   }
 }
