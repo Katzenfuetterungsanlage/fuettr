@@ -9,7 +9,7 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt install -y nodejs
 
 echo -e "\e[92m
---> downloading and installing jdk...\e[0m"
+--> downloading and installing ant...\e[0m"
 sudo apt install -y ant
 
 echo -e "\e[92m
@@ -94,7 +94,7 @@ cd $THISUSER/git/fuettr/Diplomarbeit_Projekt && ant
 
 echo -e "\e[92m
 --> starting server...\e[0m"
-cd $THISUSER/git/fuettr/Webserver/server/dist && node main.js #&
+cd $THISUSER/git/fuettr/Webserver/server/dist && node main.js &
 
 echo -e "\e[92m
 --> starting java application...\e[0m"
