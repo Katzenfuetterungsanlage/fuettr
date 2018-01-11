@@ -106,7 +106,6 @@ export class FuettrDB {
       this._hardware = collHardware;
       log.info('Database connected.');
     } catch (err) {
-      log.warn(err);
       throw err;
     }
   }
