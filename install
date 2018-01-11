@@ -12,14 +12,11 @@ echo -e "\e[92m
 --> downloading and installing git...\e[0m"
 sudo apt install -y git
 sudo apt install -y rpl
-sudo apt -y autoremove
 
 echo -e "\e[92m
 --> downloading and installing mongodb...\e[0m"
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-sudo apt-get update
-sudo apt-get install -y mongodb-org=3.6.1 mongodb-org-server=3.6.1 mongodb-org-shell=3.6.1 mongodb-org-mongos=3.6.1 mongodb-org-tools=3.6.1
+sudo apt install -y mongodb-server
+sudo apt -y autoremove
 
 echo -e "\e[92m
 --> setting git credentials...\e[0m"
@@ -78,7 +75,8 @@ cd $THISUSER/git/fuettr/Webserver/server && sudo npm i
 
 echo -e "\e[92m
 --> initializing database...\e[0m"
-sudo mongod &
+sudo mkdir -p /data/db
+sudo systemctl start mongod
 
 echo -e "\e[92m
 --> building server...\e[0m"
