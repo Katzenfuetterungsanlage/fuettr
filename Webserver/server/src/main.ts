@@ -25,7 +25,7 @@ const consolelogger: debugsx.IHandler = debugsx.createConsoleHandler('stdout', '
 ]);
 // tslint:disable-next-line:max-line-length
 const filelogger: debugsx.IHandler = debugsx.createFileHandler(
-  '/var/log/' + date.toLocaleDateString() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds() + '.log',
+  '/var/log/fuettr/' + date.toLocaleDateString() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds() + '.log',
   '*::INFO, *::FINE, *::SEVERE, *::ERR, *::WARN',
   '-*',
   [
