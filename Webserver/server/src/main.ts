@@ -46,11 +46,11 @@ class Main {
   public async init() {
     const db = await FuettrDB.createInstance().catch(err => {
       log.severe(err);
-      throw new Error('Error accured');
+      process.exit();
     });
     Server.Instance.start(port).catch(err => {
       log.severe(err);
-      throw new Error('Error accured');
+      process.exit();
     });
   }
 }
