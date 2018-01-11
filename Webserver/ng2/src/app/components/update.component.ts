@@ -25,7 +25,6 @@ export class UpdateComponent implements OnInit {
   private t: number;
   private get2;
   private get1;
-  private interval;
 
   constructor(private updateService: UpdateService, private app: AppComponent, private modalService: NgbModal) { }
 
@@ -37,14 +36,14 @@ export class UpdateComponent implements OnInit {
     this.prgbar = 'updating...';
     this.updater = 'in progress...';
     this.updateService.getUpdate();
-    this.interval = setInterval(() => {
+    const interval = setInterval(() => {
       this.get1 = this.updateService.stillThere().catch(error => {
         console.log('restarting...');
         this.prgbar = 'restarting...';
         this.get2 = this.updateService.stillThere().then(value => {
           console.log('updated...');
           this.message = 'updated';
-          clearInterval(this.interval);
+          clearInterval(interval);
           location.reload();
           this.show2 = false;
           this.progress = false;

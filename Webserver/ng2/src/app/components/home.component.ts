@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpgetService } from '../services/httpget.service';
 import { HttpputService } from '../services/httpput.service';
 import { AppComponent } from '../app.component';
@@ -8,7 +8,7 @@ import * as itf from '../interfaces';
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public warning_messages: itf.Warning[];
   public error_messages: itf.Error[];
   public last_time: string;
@@ -26,17 +26,31 @@ export class HomeComponent implements OnInit {
   public time3_show = false;
   public time4_show = false;
 
-  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {}
+  private time;
+  private call;
+
+  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) { }
 
   ngOnInit(): void {
     this.callMeMaybe();
 
-    setInterval(() => {
+    this.call = setInterval(() => {
       this.callMeMaybe();
     }, 30000);
-    setTimeout(() => {
+    this.time = setTimeout(() => {
       this.app.navShow = false;
     }, 0);
+  }
+
+  ngOnDestroy(): void {
+    if (this.time !== undefined) {
+      clearInterval(this.time);
+      this.time = undefined;
+    }
+    if (this.call !== undefined) {
+      clearInterval(this.call);
+      this.call = undefined;
+    }
   }
 
   callMeMaybe(): void {
