@@ -44,7 +44,9 @@ class Main {
   constructor() {}
 
   public async init() {
-    const db = await FuettrDB.createInstance();
+    const db = await FuettrDB.createInstance().catch(err => {
+      log.severe(err);
+    });
     Server.Instance.start(port).catch(err => {
       log.warn(err);
     });
