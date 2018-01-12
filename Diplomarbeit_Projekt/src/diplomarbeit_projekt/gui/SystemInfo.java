@@ -5,21 +5,19 @@
  */
 package diplomarbeit_projekt.gui;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.bson.Document;
-import static com.mongodb.client.model.Filters.eq;
 
 /**
  *
@@ -27,7 +25,10 @@ import static com.mongodb.client.model.Filters.eq;
  */
 public class SystemInfo extends javax.swing.JDialog
 {
-
+    MongoClient mongodb;
+    DB database;
+    DBCollection collInfo;
+    
     /**
      * Creates new form GeraeteInfo
      */
@@ -37,12 +38,19 @@ public class SystemInfo extends javax.swing.JDialog
                
         initComponents();
          
-        MongoClient mongodb = new MongoClient();
-        MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");  
-        MongoCollection<Document> collInfo = database.getCollection("data_info");
+        try
+        {
+            mongodb = new MongoClient();
+        }
+        catch (UnknownHostException ex)
+        {
+            Logger.getLogger(SystemInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        database = mongodb.getDB("katzenfuetterungsanlage");  
+        collInfo = database.getCollection("data_info");
         
-        Document infoDoc = collInfo.find(eq("identifier", "Info")).first();
-        String strInfo = infoDoc.toJson();
+        DBObject infoDoc = collInfo.find(new BasicDBObject("identifier", "Info")).next();
+        String strInfo = JSON.serialize(infoDoc);
         
         Logger.getLogger("Info imported").log(Level.FINE, "Info imported");
         

@@ -5,9 +5,8 @@
  */
 package diplomarbeit_projekt.gui;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,13 +16,12 @@ import diplomarbeit_projekt.methods.NextFeeding;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.JsonObject;
-import org.bson.Document;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
-import static com.mongodb.client.model.Filters.eq;
 import diplomarbeit_projekt.pi4j.FeedingCycle;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -41,6 +39,11 @@ public class MainWindow extends javax.swing.JFrame
     String nextFeedingAt, nextFeedingIn, lastFeedingTime;
     JsonObject times;
       
+    // create object
+    MongoClient mongodb;
+    DB database;   
+    DBCollection collTimes;
+    
     CountDownLatch latch = new CountDownLatch(1);       
     
     /**
@@ -65,6 +68,19 @@ public class MainWindow extends javax.swing.JFrame
         {
             lbState.setText("Aus");
         }
+        
+        // connect to Database
+        try
+        {
+            mongodb = new MongoClient();
+        }
+        catch (UnknownHostException ex)
+        {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        database = mongodb.getDB("katzenfuetterungsanlage");
+        collTimes= database.getCollection("data_times");
+        //======================================================================
             
         TimeOfDayWorker uWorker = new TimeOfDayWorker();
         uWorker.execute();
@@ -892,11 +908,7 @@ public class MainWindow extends javax.swing.JFrame
     // Import times from mongodb
     private class ImportTimesWorker extends SwingWorker<Object, String>
     {     
-        // Connect to Database
-        MongoClient mongodb = new MongoClient();
-        MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");   
-        MongoCollection<Document> collTimes = database.getCollection("data_times");
-
+        
         String strTimes;
         String str;
 
@@ -912,11 +924,10 @@ public class MainWindow extends javax.swing.JFrame
             }
 
             while (true)
-            {
-                                
-                Document doc = collTimes.find(eq("identifier", "Times")).first();
+            {                    
+                DBObject doc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
                 
-                strTimes = doc.toJson();
+                strTimes = JSON.serialize(doc);
                 
                 publish(strTimes);
             }

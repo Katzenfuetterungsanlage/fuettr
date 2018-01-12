@@ -70,4 +70,23 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+        <target name="-post-jar">
+        <jar jarfile="dist/Diplomarbeit_Projekt-withLibs.jar">
+            <zipfileset src="${dist.jar}" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/java.json-1.0.4.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/mongo-java-driver-2.14.2.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/junit.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/pi4j-core.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/pi4j-device.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/pi4j-gpio-extension.jar" excludes="META-INF/*" />
+            <manifest>
+                <attribute name="Main-Class" value="MainWindow"/>
+            </manifest>
+        </jar>
+        <move file="dist/Diplomarbeit_Projekt.jar" tofile="dist/Fuettr.jar" />
+    </target>
+    
+    
+    
 </project>

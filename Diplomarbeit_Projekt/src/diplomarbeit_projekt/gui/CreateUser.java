@@ -5,23 +5,19 @@
  */
 package diplomarbeit_projekt.gui;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.combine;
-import static com.mongodb.client.model.Updates.set;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import java.io.StringReader;
 import static java.lang.String.valueOf;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.bson.Document;
 
 /**
  *
@@ -30,10 +26,11 @@ import org.bson.Document;
 public class CreateUser extends javax.swing.JDialog
 {
     boolean saved = false; 
-
-    MongoClient mongodb = new MongoClient();
-    MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");  
-    MongoCollection<Document> collUser = database.getCollection("data_user");
+    
+    // create object
+    MongoClient mongodb;  
+    DB database;
+    DBCollection collUser;
     
     /**
      * Creates new form BenutzerAnlegen
@@ -44,8 +41,21 @@ public class CreateUser extends javax.swing.JDialog
                
         initComponents();
          
-        Document userDoc = collUser.find(eq("identifier", "User")).first();
-        String strUser = userDoc.toJson();
+        // connect to Database
+        try
+        {
+            mongodb = new MongoClient();
+        }
+        catch (UnknownHostException ex)
+        {
+            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        database = mongodb.getDB("katzenfuetterungsanlage");  
+        collUser = database.getCollection("data_user");
+        //======================================================================
+        
+        DBObject userDoc = collUser.find(new BasicDBObject("identifier", "User")).next();
+        String strUser = JSON.serialize(userDoc);
         
         Logger.getLogger("User imported").log(Level.FINE, "User imported");
         
@@ -226,7 +236,7 @@ public class CreateUser extends javax.swing.JDialog
             }
             else
             {
-                collUser.updateOne(eq("identifier", "User"), combine(set("user_name", user_name), set("user_password", strUser_password)));
+                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("user_name", user_name).append("user_password", strUser_password));
 
                 Logger.getLogger("User saved").log(Level.FINE, "User saved");  
       

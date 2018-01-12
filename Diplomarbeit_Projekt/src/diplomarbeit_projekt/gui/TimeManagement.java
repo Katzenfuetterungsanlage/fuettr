@@ -5,12 +5,8 @@
  */
 package diplomarbeit_projekt.gui;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.combine;
-import static com.mongodb.client.model.Updates.set;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,10 +20,10 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import java.io.StringReader;
+import java.net.UnknownHostException;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.bson.Document;
 
 /**
  *
@@ -38,10 +34,10 @@ public class TimeManagement extends javax.swing.JDialog
     boolean saved = false;
     boolean timesChanged = false; 
     
-    MongoClient mongodb = new MongoClient();
-    MongoDatabase database = mongodb.getDatabase("katzenfuetterungsanlage");  
-    MongoCollection<Document> collTimes = database.getCollection("data_times");
-    
+    MongoClient mongodb;
+    DB database;
+    DBCollection collTimes;
+       
     //Datenaustausch
 //    public boolean timesChanged()
 //    {
@@ -50,8 +46,8 @@ public class TimeManagement extends javax.swing.JDialog
     
     private void fillSpinners ()
     {        
-        Document timeDoc = collTimes.find(eq("identifier", "Times")).first();
-        String strTimes = timeDoc.toJson();
+        DBObject timeDoc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
+        String strTimes = JSON.serialize(timeDoc);
         
         Logger.getLogger("Times imported").log(Level.FINE, "Times imported");
         
@@ -100,6 +96,17 @@ public class TimeManagement extends javax.swing.JDialog
         super(parent, modal);
 
         initComponents();
+        
+        try
+        {
+            mongodb = new MongoClient();
+        }
+        catch (UnknownHostException ex)
+        {
+            Logger.getLogger(TimeManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        database = mongodb.getDB("katzenfuetterungsanlage");  
+        collTimes = database.getCollection("data_times");
         
         JSpinner.DateEditor at1 = new JSpinner.DateEditor(spTime1, "HH:mm");
         spTime1.setEditor(at1);
@@ -457,8 +464,10 @@ public class TimeManagement extends javax.swing.JDialog
             }
             else 
             {                
-                collTimes.updateOne(eq("identifier", "Times"), combine(set("time1", time1), set("time2", time2), set("time3", time3), set("time4", time4),
-                        set("time1_active", time1_active),set("time2_active", time2_active),set("time3_active", time3_active),set("time4_active", time4_active)));
+                collTimes.update(new BasicDBObject("identifier", "Times"), new BasicDBObject("time1", time1).append("time2", time2)
+                        .append("time3", time3).append("time4", time4)
+                        .append("time1_active", time1_active).append("time2_active", time2_active)
+                        .append("time3_active", time3_active).append("time4_active", time4_active));
 
                 Logger.getLogger("Times saved").log(Level.FINE, "Times saved"); 
         
