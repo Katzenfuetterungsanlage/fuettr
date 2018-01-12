@@ -236,7 +236,7 @@ public class CreateUser extends javax.swing.JDialog
             }
             else
             {
-                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("user_name", user_name).append("user_password", strUser_password));
+                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", strUser_password));
 
                 Logger.getLogger("User saved").log(Level.FINE, "User saved");  
       

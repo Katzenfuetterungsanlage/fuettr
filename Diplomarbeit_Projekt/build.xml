@@ -74,7 +74,7 @@
         <target name="-post-jar">
         <jar jarfile="dist/Diplomarbeit_Projekt-withLibs.jar">
             <zipfileset src="${dist.jar}" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/java.json-1.0.4.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/libraries/javax.json-1.0.4.jar" excludes="META-INF/*" />
             <zipfileset src="dist/libraries/mongo-java-driver-2.14.2.jar" excludes="META-INF/*" />
             <zipfileset src="dist/libraries/junit.jar" excludes="META-INF/*" />
             <zipfileset src="dist/libraries/pi4j-core.jar" excludes="META-INF/*" />

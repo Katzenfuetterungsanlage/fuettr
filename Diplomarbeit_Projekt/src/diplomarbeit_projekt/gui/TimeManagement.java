@@ -464,7 +464,7 @@ public class TimeManagement extends javax.swing.JDialog
             }
             else 
             {                
-                collTimes.update(new BasicDBObject("identifier", "Times"), new BasicDBObject("time1", time1).append("time2", time2)
+                collTimes.update(new BasicDBObject("identifier", "Times"), new BasicDBObject("identifier", "Times").append("time1", time1).append("time2", time2)
                         .append("time3", time3).append("time4", time4)
                         .append("time1_active", time1_active).append("time2_active", time2_active)
                         .append("time3_active", time3_active).append("time4_active", time4_active));
