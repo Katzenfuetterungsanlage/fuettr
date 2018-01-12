@@ -173,7 +173,7 @@ export class FeedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpgetService.getTimes().then(res => {
+    this.httpgetService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
       this.time3 = res.time3;
@@ -192,7 +192,7 @@ export class FeedComponent implements OnInit {
   }
 
   cancel(): void {
-    this.httpgetService.getTimes().then(res => {
+    this.httpgetService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
       this.time3 = res.time3;

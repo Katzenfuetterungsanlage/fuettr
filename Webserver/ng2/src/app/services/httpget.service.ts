@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import * as itf from '../interfaces';
 
@@ -11,55 +11,29 @@ export class HttpgetService {
   private api = '/api/callMeMaybe?q=';
   private ip = '/api/ip';
 
-  constructor(private http: Http) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getWarnings(): Promise<itf.Warnings> {
-    return this.http.get(this.api + 'warnings')
-      .toPromise()
-      .then(response => response.json() as itf.Warnings)
-      .catch(this.handleError);
+  public async get(resource: string, options?: { headers?: HttpHeaders }): Promise<Object> {
+    return await this.httpGet(resource, options).catch(this.handleError);
   }
 
-  getErrors(): Promise<itf.Errors> {
-    return this.http.get(this.api + 'errors')
-      .toPromise()
-      .then(response => response.json() as itf.Errors)
-      .catch(this.handleError);
+  public async getIp(): Promise<itf.Ip> {
+    return this.httpClient.get(this.ip).toPromise().catch(this.handleError);
   }
 
-  getTimes(): Promise<itf.Times> {
-    return this.http.get(this.api + 'times')
-      .toPromise()
-      .then(response => response.json() as itf.Times)
-      .catch(this.handleError);
-  }
-
-  getStatus(): Promise<itf.Status> {
-    return this.http.get(this.api + 'status')
-      .toPromise()
-      .then(response => response.json() as itf.Status)
-      .catch(this.handleError);
-  }
-
-  getInfo(): Promise<itf.Info> {
-    return this.http.get(this.api + 'info')
-      .toPromise()
-      .then(response => response.json() as itf.Info)
-      .catch(this.handleError);
-  }
-
-  getIp(): Promise<itf.Ip> {
-    return this.http.get(this.ip)
-      .toPromise()
-      .then(response => response.json() as itf.Ip)
-      .catch(this.handleError);
-  }
-
-  getPositions(): Promise<itf.Positions> {
-    return this.http.get(this.api + 'positions')
-      .toPromise()
-      .then(response => response.json() as itf.Positions)
-      .catch(this.handleError);
+  private async httpGet(resource: string, options?: { headers?: HttpHeaders }): Promise<Object> {
+    if (!resource) {
+      return Promise.reject(new Error('invalid arguments'));
+    }
+    const headers = options && options.headers ? options.headers : new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    // if (typeof(accessToken) === 'string' && accessToken.length > 0) {
+    //     headers.append('Authorization', 'Bearer ' + accessToken);
+    // }
+    // httpClientOptions = { headers: headers, responseType: 'text' };
+    const httpClientOptions = { headers: headers };
+    return await this.httpClient.get(this.api + resource, httpClientOptions).toPromise().catch(this.handleError);;
   }
 
   private handleError(error: any): Promise<any> {

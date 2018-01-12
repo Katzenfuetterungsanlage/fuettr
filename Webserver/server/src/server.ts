@@ -43,7 +43,7 @@ export class Server {
     this._express.post('/login', (req, res, next) => this.login(req, res, next));
     this._express.get('/login', (req, res, next) => this.isLoggedIn(req, res, next));
     // tslint:disable-next-line:max-line-length
-    // this._express.use(ejwt({ secret: this._publkey }).unless({ path: ['/api/extensions', '/api/ip', '/login', '/api/version', '/api/bootstrap.css', '/api/styles.css', '/api/node_modules', '/assets', '/favicon.ico'] }), (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // this._express.use(ejwt({ secret: this._publkey }).unless({ path: ['/api/extensions', '/api/ip', '/login', '/api/version', '/api/bootstrap.css', '/api/styles.css', '/api/node_modules', '/assets', '/favicon.ico', '/node_modules/spin/dist/spin.min.js'] }), (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     //   if (err != undefined) {
     //     res.status(401).redirect('/login');
     //   }

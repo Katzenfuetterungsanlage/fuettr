@@ -54,15 +54,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   callMeMaybe(): void {
-    this.httpgetService.getWarnings().then(res => {
+    this.httpgetService.get('warnings').then((res: itf.Warnings) => {
       this.warning_messages = res.warnings;
     });
 
-    this.httpgetService.getErrors().then(res => {
+    this.httpgetService.get('errors').then((res: itf.Errors) => {
       this.error_messages = res.errors;
     });
 
-    this.httpgetService.getTimes().then(res => {
+    this.httpgetService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
       this.time3 = res.time3;
@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.time4_show = res.time4_active;
     });
 
-    this.httpgetService.getStatus().then(res => {
+    this.httpgetService.get('status').then((res: itf.Status) => {
       this.last_time = res.lastFeeding;
       this.next_time = res.nextFeeding;
       this.next_time_in = res.nextFeedingIn;

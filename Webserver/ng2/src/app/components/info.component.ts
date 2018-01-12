@@ -4,6 +4,8 @@ import { UpdateService } from '../services/update.service';
 import { HttpgetService } from '../services/httpget.service';
 import { AppComponent } from '../app.component';
 
+import * as itf from '../interfaces';
+
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html'
@@ -22,7 +24,7 @@ export class InfoComponent implements OnInit {
       this.version = lVersion.version.toString();
     });
 
-    this.httpgetService.getInfo().then(res => {
+    this.httpgetService.get('info').then((res: itf.Info) => {
       this.serialnumber = res.serialnumber;
       this.processor = res.internal;
       this.wlanstate = res.wlanState;

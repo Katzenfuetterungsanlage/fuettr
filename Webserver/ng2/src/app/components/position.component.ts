@@ -3,6 +3,8 @@ import { AppComponent } from '../app.component';
 
 import { HttpgetService } from '../services/httpget.service';
 
+import * as itf from '../interfaces';
+
 @Component({
   selector: 'app-position',
   templateUrl: './position.component.html'
@@ -19,7 +21,7 @@ export class PositionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.httpgetService.getPositions().then(res => {
+    this.httpgetService.get('positions').then((res: itf.Positions) => {
       this.motor1 = res.motor1;
       this.motor2 = res.motor2;
       this.sensor1 = res.sensor1;
