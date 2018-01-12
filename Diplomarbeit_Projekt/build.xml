@@ -70,23 +70,55 @@
     nbproject/build-impl.xml file. 
 
     -->
-    
-        <target name="-post-jar">
+    <!--
+    <target name="-post-jar">
         <jar jarfile="dist/Diplomarbeit_Projekt-withLibs.jar">
             <zipfileset src="${dist.jar}" excludes="META-INF/*" />
-            <zipfileset src="src/diplomarbeit_projekt/imports/javax.json-1.0.4.jar" excludes="META-INF/*" />
-            <zipfileset src="src/diplomarbeit_projekt/imports/mongo-java-driver-2.14.2.jar" excludes="META-INF/*" />
-            <zipfileset src="src/diplomarbeit_projekt/imports/junit.jar" excludes="META-INF/*" />
-            <zipfileset src="src/diplomarbeit_projekt/imports/pi4j-core.jar" excludes="META-INF/*" />
-            <zipfileset src="src/diplomarbeit_projekt/imports/pi4j-device.jar" excludes="META-INF/*" />
-            <zipfileset src="src/diplomarbeit_projekt/imports/pi4j-gpio-extension.jar" excludes="META-INF/*" />
+            <zipfileset src="dependencies/javax.json-1.0.4.jar" excludes="META-INF/*" />
+            <zipfileset src="dependencies/mongo-java-driver-2.14.2.jar" excludes="META-INF/*" />
+            <zipfileset src="dependencies/junit.jar" excludes="META-INF/*" />
+            <zipfileset src="dependencies/pi4j-core.jar" excludes="META-INF/*" />
+            <zipfileset src="dependencies/pi4j-device.jar" excludes="META-INF/*" />
+            <zipfileset src="dependencies/pi4j-gpio-extension.jar" excludes="META-INF/*" />
             <manifest>
                 <attribute name="Main-Class" value="MainWindow"/>
             </manifest>
         </jar>
         <move file="dist/Diplomarbeit_Projekt.jar" tofile="dist/Fuettr.jar" />
     </target>
-    
+    -->
+    <target name="-post-jar">
+
+        <property name="store.jar.name" value="Fuettr"/>
+
+        <property name="store.dir" value="dist"/>
+        <property name="temp.dir" value="temp"/>
+        <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
+
+        <echo message="Packaging ${application.title} into a single JAR at ${store.jar}"/>
+
+        <delete dir="${temp.dir}"/>
+        <mkdir dir="${temp.dir}"/>
+
+        <jar destfile="${temp.dir}/temp_final.jar" filesetmanifest="skip">
+            <zipgroupfileset dir="dist" includes="*.jar"/>
+            <zipgroupfileset dir="dist/lib" includes="*.jar"/>
+
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+
+        <delete dir="${store.dir}"/>
+
+        <zip destfile="${store.jar}">
+            <zipfileset src="${temp.dir}/temp_final.jar"
+                        excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
+        </zip>
+
+        <delete dir="${temp.dir}"/>
+
+    </target>
     
     
 </project>
