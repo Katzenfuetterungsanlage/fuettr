@@ -74,12 +74,12 @@
         <target name="-post-jar">
         <jar jarfile="dist/Diplomarbeit_Projekt-withLibs.jar">
             <zipfileset src="${dist.jar}" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/java.json-1.0.4.jar" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/mongo-java-driver-2.14.2.jar" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/junit.jar" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/pi4j-core.jar" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/pi4j-device.jar" excludes="META-INF/*" />
-            <zipfileset src="dist/libraries/pi4j-gpio-extension.jar" excludes="META-INF/*" />
+            <zipfileset src="src/diplomarbeit_projekt/imports/javax.json-1.0.4.jar" excludes="META-INF/*" />
+            <zipfileset src="src/diplomarbeit_projekt/imports/mongo-java-driver-2.14.2.jar" excludes="META-INF/*" />
+            <zipfileset src="src/diplomarbeit_projekt/imports/junit.jar" excludes="META-INF/*" />
+            <zipfileset src="src/diplomarbeit_projekt/imports/pi4j-core.jar" excludes="META-INF/*" />
+            <zipfileset src="src/diplomarbeit_projekt/imports/pi4j-device.jar" excludes="META-INF/*" />
+            <zipfileset src="src/diplomarbeit_projekt/imports/pi4j-gpio-extension.jar" excludes="META-INF/*" />
             <manifest>
                 <attribute name="Main-Class" value="MainWindow"/>
             </manifest>
