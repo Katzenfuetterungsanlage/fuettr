@@ -31,9 +31,7 @@ export class AppRoutes {
         this._privkey = fs.readFileSync(path.join(__dirname, '../keys/server-private.pem'));
         this._routes = express();
 
-        this._routes.get('**', (req, res, next) => {
-            res.sendFile(path.join(__dirname, 'views/index.html'));
-        });
+        this._routes.use(express.static(path.join(__dirname, '../../ng2/dist')));
     }
 
     public get Routes(): express.Router {

@@ -36,7 +36,6 @@ export class ApiRoutes {
     this._routes.use('/ng2', express.static(path.join(__dirname, '../../ng2/dist')));
     this._routes.use('/node_modules', express.static(path.join(__dirname, '../node_modules')));
     this._routes.post('/putMeHere', (req, res, next) => this.putMeHere(req, res, next));
-    this._routes.post('/login', (req, res, next) => this.login(req, res, next));
     this._routes.get('/callMeMaybe', (req, res, next) => this.callMeMaybe(req, res, next));
     this._routes.get('/getUpdate', (req, res, next) => this.update(req, res, next));
     this._routes.get('/shutdown', this.shutdown);
@@ -50,10 +49,12 @@ export class ApiRoutes {
     this._routes.get('/face', (req, res) => {
       res.sendFile(path.join(__dirname, 'views/face.html'));
     });
-    this._routes.get('/bootstrap', (req, res) => {
+    this._routes.get('/bootstrap.css', (req, res) => {
       res.sendFile(path.join(__dirname, '../../ng2/src/bootstrap.css'));
     });
-    this._routes.get('/login', (req, res, next) => this.isLoggedIn(req, res, next));
+    this._routes.get('/styles.css', (req, res) => {
+      res.sendFile(path.join(__dirname, '../../ng2/src/styles.css'));
+    });
     this._routes.use((req, res, next) => this.error404Handler(req, res, next));
     // tslint:disable-next-line:max-line-length
     this._routes.use((err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) =>
@@ -62,34 +63,6 @@ export class ApiRoutes {
   }
 
   // #region Functions
-
-  public isLoggedIn(req: express.Request, res: express.Response, next: express.NextFunction) {
-    // jsonToken = true;
-    // if (jsonToken) {
-    //   app.get('**', (reqg, resg) => {
-    res.sendFile(path.join(__dirname, 'views/index.html'));
-    //   });
-    // }
-    // res.sendFile(path.join(__dirname, 'views/login-form.html'));
-  }
-
-  public login(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const storedpass = 'enter';
-    const storeduser = 'enter';
-    const userpass = req.body.password;
-    const username = req.body.user;
-    let jsonToken;
-    if (userpass === storedpass && username === storeduser) {
-      jsonToken = true;
-      setTimeout(() => {
-        jsonToken = false;
-        log.fine('User logged out.');
-      }, 60000);
-      res.sendFile(path.join(__dirname, 'views/index.html'));
-    } else {
-      res.status(401).sendFile(path.join(__dirname, 'views/login-form-error.html'));
-    }
-  }
 
   public error404Handler(req: express.Request, res: express.Response, next: express.NextFunction) {
     const clientSocket = req.socket.remoteAddress + ':' + req.socket.remotePort;
