@@ -5,11 +5,12 @@
  */
 package diplomarbeit_projekt.methods;
 
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.bson.Document;
 
 /**
  *
@@ -17,9 +18,9 @@ import org.bson.Document;
  */
 public class MongodbDocumentToJsonObject
 {
-    public static JsonObject DocToJsonObject (Document doc)
+    public static JsonObject DocToJsonObject (DBObject doc)
     {
-        String str = doc.toJson();
+        String str = JSON.serialize(doc);
             
         JsonReader jsonReader = Json.createReader(new StringReader(str));
         JsonObject object = jsonReader.readObject();
