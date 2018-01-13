@@ -32,7 +32,7 @@ public class MainWindow extends javax.swing.JFrame
 
     boolean machineState = false;
     boolean timesChanged = true;
-    String timeOfDay, time1, time2, time3, time4;
+    String timeOfDay, date, time1, time2, time3, time4;
     String time1_active_str, time2_active_str, time3_active_str, time4_active_str;
     Boolean time1_active, time2_active, time3_active, time4_active;
     int lastFeeding = 0;
@@ -43,6 +43,9 @@ public class MainWindow extends javax.swing.JFrame
     MongoClient mongodb;
     DB database;   
     DBCollection collTimes;
+    
+    //Workers
+    TimeOfDayAndDateWorker timeAndDateWorker = new TimeOfDayAndDateWorker();
     
     CountDownLatch latch = new CountDownLatch(1);       
     
@@ -82,13 +85,8 @@ public class MainWindow extends javax.swing.JFrame
         collTimes= database.getCollection("data_times");
         //======================================================================
             
-        TimeOfDayWorker uWorker = new TimeOfDayWorker();
-        uWorker.execute();
-        Logger.getLogger("TimeOfDayWorker started").log(Level.FINE, "TimeOfDayWorker started");
-
-        DateWorker dWorker = new DateWorker();
-        dWorker.execute();
-        Logger.getLogger("DateWorker started").log(Level.FINE, "DateWorker started");
+        timeAndDateWorker.execute();
+        Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
         
         ImportTimesWorker importTimesWorker = new ImportTimesWorker();
         importTimesWorker.execute();
@@ -627,7 +625,10 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onNeustarten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onNeustarten
     {//GEN-HEADEREND:event_onNeustarten
-        // TODO add your handling code here:
+        timeAndDateWorker.cancel(true);
+        
+        // TODO
+        
     }//GEN-LAST:event_onNeustarten
 
     private void onHerunterfahren(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onHerunterfahren
@@ -635,6 +636,8 @@ public class MainWindow extends javax.swing.JFrame
         if (JOptionPane.showConfirmDialog(this, "Raspberry wirklick herunterfahren?",
                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
+            timeAndDateWorker.cancel(true);
+            
             //TODO
             
             System.exit(0);
@@ -761,48 +764,28 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem update;
     // End of variables declaration//GEN-END:variables
 
-    private class TimeOfDayWorker extends SwingWorker<Object, String>
+    // gets the current time and date and displays it in the gui MainWindow
+    private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
     {
         @Override
         protected Object doInBackground() throws Exception
         {
-            while (true)
+            while (!isCancelled())
             {
                 timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
+                date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
 
-                publish(timeOfDay); 
+                publish(); 
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
+            return 1; 
         }
 
         @Override
         protected void process(List<String> chunks)
         {
             lbTimeOfDay.setText(timeOfDay);
-        }
-    }
-
-    private class DateWorker extends SwingWorker<Object, String>
-    {
-        String date;
-
-        @Override
-        protected Object doInBackground() throws Exception
-        {
-            while (true)
-            {
-                date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
-
-                publish(date); 
-
-                TimeUnit.MILLISECONDS.sleep(500);
-            }
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
             lbDate.setText(date);
         }
     }
