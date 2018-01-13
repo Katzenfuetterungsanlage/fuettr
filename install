@@ -90,7 +90,7 @@ cd $THISUSER/git/fuettr/Webserver/server && sudo gulp cleanAndBuild
 
 echo -e "\e[92m
 --> building java program...\e[0m"
-cd $THISUSER/git/fuettr/Diplomarbeit_Projekt && ant compile
+cd $THISUSER/git/fuettr/Diplomarbeit_Projekt && ant jar
 
 echo -e "\e[92m
 --> starting server...\e[0m"
