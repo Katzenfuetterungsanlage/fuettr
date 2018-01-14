@@ -49,9 +49,11 @@ public class ConnectToWlan extends javax.swing.JDialog
     DB database;
     DBCollection collWlan;
     
-    private void connect (String name, String password)
+    private int connect (String name, String password)
     {
         // TODO - implement connect
+        
+        return 1; //connected succesful
     }
     
     /**
@@ -91,6 +93,7 @@ public class ConnectToWlan extends javax.swing.JDialog
         if (!"".equals(wlan_name))
         {
             connect(wlan_name, wlan_password);
+            lbConnectedWlan.setText("wlan_name");
         }
         
         // TODO - scan for wlan's and display them in cbWlanNames
@@ -226,6 +229,8 @@ public class ConnectToWlan extends javax.swing.JDialog
         pwtfWlan_password.setText("");
         
         connect(wlan_name, wlan_password);
+        
+        lbConnectedWlan.setText("wlan_name");
         
         if (cbSavePassword.isSelected() == true)
         {
