@@ -184,11 +184,12 @@ export class FeedComponent implements OnInit {
       this.check4 = res.time4_active;
 
       this.onKey();
-      this.app.lic();
-      setTimeout(() => {
-        this.app.navShow = false;
-      }, 0);
     });
+
+    this.app.lic();
+    setTimeout(() => {
+      this.app.navShow = false;
+    }, 0);
   }
 
   cancel(): void {
