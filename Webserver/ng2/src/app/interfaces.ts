@@ -75,3 +75,8 @@ export interface User {
   name: string;
   password: string;
 }
+
+export interface Login {
+  isLoggedIn: boolean;
+  token: string;
+}

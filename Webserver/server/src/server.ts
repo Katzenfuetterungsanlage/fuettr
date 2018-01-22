@@ -6,6 +6,7 @@ import * as fs from 'fs';
 import * as ejwt from 'express-jwt';
 import * as jwt from 'jsonwebtoken';
 import { SHA512 } from 'crypto-js';
+import { Login } from './interfaces';
 
 import { log } from './main';
 import { ApiRoutes } from './api-routes';
@@ -42,7 +43,6 @@ export class Server {
     this._express.use(express.static(path.join(__dirname, '../public')));
     this._express.use('/assets', express.static(path.join(__dirname, '../../ng2/dist/assets')));
     this._express.post('/login', (req, res, next) => this.login(req, res, next));
-    this._express.get('/login', (req, res, next) => this.isLoggedIn(req, res, next));
     // tslint:disable-next-line:max-line-length
     // this._express.use(ejwt({ secret: this._publkey }).unless({ path: ['/api/extensions', '/api/ip', '/login', '/api/version', '/api/bootstrap.css', '/api/styles.css', '/api/node_modules', '/assets', '/favicon.ico', '/node_modules/spin/dist/spin.min.js'] }), (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     //   if (err != undefined) {
@@ -63,31 +63,22 @@ export class Server {
     const storeduser = 'enter';
     const userpass = req.body.password;
     const username = req.body.user;
-    let jsonToken;
-    let passHash = SHA512(req.body.password).toString();
-    log.fine(passHash);
+    let User: Login;
+    // let passHash = SHA512(req.body.password).toString();
+    // log.fine(passHash);
     if (userpass === storedpass && username === storeduser) {
-      jsonToken = true;
-      setTimeout(() => {
-        jsonToken = false;
-        log.fine('User logged out.');
-      }, 60000);
-      jwt.sign(username, this._privkey, (err: Error, token: string) => {
-        res.send(token);
+      jwt.sign(username, this._privkey, { expiresIn: '10h' }, (err, token) => {
+        console.log(token);
+        User.token = token;
+        User.isLoggedIn = true;
+        console.log(JSON.stringify(User));
+        res.send(JSON.stringify(User));
       });
     } else {
-      res.status(401);
+      User.token = undefined;
+      User.isLoggedIn = false;
+      res.status(401).send(JSON.stringify(User));
     }
-  }
-
-  public isLoggedIn(req: express.Request, res: express.Response, next: express.NextFunction) {
-    // jsonToken = true;
-    // if (jsonToken) {
-    //   app.get('**', (reqg, resg) => {
-    res.sendFile(path.join(__dirname, 'views/login-form.html'));
-    //   });
-    // }
-    // res.sendFile(path.join(__dirname, 'views/login-form.html'));
   }
 
   public logger(req: express.Request, res: express.Response, next: express.NextFunction) {

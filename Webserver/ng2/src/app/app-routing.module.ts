@@ -8,26 +8,30 @@ import { InfoComponent } from './components/info.component';
 import { UpdateComponent } from './components/update.component';
 import { Error404Component } from './components/error404.component';
 import { LoginComponent } from './components/login.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, data: { title: 'Füttr' } },
+  { path: 'home', component: HomeComponent, data: { title: 'Füttr' }, canActivate: [AuthGuard] },
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent, data: { title: 'Füttr - Login' } },
   {
     path: 'position',
     component: PositionComponent,
-    data: { title: 'Füttr - Positionen' }
+    data: { title: 'Füttr - Positionen' },
+    canActivate: [AuthGuard]
   },
   {
     path: 'feed',
     component: FeedComponent,
-    data: { title: 'Füttr - Fütterung' }
+    data: { title: 'Füttr - Fütterung' },
+    canActivate: [AuthGuard]
   },
-  { path: 'info', component: InfoComponent, data: { title: 'Füttr - Info' } },
+  { path: 'info', component: InfoComponent, data: { title: 'Füttr - Info' }, canActivate: [AuthGuard] },
   {
     path: 'update',
     component: UpdateComponent,
-    data: { title: 'Füttr - Update' }
+    data: { title: 'Füttr - Update' },
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

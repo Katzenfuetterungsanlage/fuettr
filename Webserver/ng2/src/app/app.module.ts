@@ -23,6 +23,7 @@ import { TimeCalculator } from './services/time.calculator.service';
 import { AuthService } from './services/auth.service';
 import { InterceptorService } from './interceptor.service';
 import { CatComponent } from './cat/cat.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { CatComponent } from './cat/cat.component';
     LoginComponent
   ],
   imports: [NgbModule.forRoot(), BrowserModule, HttpClientModule, AppRoutingModule, HttpModule, FormsModule, BrowserAnimationsModule],
-  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, InterceptorService],
+  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, InterceptorService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

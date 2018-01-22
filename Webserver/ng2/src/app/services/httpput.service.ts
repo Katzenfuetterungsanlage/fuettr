@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/Rx';
 
 import * as itf from '../interfaces';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class HttpputService {
@@ -17,6 +18,13 @@ export class HttpputService {
       .post(this.api + 'times', JSON.stringify(times), {
         headers: this.headers
       })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  login(user): Promise<itf.Login> {
+    return this.http
+      .post('/login', JSON.stringify(user), { headers: this.headers })
       .toPromise()
       .catch(this.handleError);
   }

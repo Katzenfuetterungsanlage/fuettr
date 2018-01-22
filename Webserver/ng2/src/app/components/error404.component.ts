@@ -1,7 +1,6 @@
 import { Component, Inject, Input } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppComponent } from '../app.component';
-import { Router } from '@angular/router/src/router';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
