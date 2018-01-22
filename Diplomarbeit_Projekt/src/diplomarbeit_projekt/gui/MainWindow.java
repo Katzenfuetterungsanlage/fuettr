@@ -21,6 +21,7 @@ import javax.json.Json;
 import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
 import diplomarbeit_projekt.pi4j.FeedingCycle;
+import diplomarbeit_projekt.pi4j.pi4j_Singleton;
 import java.net.UnknownHostException;
 
 /**
@@ -38,7 +39,10 @@ public class MainWindow extends javax.swing.JFrame
     int lastFeeding = 0;
     String nextFeedingAt, nextFeedingIn, lastFeedingTime;
     JsonObject times;
-      
+    
+    // pi4j
+    pi4j_Singleton pi4j_instance;
+          
     // create object
     MongoClient mongodb;
     DB database;   
@@ -71,6 +75,9 @@ public class MainWindow extends javax.swing.JFrame
         {
             lbState.setText("Aus");
         }
+        
+        // pi4j instance
+        pi4j_instance = pi4j_Singleton.getInstance();
         
         // connect to Database
         try
@@ -791,7 +798,6 @@ public class MainWindow extends javax.swing.JFrame
         @Override
         protected Object doInBackground() throws Exception
         {
-            FeedingCycle feedingCycle = new FeedingCycle();
             
             while (true)
             {
@@ -799,7 +805,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     if (time1.equals(timeOfDay) )
                     {
-                        //feedingCycle.feed();
+                        pi4j_instance.feed();
                         lastFeeding = 1;
                         lastFeedingTime = time1;
                         publish(lastFeedingTime);
@@ -807,7 +813,7 @@ public class MainWindow extends javax.swing.JFrame
                     else 
                         if (time2.equals(timeOfDay) )
                          {
-                            //feedingCycle.feed();
+                            pi4j_instance.feed();
                             lastFeeding = 2;
                             lastFeedingTime = time2;
                             publish(lastFeedingTime);
@@ -815,7 +821,7 @@ public class MainWindow extends javax.swing.JFrame
                         else 
                             if (time3.equals(timeOfDay) )
                             {
-                                //feedingCycle.feed();
+                                pi4j_instance.feed();
                                 lastFeeding = 3;
                                 lastFeedingTime = time3;
                                 publish(lastFeedingTime);
@@ -823,7 +829,7 @@ public class MainWindow extends javax.swing.JFrame
                             else 
                                 if (time4.equals(timeOfDay) )
                                 {
-                                    //feedingCycle.feed();
+                                    pi4j_instance.feed();
                                     lastFeeding = 4;
                                     lastFeedingTime = time4;
                                     publish(lastFeedingTime);

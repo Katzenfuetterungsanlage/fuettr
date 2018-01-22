@@ -12,6 +12,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import diplomarbeit_projekt.pi4j.pi4j_Singleton;
 import java.util.List;
 import javax.swing.SwingWorker;
 
@@ -48,8 +49,8 @@ public class Positionsinformation extends javax.swing.JDialog
 {
     Boolean stop = false;
     
-    // create gpio controller
-    final GpioController gpio = GpioFactory.getInstance();
+    // pi4j
+    pi4j_Singleton pi4j_instance;
     
     /**
      * Creates new form Positionsinformation
@@ -63,6 +64,9 @@ public class Positionsinformation extends javax.swing.JDialog
         setLocationRelativeTo(parent);
         pack();
 
+        // pi4j instance
+        pi4j_instance = pi4j_Singleton.getInstance();
+        
         // Workers
         // Workers will stop when Button "Schließen"/close is pressed and stop = true
         Sensor1PositionWorker sensor1PositionWorker = new Sensor1PositionWorker();
@@ -242,7 +246,6 @@ public class Positionsinformation extends javax.swing.JDialog
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
         stop = false; //stops all PositionWorkers
-        gpio.shutdown();
         dispose();
     }//GEN-LAST:event_onSchließen
 
@@ -338,19 +341,12 @@ public class Positionsinformation extends javax.swing.JDialog
         
         @Override
         protected Object doInBackground() throws Exception
-        {
-            // sensor1: bowl -> GPIO_00
-            final GpioPinDigitalInput pin00 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00,PinPullResistance.PULL_DOWN);
-            pin00.setShutdownOptions(true);
-                        
+        {                        
             while (stop != true)
             {
-                if(pin00.getState() == PinState.HIGH)
-                    strSensor1 = "Betätigt";
-                else
-                    strSensor1 = "Unbetätigt";
+                strSensor1 = pi4j_instance.statusSensor1();
                 
-                publish(strSensor1);
+                publish();
             } 
             return 1;            
         }
@@ -369,19 +365,12 @@ public class Positionsinformation extends javax.swing.JDialog
         
         @Override
         protected Object doInBackground() throws Exception
-        {
-            // sensor2: conveyor belt - feed bag -> GPIO_01
-            final GpioPinDigitalInput pin01 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_01,PinPullResistance.PULL_DOWN);
-            pin01.setShutdownOptions(true);
-                        
+        {                        
             while (stop != true)
             {
-                if(pin01.getState() == PinState.HIGH)
-                    strSensor2 = "Betätigt";
-                else
-                    strSensor2 = "Unbetätigt";
+                strSensor2 = pi4j_instance.statusSensor2();
                 
-                publish(strSensor2);
+                publish();
             }
             return 1;
         }
@@ -400,34 +389,12 @@ public class Positionsinformation extends javax.swing.JDialog
         
         @Override
         protected Object doInBackground() throws Exception
-        {
-            // engine1: bowl -> Transistor_1.1 -> GPIO_02
-            final GpioPinDigitalOutput pin02 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02  ,PinState.LOW);
-            pin02.setShutdownOptions(true, PinState.LOW);
-        
-            // engine1: bowl -> Transistor_1.2 -> GPIO_03
-            final GpioPinDigitalOutput pin03 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03  ,PinState.LOW);
-            pin03.setShutdownOptions(true, PinState.LOW);
-        
-            // engine1: bowl -> Transistor_1.3 -> GPIO_04
-            final GpioPinDigitalOutput pin04 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04  ,PinState.LOW);
-            pin04.setShutdownOptions(true, PinState.LOW);
-        
-            // engine1: bowl -> Transistor_1.4 -> GPIO_05
-            final GpioPinDigitalOutput pin05 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05  ,PinState.LOW);
-            pin05.setShutdownOptions(true, PinState.LOW);
-                        
+        {                        
             while (stop != true)
             {
-                if (pin02.getState() == PinState.HIGH && pin05.getState() == PinState.HIGH)
-                    strEngine1 = "Dreht im Uhrzeigersinn";
-                else
-                    if (pin03.getState() == PinState.HIGH && pin04.getState() == PinState.HIGH)
-                        strEngine1 = "Dreht gegen Uhrzeigersin";
-                    else
-                        strEngine1 = "Motor steht still";
+                strEngine1 = pi4j_instance.statusEngine1();
                 
-                publish(strEngine1);
+                publish();
             }
             return 1;
         }
@@ -446,32 +413,10 @@ public class Positionsinformation extends javax.swing.JDialog
         
         @Override
         protected Object doInBackground() throws Exception
-        {
-            // engine2: conveyor belt - feed bag -> Transistor_2.1 -> GPIO_06
-            final GpioPinDigitalOutput pin06 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06  ,PinState.LOW);
-            pin06.setShutdownOptions(true, PinState.LOW);
-        
-            // engine2: conveyor belt - feed bag -> Transistor_2.2 -> GPIO_07
-            final GpioPinDigitalOutput pin07 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10  ,PinState.LOW); // use GPIO_10 instead of GPIO_7 because of error
-            pin07.setShutdownOptions(true, PinState.LOW);
-        
-            // engine2: conveyor belt - feed bag -> Transistor_2.3 -> GPIO_08
-            final GpioPinDigitalOutput pin08 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08  ,PinState.LOW);
-            pin08.setShutdownOptions(true, PinState.LOW);
-        
-            // engine2: conveyor belt - feed bag -> Transistor_2.4 -> GPIO_09
-            final GpioPinDigitalOutput pin09 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09  ,PinState.LOW);
-            pin09.setShutdownOptions(true, PinState.LOW);
-                        
+        {       
             while (stop != true)
             {
-                if (pin06.getState() == PinState.HIGH && pin09.getState() == PinState.HIGH)
-                    strEngine2 = "Dreht im Uhrzeigersinn";
-                else
-                    if (pin07.getState() == PinState.HIGH && pin08.getState() == PinState.HIGH)
-                        strEngine2 = "Dreht gegen Uhrzeigersin";
-                    else
-                        strEngine2 = "Motor steht still";
+               strEngine2 = pi4j_instance.statusSensor2();
                 
                 publish(strEngine2);
             }
