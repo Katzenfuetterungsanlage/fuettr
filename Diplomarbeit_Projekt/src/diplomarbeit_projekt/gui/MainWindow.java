@@ -47,6 +47,7 @@ public class MainWindow extends javax.swing.JFrame
     MongoClient mongodb;
     DB database;
     DBCollection collTimes;
+    DBCollection collStatus;
 
     //Workers
     TimeOfDayAndDateWorker timeAndDateWorker;
@@ -93,8 +94,9 @@ public class MainWindow extends javax.swing.JFrame
         {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        database = mongodb.getDB("katzenfuetterungsanlage");
+        database = mongodb.getDB("fuettr");
         collTimes = database.getCollection("data_times");
+        collStatus = database.getCollection("data_status");
         //======================================================================
 
         // Worker 
@@ -543,6 +545,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onEinAusSchalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onEinAusSchalten
     {//GEN-HEADEREND:event_onEinAusSchalten
+        System.out.println("machineState: " + machineState);
         if (machineState != true)
         {
             machineState = true;
@@ -555,6 +558,9 @@ public class MainWindow extends javax.swing.JFrame
         }
 
         // write machineState to mongodb
+        collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
+                .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
+                .append("nexFeedingIn", nextFeedingIn).append("machineState", machineState));
 
     }//GEN-LAST:event_onEinAusSchalten
 
