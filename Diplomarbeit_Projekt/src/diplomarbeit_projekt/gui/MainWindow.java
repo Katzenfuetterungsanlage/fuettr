@@ -545,7 +545,6 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onEinAusSchalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onEinAusSchalten
     {//GEN-HEADEREND:event_onEinAusSchalten
-        System.out.println("machineState: " + machineState);
         if (machineState != true)
         {
             machineState = true;
@@ -836,7 +835,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             while (!isCancelled())
             {
-
+                System.out.println("machineState: " + machineState);
                 if (machineState == true)
                 {
                     // next feeding
