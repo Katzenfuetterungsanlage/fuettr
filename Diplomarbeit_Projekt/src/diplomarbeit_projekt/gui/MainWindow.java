@@ -47,7 +47,7 @@ public class MainWindow extends javax.swing.JFrame
     MongoClient mongodb;
     DB database;
     DBCollection collTimes;
-    DBCollection collStatus;
+//    DBCollection collStatus;
 
     //Workers
     TimeOfDayAndDateWorker timeAndDateWorker;
@@ -835,7 +835,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             while (!isCancelled())
             {
-                System.out.println("machineState: " + machineState);
+//                System.out.println("machineState: " + machineState);
                 if (machineState == true)
                 {
                     // next feeding
@@ -916,7 +916,6 @@ public class MainWindow extends javax.swing.JFrame
     // Import times from mongodb and show them on gui
     private class ImportAndShowTimesWorker extends SwingWorker<Object, String>
     {
-
         String strTimes;
         String str;
 
@@ -925,7 +924,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             String strCnt = "cnt: " + collTimes.count();
             Logger.getLogger(strCnt).log(Level.FINE, strCnt);
-            if (collTimes.count() < 4)
+            if (collTimes.count() < 1)
             {
                 // collection drop
                 // Collection mit Standard-Werten erstellen
