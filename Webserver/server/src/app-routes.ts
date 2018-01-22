@@ -8,33 +8,35 @@ import { Server } from './server';
 import { log } from './main';
 
 export class AppRoutes {
+  // #region Static Methods
 
-    // #region Static Methods
+  private static _appRouter: AppRoutes;
 
-    private static _appRouter: AppRoutes;
-
-    public static get AppRouter(): AppRoutes {
-        if (AppRoutes._appRouter === undefined) {
-            AppRoutes._appRouter = new AppRoutes
-        }
-        return AppRoutes._appRouter;
+  public static get AppRouter(): AppRoutes {
+    if (AppRoutes._appRouter === undefined) {
+      AppRoutes._appRouter = new AppRoutes();
     }
+    return AppRoutes._appRouter;
+  }
 
-    // #endregion
+  // #endregion
 
-    private _routes: express.Router;
-    private _publkey: Buffer;
-    private _privkey: Buffer;
+  private _routes: express.Router;
+  private _publkey: Buffer;
+  private _privkey: Buffer;
 
-    public constructor() {
-        this._publkey = fs.readFileSync(path.join(__dirname, '../keys/server-public.pem'));
-        this._privkey = fs.readFileSync(path.join(__dirname, '../keys/server-private.pem'));
-        this._routes = express();
+  public constructor() {
+    this._publkey = fs.readFileSync(path.join(__dirname, '../keys/server-public.pem'));
+    this._privkey = fs.readFileSync(path.join(__dirname, '../keys/server-private.pem'));
+    this._routes = express();
 
-        this._routes.use(express.static(path.join(__dirname, '../../ng2/dist')));
-    }
+    this._routes.use(express.static(path.join(__dirname, '../../ng2/dist')));
+    this._routes.get('**', (req, res, next) => {
+      res.sendFile(path.join(__dirname, '../../ng2/dist/index.html'));
+    });
+  }
 
-    public get Routes(): express.Router {
-        return this._routes;
-    }
+  public get Routes(): express.Router {
+    return this._routes;
+  }
 }

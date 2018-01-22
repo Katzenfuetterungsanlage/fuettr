@@ -76,7 +76,7 @@ export class Server {
         res.send(token);
       });
     } else {
-      res.status(401).sendFile(path.join(__dirname, 'views/login-form-error.html'));
+      res.status(401);
     }
   }
 
