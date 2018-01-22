@@ -96,7 +96,7 @@ public class MainWindow extends javax.swing.JFrame
         }
         database = mongodb.getDB("fuettr");
         collTimes = database.getCollection("data_times");
-        collStatus = database.getCollection("data_status");
+//        collStatus = database.getCollection("data_status");
         //======================================================================
 
         // Worker 
@@ -557,9 +557,9 @@ public class MainWindow extends javax.swing.JFrame
         }
 
         // write machineState to mongodb
-        collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
-                .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-                .append("nexFeedingIn", nextFeedingIn).append("machineState", machineState));
+//        collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
+//                .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
+//                .append("nexFeedingIn", nextFeedingIn).append("machineState", machineState));
 
     }//GEN-LAST:event_onEinAusSchalten
 
