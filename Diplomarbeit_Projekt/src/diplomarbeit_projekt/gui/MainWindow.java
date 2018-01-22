@@ -38,22 +38,22 @@ public class MainWindow extends javax.swing.JFrame
     int lastFeeding = 0;
     String nextFeedingAt, nextFeedingIn, lastFeedingTime;
     JsonObject times;
-    
+
     // pi4j
     pi4j_Singleton pi4j_instance;
-          
+
     // create object
     MongoClient mongodb;
-    DB database;   
+    DB database;
     DBCollection collTimes;
-    
+
     //Workers
     TimeOfDayAndDateWorker timeAndDateWorker;
     FeedingWorker feedingWorker;
     ImportAndShowTimesWorker timesWorker;
-    
-    CountDownLatch latch = new CountDownLatch(1);       
-    
+
+    CountDownLatch latch = new CountDownLatch(1);
+
     /**
      * Creates new form Hauptfenster
      */
@@ -67,20 +67,22 @@ public class MainWindow extends javax.swing.JFrame
 //            d.setFullScreenWindow(this);
 //        } else
 //        {
-            this.setSize(800, 480);
-            this.setVisible(true);
+        this.setSize(800, 480);
+        this.setVisible(true);
 //        }
-        initComponents();      
-        
+        initComponents();
+
         if (machineState == false)
         {
             lbState.setText("Aus");
         }
-        
+
         // pi4j instance
         if (!"Windows 10".equals(System.getProperty("os.name")))
+        {
             pi4j_instance = pi4j_Singleton.getInstance();
-        
+        }
+
         // connect to Database
         try
         {
@@ -91,25 +93,25 @@ public class MainWindow extends javax.swing.JFrame
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         database = mongodb.getDB("katzenfuetterungsanlage");
-        collTimes= database.getCollection("data_times");
+        collTimes = database.getCollection("data_times");
         //======================================================================
-            
+
         // Worker 
         timeAndDateWorker = new TimeOfDayAndDateWorker();
         timeAndDateWorker.execute();
         Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
-        
+
         if (!"Windows 10".equals(System.getProperty("os.name")))
         {
             feedingWorker = new FeedingWorker();
             feedingWorker.execute();
             Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
         }
-        
+
         timesWorker = new ImportAndShowTimesWorker();
         timesWorker.execute();
         Logger.getLogger("ImportTimeWorker started").log(Level.FINE, "ImportTimeWorker started");
-        
+
         lbLastFeeding.setText("ausstehend");
 
     }
@@ -544,14 +546,15 @@ public class MainWindow extends javax.swing.JFrame
         {
             machineState = true;
             lbState.setText("Ein");
-        } else
+        }
+        else
         {
             machineState = false;
             lbState.setText("Aus");
         }
-        
+
         // write machineState to mongodb
-        
+
     }//GEN-LAST:event_onEinAusSchalten
 
     private void onFütterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFütterungszeitenVerwalten
@@ -572,7 +575,8 @@ public class MainWindow extends javax.swing.JFrame
                 final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
                 strDlg.setVisible(true);
             }
-        } else
+        }
+        else
         {
             final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
             strDlg.setVisible(true);
@@ -588,7 +592,7 @@ public class MainWindow extends javax.swing.JFrame
     private void onUpdate(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUpdate
     {//GEN-HEADEREND:event_onUpdate
         final Update infoDlg = new Update(this, true);
-        infoDlg.setVisible(true);                        
+        infoDlg.setVisible(true);
     }//GEN-LAST:event_onUpdate
 
     private void onFuetterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFuetterungszeitenVerwalten
@@ -623,9 +627,9 @@ public class MainWindow extends javax.swing.JFrame
         timeAndDateWorker.cancel(true);
         feedingWorker.cancel(true);
         timesWorker.cancel(true);
-        
+
         // TODO
-        
+
     }//GEN-LAST:event_onNeustarten
 
     private void onHerunterfahren(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onHerunterfahren
@@ -636,9 +640,8 @@ public class MainWindow extends javax.swing.JFrame
             timeAndDateWorker.cancel(true);
             feedingWorker.cancel(true);
             timesWorker.cancel(true);
-            
+
             //TODO
-            
             System.exit(0);
         }
     }//GEN-LAST:event_onHerunterfahren
@@ -660,7 +663,8 @@ public class MainWindow extends javax.swing.JFrame
          */
         try
         {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels())
             {
                 if ("Nimbus".equals(info.getName()))
                 {
@@ -668,16 +672,20 @@ public class MainWindow extends javax.swing.JFrame
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
+        }
+        catch (ClassNotFoundException ex)
         {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
+        }
+        catch (InstantiationException ex)
         {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
+        }
+        catch (IllegalAccessException ex)
         {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -772,6 +780,7 @@ public class MainWindow extends javax.swing.JFrame
     // gets the current time and date and displays it in the gui MainWindow
     private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
     {
+
         @Override
         protected Object doInBackground() throws Exception
         {
@@ -780,11 +789,19 @@ public class MainWindow extends javax.swing.JFrame
                 timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
                 date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
 
-                publish(); 
+                publish();
 
-                TimeUnit.MILLISECONDS.sleep(500);
+                try
+                {
+                   TimeUnit.MILLISECONDS.sleep(500); 
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    Logger.getLogger("TimeUnit Error ").log(Level.SEVERE, "TimeUnit Error");
+                }
             }
-            return 1; 
+            return 1;
         }
 
         @Override
@@ -799,70 +816,78 @@ public class MainWindow extends javax.swing.JFrame
     private class FeedingWorker extends SwingWorker<Object, String>
     {
         String string1, strLog;
-        
+
         @Override
         protected Object doInBackground() throws Exception
         {
             while (!isCancelled())
             {
-                // next feeding
+
                 if (machineState == true)
                 {
-                    NextFeeding naechsteFuetterung = new NextFeeding();
-                    string1 = naechsteFuetterung.naechsteFuetterung(lastFeeding, times);
-                }
-                else
-                {
-                    string1 = "-;-"; 
-                }
-                
-                // feedingcycle
-                if (machineState == true)
-                {
-                    if (time1.equals(timeOfDay) )
+                    // next feeding
+                    NextFeeding nextFeeding = new NextFeeding();
+                    string1 = nextFeeding.naechsteFuetterung(lastFeeding, times);
+
+                    // feedingcycle
+                    if (time1.equals(timeOfDay))
                     {
                         pi4j_instance.feed();
                         lastFeeding = 1;
                         lastFeedingTime = time1;
-                        publish(lastFeedingTime);
-                    } 
-                    else 
-                        if (time2.equals(timeOfDay) )
-                         {
+                        publish();
+                    }
+                    else
+                    {
+                        if (time2.equals(timeOfDay))
+                        {
                             pi4j_instance.feed();
                             lastFeeding = 2;
                             lastFeedingTime = time2;
-                            publish(lastFeedingTime);
+                            publish();
                         }
-                        else 
-                            if (time3.equals(timeOfDay) )
+                        else
+                        {
+                            if (time3.equals(timeOfDay))
                             {
                                 pi4j_instance.feed();
                                 lastFeeding = 3;
                                 lastFeedingTime = time3;
-                                publish(lastFeedingTime);
-                            } 
-                            else 
-                                if (time4.equals(timeOfDay) )
+                                publish();
+                            }
+                            else
+                            {
+                                if (time4.equals(timeOfDay))
                                 {
                                     pi4j_instance.feed();
                                     lastFeeding = 4;
                                     lastFeedingTime = time4;
-                                    publish(lastFeedingTime);
-                                } 
-                                else
-                                {
-                                    TimeUnit.SECONDS.sleep(1);
+                                    publish();
                                 }
+                            }
+                        }
+                    }
                 }
+                else
+                {
+                    string1 = "-;-";
+                }
+
+                publish();
                 
-                publish(); 
-                
-                TimeUnit.MILLISECONDS.sleep(500);
+                try
+                {
+                   TimeUnit.MILLISECONDS.sleep(500); 
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    Logger.getLogger("TimeUnit Error ").log(Level.SEVERE, "TimeUnit Error");
+                }
             }
             return 1;
         }
-        
+
         @Override
         protected void process(List<String> chunks)
         {
@@ -870,52 +895,64 @@ public class MainWindow extends javax.swing.JFrame
             String[] token = string1.split(";");
             nextFeedingAt = token[0];
             nextFeedingIn = token[1];
-            
+
             strLog = "nextFeedingAt: " + nextFeedingAt + " || " + "NextFeedingIn: " + nextFeedingIn;
             Logger.getLogger(strLog).log(Level.FINE, strLog);
-            
+
             lbNextFeedingAt.setText(nextFeedingAt);
             lbNextFeedingIn.setText(nextFeedingIn);
-            
+
             // feedingcycle
             lbLastFeeding.setText(lastFeedingTime);
         }
-        
+
     }
-        
+
     // Import times from mongodb and show them on gui
     private class ImportAndShowTimesWorker extends SwingWorker<Object, String>
-    {     
-        
+    {
+
         String strTimes;
         String str;
 
         @Override
         protected Object doInBackground() throws Exception
-        {        
+        {
             String strCnt = "cnt: " + collTimes.count();
             Logger.getLogger(strCnt).log(Level.FINE, strCnt);
-            if(collTimes.count() < 4)
+            if (collTimes.count() < 4)
             {
                 // collection drop
                 // Collection mit Standard-Werten erstellen
             }
 
             while (!isCancelled())
-            {        
+            {
                 // import times
                 DBObject doc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
-                
+
                 strTimes = JSON.serialize(doc);
-                
+
                 // show times
                 if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
+                {
                     str = "true";
+                }
                 else
+                {
                     str = "false";
-                
-                TimeUnit.MILLISECONDS.sleep(250);
-                
+                }
+
+                try
+                {
+                   TimeUnit.MILLISECONDS.sleep(250); 
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    Logger.getLogger("TimeUnit Error ").log(Level.SEVERE, "TimeUnit Error");
+                }
+
                 publish();
             }
             return 1;
@@ -928,22 +965,22 @@ public class MainWindow extends javax.swing.JFrame
             JsonReader jsonReader = Json.createReader(new StringReader(strTimes));
             JsonObject obj = jsonReader.readObject();
             jsonReader.close();
-            
+
             times = obj;
-            
+
             String str2 = "importet doc: " + strTimes;
             Logger.getLogger(str2).log(Level.FINEST, str2);
-            
+
             time1 = obj.getString("time1");
             time2 = obj.getString("time2");
             time3 = obj.getString("time3");
             time4 = obj.getString("time4");
-            
+
             time1_active = obj.getBoolean("time1_active");
             time2_active = obj.getBoolean("time2_active");
             time3_active = obj.getBoolean("time3_active");
             time4_active = obj.getBoolean("time4_active");
-            
+
             // show times
             // show times if ("true".equals(str))
             if ("true".equals(str))
@@ -952,7 +989,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     lbTime1.setVisible(false);
                     lbTime1Description.setVisible(false);
-                } 
+                }
                 else
                 {
                     lbTime1.setVisible(true);
@@ -964,7 +1001,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     lbTime2.setVisible(false);
                     lbTime2Description.setVisible(false);
-                } 
+                }
                 else
                 {
                     lbTime2.setVisible(true);
@@ -976,7 +1013,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     lbTime3.setVisible(false);
                     lbTime3Description.setVisible(false);
-                } 
+                }
                 else
                 {
                     lbTime3.setVisible(true);
@@ -988,7 +1025,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     lbTime4.setVisible(false);
                     lbTime4Description.setVisible(false);
-                } 
+                }
                 else
                 {
                     lbTime4.setVisible(true);
@@ -1001,8 +1038,8 @@ public class MainWindow extends javax.swing.JFrame
                 // Error: One of the times is empty
                 Logger.getLogger("Error: One of the times is empty").log(Level.SEVERE, "Error: One of the times is empty");
             }
-            
+
         }
-        
+
     }
 }
