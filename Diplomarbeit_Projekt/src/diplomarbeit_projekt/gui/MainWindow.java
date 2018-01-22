@@ -46,12 +46,13 @@ public class MainWindow extends javax.swing.JFrame
     MongoClient mongodb;
     DB database;
     DBCollection collTimes;
-//    DBCollection collStatus;
+    DBCollection collStatus;
 
     //Workers
     TimeOfDayAndDateWorker timeAndDateWorker;
     FeedingWorker feedingWorker;
     ImportAndShowTimesWorker timesWorker;
+    DatabaseUpdateWorker dbUpdateWorker;
 
     /**
      * Creates new form Hauptfenster
@@ -93,7 +94,7 @@ public class MainWindow extends javax.swing.JFrame
         }
         database = mongodb.getDB("fuettr");
         collTimes = database.getCollection("data_times");
-//        collStatus = database.getCollection("data_status");
+        collStatus = database.getCollection("data_status");
         //======================================================================
 
         // Worker 
@@ -110,13 +111,17 @@ public class MainWindow extends javax.swing.JFrame
         else
         {
             JOptionPane.showMessageDialog(this, "FeedingWorker wird nicht gestartet weil nicht am Raspberry gearbeitet wird. "
-                    + "Deswegen ist nextFeedingIn/At nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
+                    + "Deswegen sind nextFeedingIn und nextFeedingAt nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
         }
 
         timesWorker = new ImportAndShowTimesWorker();
         timesWorker.execute();
         Logger.getLogger("ImportTimeWorker started").log(Level.FINE, "ImportTimeWorker started");
 
+        dbUpdateWorker = new DatabaseUpdateWorker();
+        dbUpdateWorker.execute();
+        Logger.getLogger("IDatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
+        
         lbLastFeeding.setText("ausstehend");
 
     }
@@ -558,11 +563,7 @@ public class MainWindow extends javax.swing.JFrame
             lbState.setText("Aus");
         }
 
-        // write machineState to mongodb
-//        collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
-//                .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-//                .append("nexFeedingIn", nextFeedingIn).append("machineState", machineState));
-
+        // write machineState to mongodb in own Thread
     }//GEN-LAST:event_onEinAusSchalten
 
     private void onFütterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFütterungszeitenVerwalten
@@ -652,6 +653,7 @@ public class MainWindow extends javax.swing.JFrame
             timeAndDateWorker.cancel(true);
             feedingWorker.cancel(true);
             timesWorker.cancel(true);
+            dbUpdateWorker.cancel(true);
         }
         catch (Exception ex)
         {
@@ -674,6 +676,7 @@ public class MainWindow extends javax.swing.JFrame
                 timeAndDateWorker.cancel(true);
                 feedingWorker.cancel(true);
                 timesWorker.cancel(true);
+                dbUpdateWorker.cancel(true);
             }
             catch (Exception ex)
             {
@@ -818,7 +821,6 @@ public class MainWindow extends javax.swing.JFrame
     // gets the current time and date and displays it in the gui MainWindow
     private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
     {
-
         @Override
         protected Object doInBackground() throws Exception
         {
@@ -842,7 +844,7 @@ public class MainWindow extends javax.swing.JFrame
         }
     }
 
-    // calculates the nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
+    // calculates nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
     private class FeedingWorker extends SwingWorker<Object, String>
     {
 
@@ -853,7 +855,6 @@ public class MainWindow extends javax.swing.JFrame
         {
             while (!isCancelled())
             {
-//                System.out.println("machineState: " + machineState);
                 if (machineState == true)
                 {
                     // next feeding
@@ -934,7 +935,6 @@ public class MainWindow extends javax.swing.JFrame
     // Import times from mongodb and show them on gui
     private class ImportAndShowTimesWorker extends SwingWorker<Object, String>
     {
-
         String strTimes;
         String str;
 
@@ -1056,5 +1056,30 @@ public class MainWindow extends javax.swing.JFrame
 
         }
 
+    }
+    
+    private class DatabaseUpdateWorker extends SwingWorker<Object, String>
+    {
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            while (!isCancelled())
+            {
+                collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
+                    .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
+                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineState));
+                
+                publish();
+                
+                TimeUnit.SECONDS.sleep(1);
+            }
+            return 1;
+        }
+
+        @Override
+        protected void process(List<String> chunks)
+        {
+            Logger.getLogger("Database updated!").log(Level.FINE, "Database updated!");
+        }          
     }
 }
