@@ -78,7 +78,8 @@ public class MainWindow extends javax.swing.JFrame
         }
         
         // pi4j instance
-        pi4j_instance = pi4j_Singleton.getInstance();
+        if (!"Windows 10".equals(System.getProperty("os.name")))
+            pi4j_instance = pi4j_Singleton.getInstance();
         
         // connect to Database
         try
@@ -98,9 +99,12 @@ public class MainWindow extends javax.swing.JFrame
         timeAndDateWorker.execute();
         Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
         
-        feedingWorker = new FeedingWorker();
-        feedingWorker.execute();
-        Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
+        if (!"Windows 10".equals(System.getProperty("os.name")))
+        {
+            feedingWorker = new FeedingWorker();
+            feedingWorker.execute();
+            Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
+        }
         
         timesWorker = new ImportAndShowTimesWorker();
         timesWorker.execute();
