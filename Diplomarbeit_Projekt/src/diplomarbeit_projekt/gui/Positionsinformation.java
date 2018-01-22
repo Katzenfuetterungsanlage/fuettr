@@ -14,6 +14,7 @@ import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import diplomarbeit_projekt.pi4j.pi4j_Singleton;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
 
 /**
@@ -46,11 +47,12 @@ import javax.swing.SwingWorker;
 */
 
 public class Positionsinformation extends javax.swing.JDialog
-{
-    Boolean stop = false;
-    
+{   
     // pi4j
     pi4j_Singleton pi4j_instance;
+    
+    // Worker
+    PositionWorker positionWorker;
     
     /**
      * Creates new form Positionsinformation
@@ -68,19 +70,8 @@ public class Positionsinformation extends javax.swing.JDialog
         pi4j_instance = pi4j_Singleton.getInstance();
         
         // Workers
-        // Workers will stop when Button "Schließen"/close is pressed and stop = true
-        Sensor1PositionWorker sensor1PositionWorker = new Sensor1PositionWorker();
-        sensor1PositionWorker.execute();
-        
-        Sensor2PositionWorker sensor2PositionWorker = new Sensor2PositionWorker();
-        sensor2PositionWorker.execute();
-        
-        Engine1PositionWorker engine1PositionWorker = new Engine1PositionWorker();
-        engine1PositionWorker.execute();
-        
-        Engine2PositionWorker engine2PositionWorker = new Engine2PositionWorker();
-        engine2PositionWorker.execute();
-        
+        positionWorker = new PositionWorker();
+        positionWorker.execute();  
     }
 
     /**
@@ -245,7 +236,7 @@ public class Positionsinformation extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
-        stop = false; //stops all PositionWorkers
+        positionWorker.cancel(true);
         dispose();
     }//GEN-LAST:event_onSchließen
 
@@ -335,18 +326,23 @@ public class Positionsinformation extends javax.swing.JDialog
     private javax.swing.JPanel pSensor2;
     // End of variables declaration//GEN-END:variables
 
-    private class Sensor1PositionWorker extends SwingWorker<Object, String>
+    private class PositionWorker extends SwingWorker<Object, String>
     {   
-        String strSensor1;
+        String strSensor1, strSensor2, strEngine1, strEngine2;
         
         @Override
         protected Object doInBackground() throws Exception
         {                        
-            while (stop != true)
+            while (!isCancelled())
             {
                 strSensor1 = pi4j_instance.statusSensor1();
+                strSensor2 = pi4j_instance.statusSensor2();
+                strEngine1 = pi4j_instance.statusEngine1();
+                strEngine2 = pi4j_instance.statusSensor2();
                 
                 publish();
+                
+                TimeUnit.MILLISECONDS.sleep(100);
             } 
             return 1;            
         }
@@ -354,81 +350,10 @@ public class Positionsinformation extends javax.swing.JDialog
         @Override
         protected void process(List<String> chunks)
         {
-            if (stop != true)
-                lbSensor1.setText(strSensor1);
+            lbSensor1.setText(strSensor1);
+            lbSensor2.setText(strSensor2);
+            lbEngine1.setText(strEngine1);
+            lbEngine2.setText(strEngine2);
         }  
-    }
-
-    private class Sensor2PositionWorker extends SwingWorker<Object, String>
-    {   
-        String strSensor2;
-        
-        @Override
-        protected Object doInBackground() throws Exception
-        {                        
-            while (stop != true)
-            {
-                strSensor2 = pi4j_instance.statusSensor2();
-                
-                publish();
-            }
-            return 1;
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
-            if (stop != true)
-                lbSensor2.setText(strSensor2);
-        }  
-    }
-    
-    private class Engine1PositionWorker extends SwingWorker<Object, String>
-    {   
-        String strEngine1;
-        
-        @Override
-        protected Object doInBackground() throws Exception
-        {                        
-            while (stop != true)
-            {
-                strEngine1 = pi4j_instance.statusEngine1();
-                
-                publish();
-            }
-            return 1;
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
-            if (stop != true)
-                lbEngine1.setText(strEngine1);
-        }  
-    }
-    
-    private class Engine2PositionWorker extends SwingWorker<Object, String>
-    {   
-        String strEngine2;
-        
-        @Override
-        protected Object doInBackground() throws Exception
-        {       
-            while (stop != true)
-            {
-               strEngine2 = pi4j_instance.statusSensor2();
-                
-                publish(strEngine2);
-            }
-            return 1;
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
-            if (stop != true)
-                lbEngine2.setText(strEngine2);
-        }  
-    }
-  
+    }  
 }

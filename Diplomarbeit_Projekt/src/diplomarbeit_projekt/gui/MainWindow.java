@@ -20,7 +20,6 @@ import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
-import diplomarbeit_projekt.pi4j.FeedingCycle;
 import diplomarbeit_projekt.pi4j.pi4j_Singleton;
 import java.net.UnknownHostException;
 
