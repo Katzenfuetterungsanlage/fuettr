@@ -621,6 +621,8 @@ public class MainWindow extends javax.swing.JFrame
     private void onNeustarten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onNeustarten
     {//GEN-HEADEREND:event_onNeustarten
         timeAndDateWorker.cancel(true);
+        feedingWorker.cancel(true);
+        timesWorker.cancel(true);
         
         // TODO
         
@@ -632,6 +634,8 @@ public class MainWindow extends javax.swing.JFrame
                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
             timeAndDateWorker.cancel(true);
+            feedingWorker.cancel(true);
+            timesWorker.cancel(true);
             
             //TODO
             
@@ -811,7 +815,6 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     string1 = "-;-"; 
                 }
-                TimeUnit.MILLISECONDS.sleep(500); // should be low to quickly update the times in the gui
                 
                 // feedingcycle
                 if (machineState == true)
@@ -898,7 +901,7 @@ public class MainWindow extends javax.swing.JFrame
                 // Collection mit Standard-Werten erstellen
             }
 
-            while (true)
+            while (!isCancelled())
             {        
                 // import times
                 DBObject doc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
@@ -911,8 +914,11 @@ public class MainWindow extends javax.swing.JFrame
                 else
                     str = "false";
                 
+                TimeUnit.MILLISECONDS.sleep(250);
+                
                 publish();
             }
+            return 1;
         }
 
         @Override
@@ -925,8 +931,8 @@ public class MainWindow extends javax.swing.JFrame
             
             times = obj;
             
-            str = "importet doc: " + strTimes;
-            Logger.getLogger(str).log(Level.FINEST, str);
+            String str2 = "importet doc: " + strTimes;
+            Logger.getLogger(str2).log(Level.FINEST, str2);
             
             time1 = obj.getString("time1");
             time2 = obj.getString("time2");
