@@ -637,11 +637,17 @@ public class MainWindow extends javax.swing.JFrame
         if (JOptionPane.showConfirmDialog(this, "Raspberry wirklick herunterfahren?",
                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
-            timeAndDateWorker.cancel(true);
-            feedingWorker.cancel(true);
-            timesWorker.cancel(true);
-
-            //TODO
+            try
+            {
+                timeAndDateWorker.cancel(true);
+                feedingWorker.cancel(true);
+                timesWorker.cancel(true); 
+            }
+            catch (Exception ex)
+            {
+                Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
+            }
+            
             System.exit(0);
         }
     }//GEN-LAST:event_onHerunterfahren
@@ -791,15 +797,7 @@ public class MainWindow extends javax.swing.JFrame
 
                 publish();
 
-                try
-                {
-                   TimeUnit.MILLISECONDS.sleep(500); 
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                    Logger.getLogger("TimeUnit Error ").log(Level.SEVERE, "TimeUnit Error");
-                }
+                TimeUnit.MILLISECONDS.sleep(500); 
             }
             return 1;
         }
@@ -875,15 +873,7 @@ public class MainWindow extends javax.swing.JFrame
 
                 publish();
                 
-                try
-                {
-                   TimeUnit.MILLISECONDS.sleep(500); 
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                    Logger.getLogger("TimeUnit Error ").log(Level.SEVERE, "TimeUnit Error");
-                }
+                TimeUnit.MILLISECONDS.sleep(500); 
             }
             return 1;
         }
@@ -943,15 +933,7 @@ public class MainWindow extends javax.swing.JFrame
                     str = "false";
                 }
 
-                try
-                {
-                   TimeUnit.MILLISECONDS.sleep(250); 
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                    Logger.getLogger("TimeUnit Error ").log(Level.SEVERE, "TimeUnit Error");
-                }
+                TimeUnit.MILLISECONDS.sleep(250); 
 
                 publish();
             }
