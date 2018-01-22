@@ -50,6 +50,7 @@ public class MainWindow extends javax.swing.JFrame
     //Workers
     TimeOfDayAndDateWorker timeAndDateWorker;
     FeedingWorker feedingWorker;
+    ImportAndShowTimesWorker timesWorker;
     
     CountDownLatch latch = new CountDownLatch(1);       
     
@@ -101,15 +102,10 @@ public class MainWindow extends javax.swing.JFrame
         feedingWorker.execute();
         Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
         
-        ImportTimesWorker importTimesWorker = new ImportTimesWorker();
-        importTimesWorker.execute();
+        timesWorker = new ImportAndShowTimesWorker();
+        timesWorker.execute();
         Logger.getLogger("ImportTimeWorker started").log(Level.FINE, "ImportTimeWorker started");
         
-        // ShowTimesWorker must wait until Times got imported at least ones
-        ShowTimesWorker showTimesWorker = new ShowTimesWorker();
-        showTimesWorker.execute();
-        Logger.getLogger("ShowTimesWorker started").log(Level.FINE, "ShowTimesWorker started");
-
         lbLastFeeding.setText("ausstehend");
 
     }
@@ -880,8 +876,8 @@ public class MainWindow extends javax.swing.JFrame
         
     }
         
-    // Import times from mongodb
-    private class ImportTimesWorker extends SwingWorker<Object, String>
+    // Import times from mongodb and show them on gui
+    private class ImportAndShowTimesWorker extends SwingWorker<Object, String>
     {     
         
         String strTimes;
@@ -899,20 +895,26 @@ public class MainWindow extends javax.swing.JFrame
             }
 
             while (true)
-            {                    
+            {        
+                // import times
                 DBObject doc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
                 
                 strTimes = JSON.serialize(doc);
                 
-                publish(strTimes);
+                // show times
+                if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
+                    str = "true";
+                else
+                    str = "false";
+                
+                publish();
             }
         }
 
         @Override
         protected void process(List<String> chunks)
         {
-            int i = 0;
-            
+            // import times
             JsonReader jsonReader = Json.createReader(new StringReader(strTimes));
             JsonObject obj = jsonReader.readObject();
             jsonReader.close();
@@ -932,41 +934,8 @@ public class MainWindow extends javax.swing.JFrame
             time3_active = obj.getBoolean("time3_active");
             time4_active = obj.getBoolean("time4_active");
             
-            if (i < 1)
-            {
-                latch.countDown();
-                i++;
-            }
-        }
-        
-    }
-    
-    // ShowTimesWorker must wait until Times got imported at least ones
-    private class ShowTimesWorker extends SwingWorker<Object, String>
-    {       
-        String str;
-
-        @Override
-        protected Object doInBackground() throws Exception
-        {
-            latch.await();
-            
-            while (true)
-            {
-                if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
-                    str = "true";
-                else
-                    str = "false";
-                
-                publish(str);
-                
-                TimeUnit.SECONDS.sleep(1);
-            }
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
+            // show times
+            // show times if ("true".equals(str))
             if ("true".equals(str))
             {
                 if (time1_active != true)
@@ -1022,7 +991,8 @@ public class MainWindow extends javax.swing.JFrame
                 // Error: One of the times is empty
                 Logger.getLogger("Error: One of the times is empty").log(Level.SEVERE, "Error: One of the times is empty");
             }
+            
         }
+        
     }
-
 }
