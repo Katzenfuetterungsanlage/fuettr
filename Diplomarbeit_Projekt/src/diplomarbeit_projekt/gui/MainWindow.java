@@ -35,8 +35,8 @@ public class MainWindow extends javax.swing.JFrame
     String timeOfDay, date, time1, time2, time3, time4;
     String time1_active_str, time2_active_str, time3_active_str, time4_active_str;
     Boolean time1_active, time2_active, time3_active, time4_active;
-    int lastFeeding = 0;
-    String nextFeedingAt, nextFeedingIn, lastFeedingTime;
+    int lastFeeding = 1;
+    String nextFeedingAt = "-", nextFeedingIn = "-", lastFeedingTime = "ausstehend";
     JsonObject times;
 
     // pi4j
