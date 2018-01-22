@@ -110,6 +110,11 @@ public class MainWindow extends javax.swing.JFrame
             feedingWorker.execute();
             Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
         }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "FeedingWorker wird nicht gestartet weil nicht am Raspberry gearbeitet wird. "
+                    + "Deswegen ist nexFeedingIn/At nicht verfügbar.", "Hinweis",ERROR_MESSAGE);
+        }
 
         timesWorker = new ImportAndShowTimesWorker();
         timesWorker.execute();
