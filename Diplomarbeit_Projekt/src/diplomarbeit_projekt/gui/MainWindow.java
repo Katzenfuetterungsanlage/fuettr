@@ -110,7 +110,7 @@ public class MainWindow extends javax.swing.JFrame
         else
         {
             JOptionPane.showMessageDialog(this, "FeedingWorker wird nicht gestartet weil nicht am Raspberry gearbeitet wird. "
-                    + "Deswegen ist nexFeedingIn/At nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
+                    + "Deswegen ist nextFeedingIn/At nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
         }
 
         timesWorker = new ImportAndShowTimesWorker();
@@ -582,13 +582,13 @@ public class MainWindow extends javax.swing.JFrame
                     machineState = false;
                     lbState.setText("Aus");
 
-                    final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
+                    final ManualControl strDlg = new ManualControl(this, true);
                     strDlg.setVisible(true);
                 }
             }
             else
             {
-                final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
+                final ManualControl strDlg = new ManualControl(this, true);
                 strDlg.setVisible(true);
             }
         }

@@ -151,6 +151,9 @@
                                               <Properties>
                                                 <Property name="text" type="java.lang.String" value="Links Drehen"/>
                                               </Properties>
+                                              <Events>
+                                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onMoveEngine1Counterclockwise"/>
+                                              </Events>
                                             </Component>
                                           </SubComponents>
                                         </Container>
@@ -158,11 +161,17 @@
                                           <Properties>
                                             <Property name="text" type="java.lang.String" value="Rechts Drehen"/>
                                           </Properties>
+                                          <Events>
+                                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onMoveEngine1Clockwise"/>
+                                          </Events>
                                         </Component>
                                         <Component class="javax.swing.JButton" name="jButton6">
                                           <Properties>
                                             <Property name="text" type="java.lang.String" value="Stop"/>
                                           </Properties>
+                                          <Events>
+                                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onStopEngine1"/>
+                                          </Events>
                                         </Component>
                                       </SubComponents>
                                     </Container>
@@ -204,6 +213,9 @@
                                           <Properties>
                                             <Property name="text" type="java.lang.String" value="Links Drehen"/>
                                           </Properties>
+                                          <Events>
+                                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onMoveEngine2Counterclockwise"/>
+                                          </Events>
                                         </Component>
                                       </SubComponents>
                                     </Container>
@@ -211,11 +223,17 @@
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Rechts Drehen"/>
                                       </Properties>
+                                      <Events>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onMoveEngine2Clockwise"/>
+                                      </Events>
                                     </Component>
                                     <Component class="javax.swing.JButton" name="jButton9">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Stop"/>
                                       </Properties>
+                                      <Events>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onStopEngine2"/>
+                                      </Events>
                                     </Component>
                                   </SubComponents>
                                 </Container>
@@ -351,7 +369,7 @@
                                     <Property name="rows" type="int" value="1"/>
                                   </Layout>
                                   <SubComponents>
-                                    <Component class="javax.swing.JLabel" name="jLabel5">
+                                    <Component class="javax.swing.JLabel" name="lbEngine1">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Pos1"/>
                                       </Properties>
@@ -395,7 +413,7 @@
                                     <Property name="rows" type="int" value="1"/>
                                   </Layout>
                                   <SubComponents>
-                                    <Component class="javax.swing.JLabel" name="jLabel7">
+                                    <Component class="javax.swing.JLabel" name="lbEngine2">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Pos1"/>
                                       </Properties>
@@ -439,7 +457,7 @@
                                     <Property name="rows" type="int" value="1"/>
                                   </Layout>
                                   <SubComponents>
-                                    <Component class="javax.swing.JLabel" name="jLabel11">
+                                    <Component class="javax.swing.JLabel" name="lbSensor1">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="(nicht)bet&#xe4;tigt"/>
                                       </Properties>
@@ -483,7 +501,7 @@
                                     <Property name="rows" type="int" value="1"/>
                                   </Layout>
                                   <SubComponents>
-                                    <Component class="javax.swing.JLabel" name="jLabel14">
+                                    <Component class="javax.swing.JLabel" name="lbSensor2">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="(nicht)bet&#xe4;tigt"/>
                                       </Properties>
