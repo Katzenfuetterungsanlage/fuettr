@@ -22,6 +22,7 @@ import javax.json.JsonReader;
 import java.util.concurrent.CountDownLatch;
 import diplomarbeit_projekt.pi4j.pi4j_Singleton;
 import java.net.UnknownHostException;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  *
@@ -624,10 +625,19 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onNeustarten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onNeustarten
     {//GEN-HEADEREND:event_onNeustarten
-        timeAndDateWorker.cancel(true);
-        feedingWorker.cancel(true);
-        timesWorker.cancel(true);
+        try
+            {
+                timeAndDateWorker.cancel(true);
+                feedingWorker.cancel(true);
+                timesWorker.cancel(true); 
+            }
+            catch (Exception ex)
+            {
+                Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
+            }
 
+        JOptionPane.showMessageDialog(this, "worker shut down because restart is not implemented", "Fehler",ERROR_MESSAGE);
+        
         // TODO
 
     }//GEN-LAST:event_onNeustarten
@@ -825,7 +835,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     // next feeding
                     NextFeeding nextFeeding = new NextFeeding();
-                    string1 = nextFeeding.naechsteFuetterung(lastFeeding, times);
+                    string1 = nextFeeding.next(times);
 
                     // feedingcycle
                     if (time1.equals(timeOfDay))
