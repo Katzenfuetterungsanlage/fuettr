@@ -44,11 +44,6 @@ public class ConnectToWlan extends javax.swing.JDialog
     String wlan_name;
     String wlan_password;
     
-    // create object
-    MongoClient mongodb;  
-    DB database;
-    DBCollection collWlan;
-    
     private int connect (String name, String password)
     {
         // TODO - implement connect
@@ -64,38 +59,7 @@ public class ConnectToWlan extends javax.swing.JDialog
         super(parent, modal);
                
         initComponents();
-         
-        // connect to Database
-        try
-        {
-            mongodb = new MongoClient();
-        }
-        catch (UnknownHostException ex)
-        {
-            Logger.getLogger(ConnectToWlan.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        database = mongodb.getDB("katzenfuetterungsanlage");  
-        collWlan = database.getCollection("data_wlan");
-        //======================================================================
-        
-        DBObject wlanDoc = collWlan.find(new BasicDBObject("identifier", "WLAN")).next();
-        String strUser = JSON.serialize(wlanDoc);
-        
-        Logger.getLogger("wlan data imported").log(Level.FINE, "wlan data imported");
-        
-        JsonReader jsonReader = Json.createReader(new StringReader(strUser));
-        JsonObject obj = jsonReader.readObject();
-        jsonReader.close();
 
-        wlan_name = obj.getString("wlan_name");
-        wlan_password = obj.getString("wlan_password");
-        
-        if (!"".equals(wlan_name))
-        {
-            connect(wlan_name, wlan_password);
-            lbConnectedWlan.setText("wlan_name");
-        }
-        
         // TODO - scan for wlan's and display them in cbWlanNames
         
         setLocationRelativeTo(parent);
@@ -215,7 +179,6 @@ public class ConnectToWlan extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
-        mongodb.close();
         dispose();
     }//GEN-LAST:event_onSchließen
   
@@ -230,12 +193,7 @@ public class ConnectToWlan extends javax.swing.JDialog
         
         connect(wlan_name, wlan_password);
         
-        lbConnectedWlan.setText("wlan_name");
-        
-        if (cbSavePassword.isSelected() == true)
-        {
-            collWlan.update(new BasicDBObject("identifier", "WLAN"), new BasicDBObject("identifier", "WLAN").append("wlan_name", wlan_name).append("wlan_password", wlan_password));
-        } 
+        lbConnectedWlan.setText("wlan_name"); 
     }//GEN-LAST:event_onVerbinden
 
     /**

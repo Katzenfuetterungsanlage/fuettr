@@ -29,6 +29,8 @@ public class NextFeeding
 
         long diffInMillis;
 
+        System.out.println("nextFeeding start");
+        
         String d = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
 
         time1 = timesObj.getString("time1");
