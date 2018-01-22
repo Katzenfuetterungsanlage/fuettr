@@ -369,6 +369,10 @@ public class ManualControl extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
+        // stop engines when closing the conrtol dialog - security measurement
+        pi4j_instance.stopEngine1();
+        pi4j_instance.stopEngine2();
+        
         dispose();
     }//GEN-LAST:event_onSchließen
 
