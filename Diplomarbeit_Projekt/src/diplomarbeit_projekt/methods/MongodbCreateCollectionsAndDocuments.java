@@ -27,7 +27,7 @@ public class MongodbCreateCollectionsAndDocuments
     try
     {
       MongoClient mongodb = new MongoClient();
-      DB database = mongodb.getDB("katzenfuetterungsanlage");
+      DB database = mongodb.getDB("fuettr");
 
       DBCollection collTimes = database.getCollection("data_times");
       DBCollection collUser = database.getCollection("data_user");

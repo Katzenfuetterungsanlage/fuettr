@@ -55,7 +55,7 @@ export class FuettrDB {
   }
 
   private async start() {
-    const url = 'mongodb://localhost:27017/katzenfuetterungsanlage';
+    const url = 'mongodb://localhost:27017/fuettr';
     try {
       const dbServer = await mongodb.MongoClient.connect(url);
       const dbFuettr = await dbServer.db('katzenfuetterungsanlage');
