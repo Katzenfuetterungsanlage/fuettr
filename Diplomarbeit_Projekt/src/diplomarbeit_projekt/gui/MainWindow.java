@@ -19,7 +19,6 @@ import javax.json.JsonObject;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonReader;
-import java.util.concurrent.CountDownLatch;
 import diplomarbeit_projekt.pi4j.pi4j_Singleton;
 import java.net.UnknownHostException;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -54,8 +53,6 @@ public class MainWindow extends javax.swing.JFrame
     FeedingWorker feedingWorker;
     ImportAndShowTimesWorker timesWorker;
 
-    CountDownLatch latch = new CountDownLatch(1);
-
     /**
      * Creates new form Hauptfenster
      */
@@ -80,7 +77,7 @@ public class MainWindow extends javax.swing.JFrame
         }
 
         // pi4j instance
-        if (!"Windows 10".equals(System.getProperty("os.name")))
+        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
             pi4j_instance = pi4j_Singleton.getInstance();
         }
@@ -104,7 +101,7 @@ public class MainWindow extends javax.swing.JFrame
         timeAndDateWorker.execute();
         Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
 
-        if (!"Windows 10".equals(System.getProperty("os.name")))
+        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
             feedingWorker = new FeedingWorker();
             feedingWorker.execute();
@@ -113,7 +110,7 @@ public class MainWindow extends javax.swing.JFrame
         else
         {
             JOptionPane.showMessageDialog(this, "FeedingWorker wird nicht gestartet weil nicht am Raspberry gearbeitet wird. "
-                    + "Deswegen ist nexFeedingIn/At nicht verfügbar.", "Hinweis",ERROR_MESSAGE);
+                    + "Deswegen ist nexFeedingIn/At nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
         }
 
         timesWorker = new ImportAndShowTimesWorker();
@@ -575,29 +572,44 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onManuelleSteuerung(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onManuelleSteuerung
     {//GEN-HEADEREND:event_onManuelleSteuerung
-        if (machineState == true)
+        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
-            if (JOptionPane.showConfirmDialog(this, "Um fortzufahren müssen Sie die automatische Fütterung deaktivieren. \n Wollen sie diese deaktivieren? ",
-                    "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            if (machineState == true)
             {
-                machineState = false;
-                lbState.setText("Aus");
+                if (JOptionPane.showConfirmDialog(this, "Um fortzufahren müssen Sie die automatische Fütterung deaktivieren. \n Wollen sie diese deaktivieren? ",
+                        "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                {
+                    machineState = false;
+                    lbState.setText("Aus");
 
+                    final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
+                    strDlg.setVisible(true);
+                }
+            }
+            else
+            {
                 final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
                 strDlg.setVisible(true);
             }
         }
         else
         {
-            final ManuelleSteuerung strDlg = new ManuelleSteuerung(this, true);
-            strDlg.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Diese Funktion ist nur am Raspberry verfügbar!", "Hinweis", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_onManuelleSteuerung
 
     private void onPositionsinformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onPositionsinformation
     {//GEN-HEADEREND:event_onPositionsinformation
-        final Positionsinformation posDlg = new Positionsinformation(this, true);
-        posDlg.setVisible(true);
+        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
+        {
+            final Positionsinformation posDlg = new Positionsinformation(this, true);
+            posDlg.setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Diese Funktion ist nur am Raspberry verfügbar!", "Hinweis", ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_onPositionsinformation
 
     private void onUpdate(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUpdate
@@ -636,18 +648,18 @@ public class MainWindow extends javax.swing.JFrame
     private void onNeustarten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onNeustarten
     {//GEN-HEADEREND:event_onNeustarten
         try
-            {
-                timeAndDateWorker.cancel(true);
-                feedingWorker.cancel(true);
-                timesWorker.cancel(true); 
-            }
-            catch (Exception ex)
-            {
-                Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
-            }
+        {
+            timeAndDateWorker.cancel(true);
+            feedingWorker.cancel(true);
+            timesWorker.cancel(true);
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
+        }
 
-        JOptionPane.showMessageDialog(this, "worker shut down because restart is not implemented", "Fehler",ERROR_MESSAGE);
-        
+        JOptionPane.showMessageDialog(this, "worker shut down because restart is not implemented", "Fehler", ERROR_MESSAGE);
+
         // TODO
 
     }//GEN-LAST:event_onNeustarten
@@ -661,13 +673,13 @@ public class MainWindow extends javax.swing.JFrame
             {
                 timeAndDateWorker.cancel(true);
                 feedingWorker.cancel(true);
-                timesWorker.cancel(true); 
+                timesWorker.cancel(true);
             }
             catch (Exception ex)
             {
                 Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
             }
-            
+
             System.exit(0);
         }
     }//GEN-LAST:event_onHerunterfahren
@@ -817,7 +829,7 @@ public class MainWindow extends javax.swing.JFrame
 
                 publish();
 
-                TimeUnit.MILLISECONDS.sleep(500); 
+                TimeUnit.MILLISECONDS.sleep(500);
             }
             return 1;
         }
@@ -833,6 +845,7 @@ public class MainWindow extends javax.swing.JFrame
     // calculates the nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
     private class FeedingWorker extends SwingWorker<Object, String>
     {
+
         String string1, strLog;
 
         @Override
@@ -892,8 +905,8 @@ public class MainWindow extends javax.swing.JFrame
                 }
 
                 publish();
-                
-                TimeUnit.MILLISECONDS.sleep(500); 
+
+                TimeUnit.MILLISECONDS.sleep(500);
             }
             return 1;
         }
@@ -921,6 +934,7 @@ public class MainWindow extends javax.swing.JFrame
     // Import times from mongodb and show them on gui
     private class ImportAndShowTimesWorker extends SwingWorker<Object, String>
     {
+
         String strTimes;
         String str;
 
@@ -952,7 +966,7 @@ public class MainWindow extends javax.swing.JFrame
                     str = "false";
                 }
 
-                TimeUnit.MILLISECONDS.sleep(250); 
+                TimeUnit.MILLISECONDS.sleep(250);
 
                 publish();
             }
