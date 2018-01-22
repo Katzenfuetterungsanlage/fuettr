@@ -28,7 +28,7 @@ export class FuettrDB {
   private _hardware: mongodb.Collection;
   private _serialnumber = parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
 
-  private constructor() {}
+  private constructor() { }
 
   public async getTimes(): Promise<string> {
     const Times = await this._times.find({ identifier: 'Times' }).toArray();
@@ -58,7 +58,7 @@ export class FuettrDB {
     const url = 'mongodb://localhost:27017/fuettr';
     try {
       const dbServer = await mongodb.MongoClient.connect(url);
-      const dbFuettr = await dbServer.db('katzenfuetterungsanlage');
+      const dbFuettr = await dbServer.db('fuettr');
       const collTimes = await dbFuettr.collection('data_times');
       const collUsers = await dbFuettr.collection('data_user');
       const collInfo = await dbFuettr.collection('data_info');

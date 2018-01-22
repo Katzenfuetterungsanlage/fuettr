@@ -11,10 +11,13 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  public fail = false;
+
+  constructor(private authService: AuthService, private router: Router) { }
 
   submit(user) {
-    this.authService.login(user);
-    this.router.navigateByUrl('/home');
+    this.authService.login(user).then(() => {
+      this.router.navigateByUrl('/home');
+    }).catch(() => this.fail = true);
   }
 }

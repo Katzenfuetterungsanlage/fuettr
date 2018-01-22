@@ -5,6 +5,8 @@ import 'rxjs/add/operator/mergeMap';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { HttpputService } from './services/httpput.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,12 @@ export class AppComponent implements OnInit {
   public navShow = false;
   public login = false;
 
-  public constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title) {
+  public constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private httpputService: HttpputService,
+    private authservice: AuthService) {
     setInterval(this.refreshTime.bind(this), 100);
     // setInterval(() => {
     //   this.Time = Date.now().toString();
@@ -69,10 +76,8 @@ export class AppComponent implements OnInit {
         case 7:
           console.log('Wenn du hier nochmal draufklickst wird weiterhin nichts passieren.');
           break;
-        case 8:
-          console.log(
-            'Für nähere Informationen zur Unnützigkeit dieses Klickens fragen sie ihren Programmierer oder werfen sie ihren Pc beim Fenster hinaus.'
-          );
+        // tslint:disable-next-line:max-line-length
+        case 8: console.log('Für nähere Informationen zur Unnützigkeit dieses Klickens fragen sie ihren Programmierer oder werfen sie ihren Pc beim Fenster hinaus.');
           break;
         case 9:
           console.log('Was erwartest du dir hiervon eigentlich?');
@@ -127,5 +132,10 @@ export class AppComponent implements OnInit {
 
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  logout() {
+    this.authservice.logout();
+    this.router.navigateByUrl('/login');
   }
 }

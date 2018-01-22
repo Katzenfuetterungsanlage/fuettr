@@ -2,6 +2,8 @@ import * as express from 'express';
 import * as path from 'path';
 import * as bodyparser from 'body-parser';
 import * as debugsx from 'debug-sx';
+import * as jwt from 'jsonwebtoken';
+import * as ejwt from 'express-jwt';
 
 import * as http from 'http';
 import * as https from 'https';
@@ -29,32 +31,23 @@ export class ApiRoutes {
   // #endregion
 
   private _routes: express.Router;
+  private _publkey: Buffer;
+  private _privkey: Buffer;
 
   public constructor() {
+    this._publkey = fs.readFileSync(path.join(__dirname, '../keys/server-public.pem'));
+    this._privkey = fs.readFileSync(path.join(__dirname, '../keys/server-private.pem'));
     this._routes = express.Router();
 
-    this._routes.use('/ng2', express.static(path.join(__dirname, '../../ng2/dist')));
     this._routes.use('/node_modules', express.static(path.join(__dirname, '../node_modules')));
-    this._routes.post('/putMeHere', (req, res, next) => this.putMeHere(req, res, next));
+    this._routes.post('/putMeHere', ejwt({ secret: this._publkey, requestProperty: 'Authorization' }), (req, res, next) => this.putMeHere(req, res, next));
     this._routes.get('/callMeMaybe', (req, res, next) => this.callMeMaybe(req, res, next));
-    this._routes.get('/getUpdate', (req, res, next) => this.update(req, res, next));
-    this._routes.get('/shutdown', this.shutdown);
+    this._routes.get('/getUpdate', ejwt({ secret: this._publkey, requestProperty: 'Authorization' }), (req, res, next) => this.update(req, res, next));
+    this._routes.get('/shutdown', ejwt({ secret: this._publkey, requestProperty: 'Authorization' }), this.shutdown);
     this._routes.get('/ip', (req, res, next) => this.getIp(req, res, next));
-    this._routes.get('/extensions', (req, res) => {
-      res.sendFile(path.join(__dirname, 'views/README.html'));
-    });
     this._routes.get('/version', (req, res) => {
       res.sendFile(path.join(__dirname, '../../../version.json'));
-    });
-    this._routes.get('/face', (req, res) => {
-      res.sendFile(path.join(__dirname, 'views/face.html'));
-    });
-    this._routes.get('/bootstrap.css', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../ng2/src/bootstrap.css'));
-    });
-    this._routes.get('/styles.css', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../ng2/src/styles.css'));
-    });
+    }); 9
     this._routes.use((req, res, next) => this.error404Handler(req, res, next));
     // tslint:disable-next-line:max-line-length
     this._routes.use((err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) =>
@@ -107,11 +100,13 @@ export class ApiRoutes {
     switch (req.query.q) {
       case 'warnings': {
         // getFromJava(res, 'warnings');
+        res.send(JSON.stringify({}));
         break;
       }
 
       case 'errors': {
         // getFromJava(res, 'errors');
+        res.send(JSON.stringify({}));
         break;
       }
 
@@ -179,7 +174,6 @@ export class ApiRoutes {
         await FuettrDB.Instance.putTimes(req.body);
         await setTimeout(() => { }, 10)
         const Times = await FuettrDB.Instance.getTimes();
-        console.log(Times);
         res.send(Times);
         break;
       }

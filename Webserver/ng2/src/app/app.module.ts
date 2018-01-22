@@ -21,9 +21,10 @@ import { HttpgetService } from './services/httpget.service';
 import { HttpputService } from './services/httpput.service';
 import { TimeCalculator } from './services/time.calculator.service';
 import { AuthService } from './services/auth.service';
-import { InterceptorService } from './interceptor.service';
+import { AuthInterceptor } from './auth.interceptor';
 import { CatComponent } from './cat/cat.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,11 @@ import { AuthGuard } from './services/auth-guard.service';
     LoginComponent
   ],
   imports: [NgbModule.forRoot(), BrowserModule, HttpClientModule, AppRoutingModule, HttpModule, FormsModule, BrowserAnimationsModule],
-  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, InterceptorService, AuthGuard],
+  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, AuthGuard, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

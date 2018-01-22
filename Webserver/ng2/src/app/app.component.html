@@ -1,12 +1,13 @@
 <div *ngIf="!login">
     <nav class="navbar navbar-toggleable-sm navbar-inverse text-nowrap" style="background-color: #191816;">
-        <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()" aria-controls="Navbar" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <a class="navbar-brand logo" (click)="click()" routerLink="/home">
             <img alt="Brand" class="logo-picture" src="favicon.ico" width="48"> Füttr</a>
-    
-    
+
+
         <div class="collapse navbar-collapse" [ngClass]="{'show': navShow}" id="Navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -32,6 +33,7 @@
                     </div>
                 </li>
             </ul>
+            <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
             <span class="nav-link" style="color:#c6bfb9">{{Time}}</span>
         </div>
     </nav>

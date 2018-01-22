@@ -11,7 +11,7 @@ export class HttpputService {
   private api = '/api/putMeHere?q=';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   putTimes(times): Promise<itf.Times> {
     return this.http
@@ -27,6 +27,10 @@ export class HttpputService {
       .post('/login', JSON.stringify(user), { headers: this.headers })
       .toPromise()
       .catch(this.handleError);
+  }
+
+  logout(token): Promise<Object> {
+    return this.http.post('/logout', token).toPromise().catch();
   }
 
   ackErr(data) {
