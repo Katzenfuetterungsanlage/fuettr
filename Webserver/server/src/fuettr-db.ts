@@ -28,7 +28,7 @@ export class FuettrDB {
   private _hardware: mongodb.Collection;
   private _serialnumber = parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
 
-  private constructor() { }
+  private constructor() {}
 
   public async getTimes(): Promise<string> {
     const Times = await this._times.find({ identifier: 'Times' }).toArray();
@@ -83,7 +83,17 @@ export class FuettrDB {
 
       if (sizetimes === 0) {
         const mockData = [
-          { identifier: 'Times', time1: '--:--', time2: '--:--', time3: '--:--', time4: '--:--', time1_active: false, time2_active: false, time3_active: false, time4_active: false }
+          {
+            identifier: 'Times',
+            time1: '--:--',
+            time2: '--:--',
+            time3: '--:--',
+            time4: '--:--',
+            time1_active: false,
+            time2_active: false,
+            time3_active: false,
+            time4_active: false
+          }
         ];
         await collTimes.insertMany(mockData);
       }
@@ -95,9 +105,7 @@ export class FuettrDB {
         await collInfo.insertMany(mockData);
       }
       if (sizehardware === 0) {
-        const mockData = [
-          { identifier: 'Hardware', motor1: '', motor2: '', sensor1: '', sensor2: '', }
-        ];
+        const mockData = [{ identifier: 'Hardware', motor1: '', motor2: '', sensor1: '', sensor2: '' }];
         await collHardware.insertMany(mockData);
       }
 

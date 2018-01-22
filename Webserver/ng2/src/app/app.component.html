@@ -1,41 +1,44 @@
-<nav class="navbar navbar-toggleable-sm navbar-inverse text-nowrap" style="background-color: #191816;">
-    <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-    <a class="navbar-brand logo" (click)="click()" routerLink="/home">
-        <img alt="Brand" class="logo-picture" src="favicon.ico" width="48"> Füttr</a>
-
-
-    <div class="collapse navbar-collapse" [ngClass]="{'show': navShow}" id="Navbar">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/home">
-                    <img src="assets/home.png"> Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/feed">
-                    <img src="assets/feed.png"> Fütterung</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/position">
-                    <img src="assets/control.png"> Positionen</a>
-            </li>
-            <li ngbDropdown class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">
-                    <img src="assets/settings.png"> Einstellungen</a>
-                <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
-                    <a class="nav-link dropdown-item" routerLink="/info">
-                        <img src="assets/info.png"> Geräteinfo</a>
-                    <a class="nav-link dropdown-item" routerLink="/update">
-                        <img src="assets/update.png"> Update</a>
-                </div>
-            </li>
-        </ul>
-        <span class="nav-link" style="color:#c6bfb9">{{Time}}</span>
-    </div>
-</nav>
-<p>
-    <br>
-</p>
-<router-outlet *ngIf="!cat"></router-outlet>
+<div *ngIf="!login">
+    <nav class="navbar navbar-toggleable-sm navbar-inverse text-nowrap" style="background-color: #191816;">
+        <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <a class="navbar-brand logo" (click)="click()" routerLink="/home">
+            <img alt="Brand" class="logo-picture" src="favicon.ico" width="48"> Füttr</a>
+    
+    
+        <div class="collapse navbar-collapse" [ngClass]="{'show': navShow}" id="Navbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/home">
+                        <img src="assets/home.png"> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/feed">
+                        <img src="assets/feed.png"> Fütterung</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/position">
+                        <img src="assets/control.png"> Positionen</a>
+                </li>
+                <li ngbDropdown class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">
+                        <img src="assets/settings.png"> Einstellungen</a>
+                    <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
+                        <a class="nav-link dropdown-item" routerLink="/info">
+                            <img src="assets/info.png"> Geräteinfo</a>
+                        <a class="nav-link dropdown-item" routerLink="/update">
+                            <img src="assets/update.png"> Update</a>
+                    </div>
+                </li>
+            </ul>
+            <span class="nav-link" style="color:#c6bfb9">{{Time}}</span>
+        </div>
+    </nav>
+    <p>
+        <br>
+    </p>
+</div>
+<router-outlet *ngIf="!cat && !login"></router-outlet>
 <app-cat *ngIf="cat"></app-cat>
+<app-login *ngIf="login"></app-login>

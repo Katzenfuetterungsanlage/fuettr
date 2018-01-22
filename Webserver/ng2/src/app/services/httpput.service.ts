@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/Rx';
 
@@ -8,9 +8,9 @@ import * as itf from '../interfaces';
 @Injectable()
 export class HttpputService {
   private api = '/api/putMeHere?q=';
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   putTimes(times): Promise<itf.Times> {
     return this.http
@@ -18,7 +18,6 @@ export class HttpputService {
         headers: this.headers
       })
       .toPromise()
-      .then(res => res.json() as itf.Times)
       .catch(this.handleError);
   }
 

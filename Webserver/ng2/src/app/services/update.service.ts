@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Version } from '../interfaces';
 
 import 'rxjs/add/operator/toPromise';
@@ -11,33 +11,29 @@ export class UpdateService {
   private lVersionUrl = 'api/version';
   private shutdownUrl = 'api/shutdown';
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   async getUpdate(): Promise<void> {
     return this.http.get(this.getUrl)
       .toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
   shutdown(): Promise<void> {
     return this.http.get(this.shutdownUrl)
       .toPromise()
-      .then(response => response.json())
       .catch(this.handleError);
   }
 
   checkUpdate(): Promise<Version> {
     return this.http.get(this.checkUrl)
       .toPromise()
-      .then(response => response.json() as Version)
       .catch(this.handleError);
   }
 
   getVersion(): Promise<Version> {
     return this.http.get(this.lVersionUrl)
       .toPromise()
-      .then(response => response.json() as Version)
       .catch(this.handleError);
   }
 

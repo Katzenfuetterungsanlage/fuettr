@@ -4,6 +4,7 @@ import * as bodyparser from 'body-parser';
 import * as http from 'http';
 import * as fs from 'fs';
 import * as ejwt from 'express-jwt';
+import * as jwt from 'jsonwebtoken';
 import { SHA512 } from 'crypto-js';
 
 import { log } from './main';
@@ -71,7 +72,9 @@ export class Server {
         jsonToken = false;
         log.fine('User logged out.');
       }, 60000);
-      res.redirect('/');
+      jwt.sign(username, this._privkey, (err: Error, token: string) => {
+        res.send(token);
+      });
     } else {
       res.status(401).sendFile(path.join(__dirname, 'views/login-form-error.html'));
     }

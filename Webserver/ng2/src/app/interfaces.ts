@@ -70,3 +70,8 @@ export interface Positions {
   sensor1: string;
   sensor2: string;
 }
+
+export interface User {
+  name: string;
+  password: string;
+}

@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './components/login.component';
 import { PositionComponent } from './components/position.component';
 import { FeedComponent } from './components/feed.component';
 import { HomeComponent } from './components/home.component';
@@ -19,6 +20,8 @@ import { UpdateService } from './services/update.service';
 import { HttpgetService } from './services/httpget.service';
 import { HttpputService } from './services/httpput.service';
 import { TimeCalculator } from './services/time.calculator.service';
+import { AuthService } from './services/auth.service';
+import { InterceptorService } from './interceptor.service';
 import { CatComponent } from './cat/cat.component';
 
 @NgModule({
@@ -30,18 +33,11 @@ import { CatComponent } from './cat/cat.component';
     InfoComponent,
     UpdateComponent,
     Error404Component,
-    CatComponent
+    CatComponent,
+    LoginComponent
   ],
-  imports: [
-    NgbModule.forRoot(),
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    HttpModule,
-    FormsModule,
-    BrowserAnimationsModule
-  ],
-  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator],
+  imports: [NgbModule.forRoot(), BrowserModule, HttpClientModule, AppRoutingModule, HttpModule, FormsModule, BrowserAnimationsModule],
+  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, InterceptorService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
