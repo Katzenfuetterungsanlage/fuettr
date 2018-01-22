@@ -48,7 +48,8 @@ public class MainWindow extends javax.swing.JFrame
     DBCollection collTimes;
     
     //Workers
-    TimeOfDayAndDateWorker timeAndDateWorker = new TimeOfDayAndDateWorker();
+    TimeOfDayAndDateWorker timeAndDateWorker;
+    FeedingWorker feedingWorker;
     
     CountDownLatch latch = new CountDownLatch(1);       
     
@@ -91,8 +92,14 @@ public class MainWindow extends javax.swing.JFrame
         collTimes= database.getCollection("data_times");
         //======================================================================
             
+        // Worker 
+        timeAndDateWorker = new TimeOfDayAndDateWorker();
         timeAndDateWorker.execute();
         Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
+        
+        feedingWorker = new FeedingWorker();
+        feedingWorker.execute();
+        Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
         
         ImportTimesWorker importTimesWorker = new ImportTimesWorker();
         importTimesWorker.execute();
@@ -105,13 +112,6 @@ public class MainWindow extends javax.swing.JFrame
 
         lbLastFeeding.setText("ausstehend");
 
-        FeedingCycleWorker automatischeFuetterungAblaufWorker = new FeedingCycleWorker();
-        automatischeFuetterungAblaufWorker.execute();
-        Logger.getLogger("FeedingCycleWorker started").log(Level.FINE, "FeedingCycleWorker started");
-
-        NextFeedingWorker naechsteFuetterungWorker = new NextFeedingWorker();
-        naechsteFuetterungWorker.execute();
-        Logger.getLogger("NextFeedingWorker started").log(Level.FINE, "NextFeedingWorker started");
     }
 
     /**
@@ -791,15 +791,29 @@ public class MainWindow extends javax.swing.JFrame
         }
     }
 
-    // executes feedingCycle and updates gui
-    private class FeedingCycleWorker extends SwingWorker<Object, String>
+    // calculates the nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
+    private class FeedingWorker extends SwingWorker<Object, String>
     {
+        String string1, strLog;
+        
         @Override
         protected Object doInBackground() throws Exception
         {
-            
-            while (true)
+            while (!isCancelled())
             {
+                // next feeding
+                if (machineState == true)
+                {
+                    NextFeeding naechsteFuetterung = new NextFeeding();
+                    string1 = naechsteFuetterung.naechsteFuetterung(lastFeeding, times);
+                }
+                else
+                {
+                    string1 = "-;-"; 
+                }
+                TimeUnit.MILLISECONDS.sleep(500); // should be low to quickly update the times in the gui
+                
+                // feedingcycle
                 if (machineState == true)
                 {
                     if (time1.equals(timeOfDay) )
@@ -838,44 +852,18 @@ public class MainWindow extends javax.swing.JFrame
                                     TimeUnit.SECONDS.sleep(1);
                                 }
                 }
+                
+                publish(); 
+                
+                TimeUnit.MILLISECONDS.sleep(500);
             }
+            return 1;
         }
-
+        
         @Override
         protected void process(List<String> chunks)
         {
-            lbLastFeeding.setText(lastFeedingTime);
-        }
-    }
-    
-    // calculates the nextFeedingAt and NextFeedingIn
-    private class NextFeedingWorker extends SwingWorker<Object, String>
-    {
-        String string1, strLog;
-
-        @Override
-        protected Object doInBackground() throws Exception
-        {
-            while (true)
-            {
-                if (machineState == true)
-                {
-                    NextFeeding naechsteFuetterung = new NextFeeding();
-                    string1 = naechsteFuetterung.naechsteFuetterung(lastFeeding, times);
-                }
-                else
-                {
-                    string1 = "-;-"; 
-                }
-                publish(string1);
-
-                TimeUnit.MILLISECONDS.sleep(500); // should be low to quickly update the times in the gui
-            }
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
+            // next feeding
             String[] token = string1.split(";");
             nextFeedingAt = token[0];
             nextFeedingIn = token[1];
@@ -885,7 +873,11 @@ public class MainWindow extends javax.swing.JFrame
             
             lbNextFeedingAt.setText(nextFeedingAt);
             lbNextFeedingIn.setText(nextFeedingIn);
+            
+            // feedingcycle
+            lbLastFeeding.setText(lastFeedingTime);
         }
+        
     }
         
     // Import times from mongodb
