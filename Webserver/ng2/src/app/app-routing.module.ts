@@ -7,11 +7,12 @@ import { FeedComponent } from './components/feed.component';
 import { InfoComponent } from './components/info.component';
 import { UpdateComponent } from './components/update.component';
 import { Error404Component } from './components/error404.component';
+import { LoginComponent } from './components/login.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, data: { title: 'Füttr' } },
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'api/login', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'login', component: LoginComponent, data: { title: 'Füttr - Login' } },
   {
     path: 'position',
     component: PositionComponent,
