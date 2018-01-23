@@ -7,6 +7,7 @@ package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
+import diplomarbeit_projekt.methods.HashPassword;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -236,7 +237,10 @@ public class CreateUser extends javax.swing.JDialog
             }
             else
             {
-                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", strUser_password));
+                HashPassword hashPassword = new HashPassword();
+                String hashedPassword = hashPassword.hash(strUser_password, "");
+                
+                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword));
 
                 Logger.getLogger("User saved").log(Level.FINE, "User saved");  
       
