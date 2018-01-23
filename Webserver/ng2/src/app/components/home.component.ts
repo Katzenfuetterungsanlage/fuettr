@@ -9,6 +9,7 @@ import * as itf from '../interfaces';
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  public Time: string;
   public warning_messages: itf.Warning[];
   public error_messages: itf.Error[];
   public last_time: string;
@@ -29,8 +30,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private time;
   private call;
 
-  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) { }
+  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {
+    setInterval(this.refreshTime.bind(this), 100);
+  }
 
+  private refreshTime() {
+    this.Time = new Date().toLocaleTimeString();
+  }
   ngOnInit(): void {
     this.callMeMaybe();
 

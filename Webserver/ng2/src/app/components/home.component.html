@@ -11,8 +11,8 @@
                     <li *ngFor="let warning_message of warning_messages">
                         <div class="alert alert-warning alert-dismissable fade show" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true" (click)="ackwarn(warning_message)">&times;</span>
-              </button>
+                                <span aria-hidden="true" (click)="ackwarn(warning_message)">&times;</span>
+                            </button>
                             <strong>Warning! </strong>{{warning_message.warning}}
                         </div>
                     </li>
@@ -21,8 +21,8 @@
                     <li *ngFor="let error_message of error_messages">
                         <div class="alert alert-danger alert-dismissable fade show" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true" (click)="ackerr(error_message)">&times;</span>
-              </button>
+                                <span aria-hidden="true" (click)="ackerr(error_message)">&times;</span>
+                            </button>
                             <strong>Error! </strong>{{error_message.error}}
                         </div>
                     </li>
@@ -72,8 +72,14 @@
         </div>
     </div>
     <img class="fixed-bottom" src="assets/woljum13.png" alt="Wolf" width="100">
-    <a class="fixed-bottom text-right" style="margin-bottom: 35px;" href="https://afk.cat/signup?ref=NMYNkIShTYk5">
-        <img src="https://afk.cat/static/img/raf_banner.png" width="25%">
-    </a>
-    <nav class="navbar fixed-bottom">Maschine: {{machine_state}}</nav>
+    <nav class="navbar fixed-bottom navbar-inverse text-nowrap" style="background-color: #191816">
+        <div class="row" style="background-color: #191816">
+            <div class="col-6">
+                <span class="nav-link" style="color:#c6bfb9"> Maschine: {{machine_state}}</span>
+            </div>
+            <div class="col-6">
+                <span class="nav-link text-right" style="color:#c6bfb9">{{Time}}</span>
+            </div>
+        </div>
+    </nav>
 </div>

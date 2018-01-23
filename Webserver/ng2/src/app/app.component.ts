@@ -13,7 +13,6 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  public Time: string;
   private promise: Promise<number>;
   private promiseResult: string;
   public cat = false;
@@ -26,16 +25,9 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private httpputService: HttpputService,
-    private authservice: AuthService) {
-    setInterval(this.refreshTime.bind(this), 100);
-    // setInterval(() => {
-    //   this.Time = Date.now().toString();
-    // }, 1);
-  }
+    private authservice: AuthService
+  ) {}
 
-  private refreshTime() {
-    this.Time = new Date().toLocaleTimeString();
-  }
   ngOnInit() {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
@@ -76,8 +68,11 @@ export class AppComponent implements OnInit {
         case 7:
           console.log('Wenn du hier nochmal draufklickst wird weiterhin nichts passieren.');
           break;
-        // tslint:disable-next-line:max-line-length
-        case 8: console.log('Für nähere Informationen zur Unnützigkeit dieses Klickens fragen sie ihren Programmierer oder werfen sie ihren Pc beim Fenster hinaus.');
+        case 8:
+          console.log(
+            // tslint:disable-next-line:max-line-length
+            'Für nähere Informationen zur Unnützigkeit dieses Klickens fragen sie ihren Programmierer oder werfen sie ihren Pc beim Fenster hinaus.'
+          );
           break;
         case 9:
           console.log('Was erwartest du dir hiervon eigentlich?');
@@ -135,6 +130,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
+    this.navShow = false;
     this.authservice.logout();
     this.router.navigateByUrl('/login');
   }
