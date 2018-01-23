@@ -1,4 +1,4 @@
 export interface Login {
-    isLoggedIn: boolean;
-    token: string;
-  }
+  isLoggedIn: boolean;
+  token: string;
+}

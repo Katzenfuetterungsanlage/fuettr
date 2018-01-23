@@ -33,6 +33,7 @@ export class ApiRoutes {
   private _routes: express.Router;
   private _publkey: Buffer;
   private _privkey: Buffer;
+  private token: string;
 
   public constructor() {
     this._publkey = fs.readFileSync(path.join(__dirname, '../keys/server-public.pem'));
@@ -40,14 +41,15 @@ export class ApiRoutes {
     this._routes = express.Router();
 
     this._routes.use('/node_modules', express.static(path.join(__dirname, '../node_modules')));
-    this._routes.post('/putMeHere', ejwt({ secret: this._publkey, requestProperty: 'Authorization' }), (req, res, next) => this.putMeHere(req, res, next));
+    this._routes.post('/putMeHere', (req, res, next) => this.putMeHere(req, res, next));
     this._routes.get('/callMeMaybe', (req, res, next) => this.callMeMaybe(req, res, next));
-    this._routes.get('/getUpdate', ejwt({ secret: this._publkey, requestProperty: 'Authorization' }), (req, res, next) => this.update(req, res, next));
-    this._routes.get('/shutdown', ejwt({ secret: this._publkey, requestProperty: 'Authorization' }), this.shutdown);
+    this._routes.get('/getUpdate', (req, res, next) => this.update(req, res, next));
+    this._routes.get('/shutdown', this.shutdown);
     this._routes.get('/ip', (req, res, next) => this.getIp(req, res, next));
     this._routes.get('/version', (req, res) => {
       res.sendFile(path.join(__dirname, '../../../version.json'));
-    }); 9
+    });
+    9;
     this._routes.use((req, res, next) => this.error404Handler(req, res, next));
     // tslint:disable-next-line:max-line-length
     this._routes.use((err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) =>
@@ -166,30 +168,43 @@ export class ApiRoutes {
   }
 
   public async putMeHere(req: express.Request, res: express.Response, next: express.NextFunction) {
+    const token = <string>req.headers.authorization.slice(7);
+    let auth;
+    jwt.verify(token, this._publkey, err => {
+      if (err != undefined) {
+        log.fine(err);
+        auth = false;
+        res.sendStatus(401);
+        return;
+      }
+      auth = true;
+    });
     const OK = {
       ok: 'ok'
     };
-    switch (req.query.q) {
-      case 'times': {
-        await FuettrDB.Instance.putTimes(req.body);
-        await setTimeout(() => { }, 10)
-        const Times = await FuettrDB.Instance.getTimes();
-        res.send(Times);
-        break;
-      }
+    if (auth) {
+      switch (req.query.q) {
+        case 'times': {
+          await FuettrDB.Instance.putTimes(req.body);
+          await setTimeout(() => {}, 10);
+          const Times = await FuettrDB.Instance.getTimes();
+          res.send(Times);
+          break;
+        }
 
-      case 'ackErr': {
-        this.getToJava('/ackErr', JSON.stringify(req.body));
-        break;
-      }
+        case 'ackErr': {
+          this.getToJava('/ackErr', JSON.stringify(req.body));
+          break;
+        }
 
-      case 'ackWarn': {
-        this.getToJava('/ackWarn', JSON.stringify(req.body));
-        break;
-      }
+        case 'ackWarn': {
+          this.getToJava('/ackWarn', JSON.stringify(req.body));
+          break;
+        }
 
-      default: {
-        this.error404Handler(req, res, next);
+        default: {
+          this.error404Handler(req, res, next);
+        }
       }
     }
   }

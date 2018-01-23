@@ -10,6 +10,7 @@ import { Login } from './interfaces';
 import { log } from './main';
 import { ApiRoutes } from './api-routes';
 import { AppRoutes } from './app-routes';
+import { FuettrDB } from './fuettr-db';
 
 export class Server {
   // #region Singleton
@@ -47,33 +48,36 @@ export class Server {
     this._express.use('/', AppRoutes.AppRouter.Routes);
   }
 
-  public login(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const storedpass = 'enter';
-    const storeduser = 'enter';
-    const userpass = req.body.password;
-    const username = req.body.user;
+  public async login(req: express.Request, res: express.Response, next: express.NextFunction) {
     let User: Login = { token: '', isLoggedIn: false };
-    // let passHash = SHA512(req.body.password).toString();
-    // log.fine(passHash);
-    if (userpass === storedpass && username === storeduser) {
-      jwt.sign({ username: username }, this._privkey, { expiresIn: "10h" }, (err, token) => {
-        if (err != undefined) {
-          log.warn(err);
-        }
-        User.token = token;
-        User.isLoggedIn = true;
-        log.fine(JSON.stringify(User));
-        res.send(JSON.stringify(User));
-      });
-    } else {
-      User.token = '';
-      User.isLoggedIn = false;
-      res.status(401).send(JSON.stringify(User));
+    const username = req.body.user;
+    // const userpass = SHA512(req.body.password).toString();
+    const userpass = req.body.password;
+    const Users = await FuettrDB.Instance.getUsers();
+    for (let i = 0; i < Users.length; i++) {
+      let User = JSON.parse(JSON.stringify(Users[i]));
+      let pass = User.user_password;
+      let name = User.user_name;
+      if (userpass === pass && username === name) {
+        jwt.sign({ user: username }, this._privkey, { expiresIn: '10h', algorithm: 'RS256' }, (err, token) => {
+          if (err != undefined) {
+            log.warn(err);
+          }
+          if (token != undefined) {
+            User.token = token;
+            User.isLoggedIn = true;
+            res.send(JSON.stringify(User));
+          }
+        });
+      } else {
+        User.token = '';
+        User.isLoggedIn = false;
+        res.status(401).send(JSON.stringify(User));
+      }
     }
   }
 
-  public logout(req: express.Request, res: express.Response, next: express.NextFunction) {
-  }
+  public logout(req: express.Request, res: express.Response, next: express.NextFunction) {}
 
   public logger(req: express.Request, res: express.Response, next: express.NextFunction) {
     const clientSocket = req.socket.remoteAddress + ':' + req.socket.remotePort;

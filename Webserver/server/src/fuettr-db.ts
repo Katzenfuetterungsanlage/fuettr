@@ -26,9 +26,10 @@ export class FuettrDB {
   private _times: mongodb.Collection;
   private _info: mongodb.Collection;
   private _hardware: mongodb.Collection;
+  private _users: mongodb.Collection;
   private _serialnumber = parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
 
-  private constructor() { }
+  private constructor() {}
 
   public async getTimes(): Promise<string> {
     const Times = await this._times.find({ identifier: 'Times' }).toArray();
@@ -48,6 +49,11 @@ export class FuettrDB {
   public async getPositions(): Promise<string> {
     const Positions = await this._hardware.find({ identifier: 'Hardware' }).toArray();
     return Positions[0];
+  }
+
+  public async getUsers(): Promise<string[]> {
+    const Users = await this._users.find({ identifier: 'User' }).toArray();
+    return Users;
   }
 
   public async putTimes(times: Object) {
@@ -112,6 +118,7 @@ export class FuettrDB {
       this._times = collTimes;
       this._info = collInfo;
       this._hardware = collHardware;
+      this._users = collUsers;
       log.info('Database connected.');
     } catch (err) {
       throw err;
