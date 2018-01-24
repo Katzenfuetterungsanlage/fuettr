@@ -60,7 +60,7 @@ export class FeedComponent implements OnInit {
     private app: AppComponent
   ) { }
 
-  onKey(): void {
+  public onKey(): void {
     this.doppelpoint();
     this.time1Valid = true;
     this.time2Valid = true;
@@ -172,7 +172,7 @@ export class FeedComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.httpgetService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
@@ -192,7 +192,7 @@ export class FeedComponent implements OnInit {
     }, 0);
   }
 
-  cancel(): void {
+  public cancel(): void {
     this.httpgetService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
@@ -206,7 +206,7 @@ export class FeedComponent implements OnInit {
     });
   }
 
-  save(): void {
+  public save(): void {
 
     if (this.time1 === '' || this.time1 === null || this.time1 === undefined) { this.time1 = '--:--'; }
     if (this.time2 === '' || this.time2 === null || this.time2 === undefined) { this.time2 = '--:--'; }
@@ -249,7 +249,7 @@ export class FeedComponent implements OnInit {
       });
   }
 
-  doppelpoint(): void {
+  private doppelpoint(): void {
     if (this.time1.length === 3) {
       this.doppelpoint1 = true;
     }

@@ -15,7 +15,7 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  submit(user) {
+  public submit(user) {
     this.authService.login(user).then(() => {
       this.router.navigateByUrl('/home');
     }).catch(() => this.fail = true);

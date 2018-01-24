@@ -10,10 +10,7 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 export class Error404Component {
   public url: string;
 
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private app: AppComponent
-  ) {
+  constructor( @Inject(DOCUMENT) private document: Document, private app: AppComponent) {
     this.url = this.document.location.href;
     app.lic();
     this.app.navShow = false;

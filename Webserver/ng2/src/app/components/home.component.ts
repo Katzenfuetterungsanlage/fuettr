@@ -27,28 +27,33 @@ export class HomeComponent implements OnInit, OnDestroy {
   public time3_show = false;
   public time4_show = false;
 
+  public wolf = 100;
   private time;
   private call;
+  private clock;
+  private width;
 
   public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {
-    setInterval(this.refreshTime.bind(this), 100);
   }
 
   private refreshTime() {
     this.Time = new Date().toLocaleTimeString();
   }
-  ngOnInit(): void {
+
+  public ngOnInit(): void {
     this.callMeMaybe();
 
-    this.call = setInterval(() => {
-      this.callMeMaybe();
-    }, 30000);
+    this.clock = setInterval(this.refreshTime(), 100);
+    this.call = setInterval(this.callMeMaybe(), 30000);
+    this.width = setInterval(() => {
+      this.wolf++;
+    }, 1000);
     this.time = setTimeout(() => {
       this.app.navShow = false;
     }, 0);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.time !== undefined) {
       clearInterval(this.time);
       this.time = undefined;
@@ -57,9 +62,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       clearInterval(this.call);
       this.call = undefined;
     }
+    if (this.clock !== undefined) {
+      clearInterval(this.clock);
+      this.clock = undefined;
+    }
+    if (this.width !== undefined) {
+      clearInterval(this.width);
+      this.width = undefined;
+    }
   }
 
-  callMeMaybe(): void {
+  private callMeMaybe(): void {
     this.httpgetService.get('warnings').then((res: itf.Warnings) => {
       this.warning_messages = res.warnings;
     });
@@ -87,12 +100,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  ackwarn(warning: itf.Warning) {
+  private ackwarn(warning: itf.Warning) {
     const id: itf.AckWarn = { id: warning.id };
     this.httpputService.ackErr(id).subscribe();
   }
 
-  ackerr(error: itf.Error) {
+  private ackerr(error: itf.Error) {
     const id: itf.AckErr = { id: error.id };
     this.httpputService.ackErr(id).subscribe();
   }

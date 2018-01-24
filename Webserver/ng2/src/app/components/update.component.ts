@@ -28,7 +28,7 @@ export class UpdateComponent implements OnInit {
 
   constructor(private updateService: UpdateService, private app: AppComponent, private modalService: NgbModal) { }
 
-  update() {
+  private update() {
     this.message = '';
     this.show = false;
     this.show2 = true;
@@ -53,15 +53,15 @@ export class UpdateComponent implements OnInit {
     }, 1000);
   }
 
-  shutdown() {
+  private shutdown() {
     this.updateService.shutdown();
   }
 
-  open(content) {
+  public open(content) {
     this.modalService.open(content);
   }
 
-  refresh() {
+  private refresh() {
     this.message = 'Checking for updates...';
     this.t1 = Date.now();
 
@@ -93,7 +93,7 @@ export class UpdateComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.message = 'Checking for updates...';
     this.t1 = this.t1 = Date.now();
     this.app.lic();

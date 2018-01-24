@@ -15,12 +15,9 @@ export class PositionComponent implements OnInit {
   public sensor1: string;
   public sensor2: string;
 
-  constructor(
-    private httpgetService: HttpgetService,
-    private app: AppComponent
-  ) {}
+  constructor(private httpgetService: HttpgetService, private app: AppComponent) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.httpgetService.get('positions').then((res: itf.Positions) => {
       this.motor1 = res.motor1;
       this.motor2 = res.motor2;
