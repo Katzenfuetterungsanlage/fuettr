@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package diplomarbeit_projekt.pi4j;
+package diplomarbeit_projekt.singleton.pi4j;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -43,7 +43,7 @@ import java.util.logging.Logger;
     transistor is active when voltage is supplied => pin state = high
     sensor return high when the object is in front of it
  */
-public class pi4j_Singleton
+public class Pi4j_Singleton
 {
     // 1. check if a feed bag is available
     // 2. check the position of the bowl
@@ -53,22 +53,22 @@ public class pi4j_Singleton
     // 6. move conveyor belt until the next feed bag reaches the sensor = filling the bowl
     // 7. move bowl to the feeding location
     
-    final GpioController gpio;
+    private final GpioController gpio;
 
-    final GpioPinDigitalInput pin00;
-    final GpioPinDigitalInput pin01;
-    final GpioPinDigitalOutput pin02;
-    final GpioPinDigitalOutput pin03;
-    final GpioPinDigitalOutput pin04;
-    final GpioPinDigitalOutput pin05;
-    final GpioPinDigitalOutput pin06;
-    final GpioPinDigitalOutput pin07;
-    final GpioPinDigitalOutput pin08;
-    final GpioPinDigitalOutput pin09;
+    private final GpioPinDigitalInput pin00;
+    private final GpioPinDigitalInput pin01;
+    private final GpioPinDigitalOutput pin02;
+    private final GpioPinDigitalOutput pin03;
+    private final GpioPinDigitalOutput pin04;
+    private final GpioPinDigitalOutput pin05;
+    private final GpioPinDigitalOutput pin06;
+    private final GpioPinDigitalOutput pin07;
+    private final GpioPinDigitalOutput pin08;
+    private final GpioPinDigitalOutput pin09;
 
-    private static pi4j_Singleton instance = null;
+    private static Pi4j_Singleton instance = null;
 
-    protected pi4j_Singleton()
+    protected Pi4j_Singleton()
     {
         gpio = GpioFactory.getInstance();
 
@@ -113,11 +113,11 @@ public class pi4j_Singleton
         pin09.setShutdownOptions(true, PinState.LOW);
     }
 
-    public static pi4j_Singleton getInstance()
+    public static Pi4j_Singleton getInstance()
     {
         if (instance == null)
         {
-            instance = new pi4j_Singleton();
+            instance = new Pi4j_Singleton();
         }
         return instance;
     }
