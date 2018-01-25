@@ -9,19 +9,19 @@
 
     <div class="collapse navbar-collapse" id="Navbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item" disabled>
+            <li class="nav-item" disabled style="cursor: not-allowed">
                 <a class="nav-link" disabled>
                     <img src="assets/home.png"> Home</a>
             </li>
-            <li class="nav-item" disabled>
+            <li class="nav-item" disabled style="cursor: not-allowed">
                 <a class="nav-link" disabled>
                     <img src="assets/feed.png"> Fütterung</a>
             </li>
-            <li class="nav-item" disabled>
+            <li class="nav-item" disabled style="cursor: not-allowed">
                 <a class="nav-link" disabled>
                     <img src="assets/control.png"> Positionen</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" style="cursor: not-allowed">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="assets/settings.png"> Einstellungen</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown">
@@ -44,12 +44,12 @@
 <div class="container jumbotron align-middle">
     <form #login="ngForm" class="form-horizontal" (ngSubmit)="submit(login.value)">
         <div class="form-group">
-            <label for="usr">User:</label>
-            <input type="text" class="form-control" id="usr" placeholder="Enter username" name="user" ngModel required>
+            <label for="usr">Benutzer:</label>
+            <input type="text" class="form-control" id="usr" placeholder="Benutzername" name="user" ngModel required>
         </div>
         <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Password" name="password" ngModel required>
+            <label for="pwd">Passwort:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Passwort" name="password" ngModel required>
         </div>
         <div class="alert alert-danger" *ngIf="fail">Invalid username or password.</div>
         <button type="submit" class="btn btn-success">Submit</button>
