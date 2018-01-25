@@ -5,7 +5,7 @@
  */
 package diplomarbeit_projekt.gui;
 
-import diplomarbeit_projekt.pi4j.pi4j_Singleton;
+import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
@@ -42,7 +42,7 @@ import javax.swing.SwingWorker;
 public class Positionsinformation extends javax.swing.JDialog
 {   
     // pi4j
-    pi4j_Singleton pi4j_instance;
+    Pi4j_Singleton pi4j_instance;
     
     // Worker
     PositionWorker positionWorker;
@@ -60,7 +60,7 @@ public class Positionsinformation extends javax.swing.JDialog
         pack();
 
         // pi4j instance
-        pi4j_instance = pi4j_Singleton.getInstance();
+        pi4j_instance = Pi4j_Singleton.getInstance();
         
         // Workers
         positionWorker = new PositionWorker();

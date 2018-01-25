@@ -7,7 +7,8 @@ package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
-import diplomarbeit_projekt.methods.HashPassword;
+import diplomarbeit_projekt.singleton.mongodb.Mongodb_Singleton;
+import diplomarbeit_projekt.utils.HashPassword;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -29,9 +30,7 @@ public class CreateUser extends javax.swing.JDialog
     boolean saved = false; 
     
     // create object
-    MongoClient mongodb;  
-    DB database;
-    DBCollection collUser;
+    Mongodb_Singleton mongodb_instance;
     
     /**
      * Creates new form BenutzerAnlegen
@@ -42,20 +41,24 @@ public class CreateUser extends javax.swing.JDialog
                
         initComponents();
          
+        // mongodb instance
+        mongodb_instance = Mongodb_Singleton.getInstance();
+        
         // connect to Database
-        try
-        {
-            mongodb = new MongoClient();
-        }
-        catch (UnknownHostException ex)
-        {
-            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        database = mongodb.getDB("katzenfuetterungsanlage");  
-        collUser = database.getCollection("data_user");
+//        try
+//        {
+//            mongodb = new MongoClient();
+//        }
+//        catch (UnknownHostException ex)
+//        {
+//            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        database = mongodb.getDB("katzenfuetterungsanlage");  
+//        collUser = database.getCollection("data_user");
         //======================================================================
         
-        DBObject userDoc = collUser.find(new BasicDBObject("identifier", "User")).next();
+        DBObject userDoc = mongodb_instance.getUserDoc();
+                //collUser.find(new BasicDBObject("identifier", "User")).next();
         String strUser = JSON.serialize(userDoc);
         
         Logger.getLogger("User imported").log(Level.FINE, "User imported");
@@ -203,13 +206,13 @@ public class CreateUser extends javax.swing.JDialog
            if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
                  "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
            {
-               mongodb.close();
+//               mongodb.close();
                dispose();
            }
        }
        else
        {          
-           mongodb.close();
+//           mongodb.close();
            dispose();
        }
     }//GEN-LAST:event_onSchließen
@@ -240,7 +243,10 @@ public class CreateUser extends javax.swing.JDialog
                 HashPassword hashPassword = new HashPassword();
                 String hashedPassword = hashPassword.hash(strUser_password, "");
                 
-                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword));
+                BasicDBObject obj = new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword);
+                mongodb_instance.setUserDoc(obj);
+                
+//                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword));
 
                 Logger.getLogger("User saved").log(Level.FINE, "User saved");  
       

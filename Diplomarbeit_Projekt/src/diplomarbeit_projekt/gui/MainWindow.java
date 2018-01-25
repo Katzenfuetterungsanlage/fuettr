@@ -7,21 +7,23 @@ package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
+import diplomarbeit_projekt.gui.workers.AbstractFeedingWorker;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import diplomarbeit_projekt.methods.NextFeeding;
+import diplomarbeit_projekt.utils.NextFeeding;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.JsonObject;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonReader;
-import diplomarbeit_projekt.pi4j.pi4j_Singleton;
+import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import java.net.UnknownHostException;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -29,8 +31,29 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
  */
 public class MainWindow extends javax.swing.JFrame
 {
+    private static MainWindow instance;
+    
+    public static MainWindow getInstace()
+    {
+        if (instance == null)
+        {
+            if (!SwingUtilities.isEventDispatchThread())
+                throw new RuntimeException("not in EDT");
+            instance = new MainWindow();
+        }
+        return instance;
+    }
+    
+    // *********************************************************************
 
-    boolean machineState = false;
+    public boolean isMachineStateOn()
+    {
+        return machineStateOn;
+    }
+    
+    
+            
+    boolean machineStateOn = false;
     boolean timesChanged = true;
     String timeOfDay, date, time1, time2, time3, time4;
     String time1_active_str, time2_active_str, time3_active_str, time4_active_str;
@@ -40,7 +63,7 @@ public class MainWindow extends javax.swing.JFrame
     JsonObject times;
 
     // pi4j
-    pi4j_Singleton pi4j_instance;
+    Pi4j_Singleton pi4j_instance;
 
     // create object
     MongoClient mongodb;
@@ -57,7 +80,7 @@ public class MainWindow extends javax.swing.JFrame
     /**
      * Creates new form Hauptfenster
      */
-    public MainWindow()
+    private MainWindow()
     {
         //GraphicsDevice d = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 //        if (d.isFullScreenSupported())
@@ -72,7 +95,7 @@ public class MainWindow extends javax.swing.JFrame
 //        }
         initComponents();
 
-        if (machineState == false)
+        if (machineStateOn == false)
         {
             lbState.setText("Aus");
         }
@@ -80,7 +103,7 @@ public class MainWindow extends javax.swing.JFrame
         // pi4j instance
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
-            pi4j_instance = pi4j_Singleton.getInstance();
+            pi4j_instance = Pi4j_Singleton.getInstance();
         }
 
         // connect to Database
@@ -552,14 +575,14 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onEinAusSchalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onEinAusSchalten
     {//GEN-HEADEREND:event_onEinAusSchalten
-        if (machineState != true)
+        if (machineStateOn != true)
         {
-            machineState = true;
+            machineStateOn = true;
             lbState.setText("Ein");
         }
         else
         {
-            machineState = false;
+            machineStateOn = false;
             lbState.setText("Aus");
         }
 
@@ -575,12 +598,12 @@ public class MainWindow extends javax.swing.JFrame
     {//GEN-HEADEREND:event_onManuelleSteuerung
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
-            if (machineState == true)
+            if (machineStateOn == true)
             {
                 if (JOptionPane.showConfirmDialog(this, "Um fortzufahren müssen Sie die automatische Fütterung deaktivieren. \n Wollen sie diese deaktivieren? ",
                         "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 {
-                    machineState = false;
+                    machineStateOn = false;
                     lbState.setText("Aus");
 
                     final ManualControl strDlg = new ManualControl(this, true);
@@ -741,7 +764,7 @@ public class MainWindow extends javax.swing.JFrame
             @Override
             public void run()
             {
-                MainWindow frame = new MainWindow();
+                MainWindow frame = MainWindow.getInstace();
 
             }
         });
@@ -845,72 +868,8 @@ public class MainWindow extends javax.swing.JFrame
     }
 
     // calculates nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
-    private class FeedingWorker extends SwingWorker<Object, String>
-    {
-
-        String string1, strLog;
-
-        @Override
-        protected Object doInBackground() throws Exception
-        {
-            while (!isCancelled())
-            {
-                if (machineState == true)
-                {
-                    // next feeding
-                    NextFeeding nextFeeding = new NextFeeding();
-                    string1 = nextFeeding.next(times);
-
-                    // feedingcycle
-                    if (time1.equals(timeOfDay))
-                    {
-                        pi4j_instance.feed();
-                        lastFeeding = 1;
-                        lastFeedingTime = time1;
-                        publish();
-                    }
-                    else
-                    {
-                        if (time2.equals(timeOfDay))
-                        {
-                            pi4j_instance.feed();
-                            lastFeeding = 2;
-                            lastFeedingTime = time2;
-                            publish();
-                        }
-                        else
-                        {
-                            if (time3.equals(timeOfDay))
-                            {
-                                pi4j_instance.feed();
-                                lastFeeding = 3;
-                                lastFeedingTime = time3;
-                                publish();
-                            }
-                            else
-                            {
-                                if (time4.equals(timeOfDay))
-                                {
-                                    pi4j_instance.feed();
-                                    lastFeeding = 4;
-                                    lastFeedingTime = time4;
-                                    publish();
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    string1 = "-;-";
-                }
-
-                publish();
-
-                TimeUnit.MILLISECONDS.sleep(500);
-            }
-            return 1;
-        }
+    private class FeedingWorker extends AbstractFeedingWorker
+    {     
 
         @Override
         protected void process(List<String> chunks)
@@ -1067,7 +1026,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineState));
+                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn));
                 
                 publish();
                 
