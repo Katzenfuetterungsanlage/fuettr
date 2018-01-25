@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public time3_show = false;
   public time4_show = false;
 
-  public wolf = 100;
+  public wolf = 100.00;
   private time;
   private call;
   private clock;
@@ -46,8 +46,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.clock = setInterval(this.refreshTime(), 100);
     this.call = setInterval(this.callMeMaybe(), 30000);
     this.width = setInterval(() => {
-      this.wolf++;
-    }, 1000);
+      this.wolf = this.wolf + 0.01;
+    }, 1);
     this.time = setTimeout(() => {
       this.app.navShow = false;
     }, 0);
