@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "ng": "ng",
-        "prestart": "sudo ng build && cd ../server && sudo gulp cleanAndBuild",
+        "prestart": "ng build --prod && cd ../server && gulp cleanAndBuild",
         "start": "node ../server/dist/main.js",
         "build": "git pull && sudo rsync -aP /home/pi/git/fuettr_prototype/rc.local /etc/rc.local && sudo reboot",
         "test": "ng test",
