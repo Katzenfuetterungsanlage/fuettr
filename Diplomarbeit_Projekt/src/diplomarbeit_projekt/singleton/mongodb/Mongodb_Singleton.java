@@ -22,11 +22,11 @@ import java.util.logging.Logger;
 public class Mongodb_Singleton
 {
     private MongoClient mongodb;
-    private final DB database;
-    private final DBCollection collTimes;
-    private final DBCollection collStatus;
-    private final DBCollection collUser;
-    private final DBCollection collHardware;
+    private DB database;
+    private DBCollection collTimes;
+    private DBCollection collStatus;
+    private DBCollection collUser;
+    private DBCollection collHardware;
     
     private static Mongodb_Singleton instance = null;
     
@@ -78,7 +78,7 @@ public class Mongodb_Singleton
     
     public void setHardwareDoc (BasicDBObject obj)
     {
-        collHardware.update(new BasicDBObject("identifier", "User"), obj);
+        collHardware.update(new BasicDBObject("identifier", "Hardware"), obj);
     }
        
 }
