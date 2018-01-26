@@ -50,14 +50,15 @@ export class Server {
 
   public async login(req: express.Request, res: express.Response, next: express.NextFunction) {
     let User: Login = { token: '', isLoggedIn: false };
+    let done = false;
     const username = req.body.user;
-    // const userpass = SHA512(req.body.password).toString();
     const userpass = req.body.password;
+    // const userpass = SHA512(req.body.password).toString();
     const Users = await FuettrDB.Instance.getUsers();
     for (let i = 0; i < Users.length; i++) {
-      let User = JSON.parse(JSON.stringify(Users[i]));
-      let pass = User.user_password;
-      let name = User.user_name;
+      // let UserDb = JSON.parse(JSON.stringify(Users[i]));
+      let name = JSON.parse(JSON.stringify(Users[i])).user_name;
+      let pass = JSON.parse(JSON.stringify(Users[i])).user_password;
       if (userpass === pass && username === name) {
         jwt.sign({ user: username }, this._privkey, { expiresIn: '10h', algorithm: 'RS256' }, (err, token) => {
           if (err != undefined) {
@@ -67,14 +68,16 @@ export class Server {
             User.token = token;
             User.isLoggedIn = true;
             res.send(JSON.stringify(User));
+            done = true;
           }
         });
-      } else {
-        User.token = '';
-        User.isLoggedIn = false;
-        res.status(401).send(JSON.stringify(User));
       }
     }
+    setTimeout(() => {
+      if (!done) {
+        res.status(401).send(JSON.stringify(User));
+      }
+    }, 2000);
   }
 
   public logout(req: express.Request, res: express.Response, next: express.NextFunction) {}

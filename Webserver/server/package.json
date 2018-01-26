@@ -4,7 +4,8 @@
     "description": "express server for fuettr",
     "main": "main.js",
     "scripts": {
-        "restart": "gulp cleanAndBuild && node dist/main.js",
+        "prerestart": "gulp cleanAndBuild",
+        "restart": "node dist/main.js",
         "start": "node dist/main.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
