@@ -10,7 +10,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import diplomarbeit_projekt.gui.MainWindow;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +37,7 @@ public class Mongodb_Singleton
         }
         catch (UnknownHostException ex)
         {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mongodb_Singleton.class.getName()).log(Level.SEVERE, null, ex);
         }
         database = mongodb.getDB("fuettr");
         collTimes = database.getCollection("data_times");
@@ -63,7 +62,7 @@ public class Mongodb_Singleton
     
     public DBObject getUserDoc ()
     {
-        return collTimes.find(new BasicDBObject("identifier", "User")).next();
+        return collUser.find(new BasicDBObject("identifier", "User")).next();
     }
     
     public void setTimeDoc (BasicDBObject obj)
