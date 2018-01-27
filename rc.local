@@ -9,7 +9,7 @@ echo "\e[92m
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
 systemctl start mongodb
 mongod &
-su USERR -c 'cd HOMEE/git/fuettr/Web_Application/Webserver/ng2 && npm start &'
+su USERR -c 'cd HOMEE/git/fuettr/Webserver/server && npm start &'
 
 _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
