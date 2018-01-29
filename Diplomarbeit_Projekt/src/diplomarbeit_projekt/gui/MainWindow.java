@@ -625,10 +625,9 @@ public class MainWindow extends javax.swing.JFrame
 
         if (timesDlg.isSaved())
         {
-            // get JsonObject newTimes from TimeManagement and store it in Database
-            mongodb_instance.setTimeDoc(timesDlg.getNewTimes());
+            // gets BasicDBObject newTimeDoc from TimeManagement and stores it in Database
+            mongodb_instance.setTimeDoc(timesDlg.getNewTimeDoc());
         }
-        
     }//GEN-LAST:event_onTimeManagement
 
     private void onMachineInformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMachineInformation
@@ -646,6 +645,7 @@ public class MainWindow extends javax.swing.JFrame
         
         if (userDlg.isSaved())
         {
+            // gets BasicDBObject newUserDoc from TimeManagement and stores it in Database
             mongodb_instance.setUserDoc(userDlg.getNewUserDoc());
         }
     }//GEN-LAST:event_onCreateUser

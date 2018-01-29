@@ -30,11 +30,6 @@ public class TimeManagement extends javax.swing.JDialog
     private boolean timesChanged = false;
     private BasicDBObject newTimeDoc;
 
-    //Datenaustausch
-//    public boolean timesChanged()
-//    {
-//        return timesChanged;
-//    }
     /**
      * Creates new form ZeitenManagemeint
      */
@@ -504,6 +499,16 @@ public class TimeManagement extends javax.swing.JDialog
     private javax.swing.JSpinner spTime4;
     // End of variables declaration//GEN-END:variables
 
+    public boolean isSaved()
+    {
+        return saved;
+    }
+
+    public BasicDBObject getNewTimeDoc()
+    {
+        return newTimeDoc;
+    }
+    
     private void fillSpinners()
     {
         JsonObject obj = MainWindow.getInstace().getTimes();
@@ -598,15 +603,4 @@ public class TimeManagement extends javax.swing.JDialog
             }
         }
     }
-
-    public boolean isSaved()
-    {
-        return saved;
-    }
-
-    public BasicDBObject getNewTimes()
-    {
-        return newTimeDoc;
-    }
-
 }
