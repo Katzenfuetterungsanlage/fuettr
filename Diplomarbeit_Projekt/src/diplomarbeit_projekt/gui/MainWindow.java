@@ -181,7 +181,8 @@ public class MainWindow extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel15 = new javax.swing.JPanel();
@@ -271,7 +272,6 @@ public class MainWindow extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Katzenfütterungsanlage");
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -281,7 +281,7 @@ public class MainWindow extends javax.swing.JFrame
 
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jPanel7.setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -370,7 +370,7 @@ public class MainWindow extends javax.swing.JFrame
         CenterSouth.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 0, 0, 0));
         CenterSouth.setLayout(new java.awt.BorderLayout());
 
-        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jPanel11.setLayout(new java.awt.BorderLayout());
 
         jPanel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -380,7 +380,8 @@ public class MainWindow extends javax.swing.JFrame
         jLabel14.setText("Fehler und Warnungen");
         jPanel14.add(jLabel14, java.awt.BorderLayout.NORTH);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jList1.setModel(new javax.swing.AbstractListModel<String>()
+        {
             String[] strings = { "Fehler 1", "Fehler 2", "Warnung 1", "Warnung 2" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -398,7 +399,7 @@ public class MainWindow extends javax.swing.JFrame
         CenterNorth.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 4, 1));
         CenterNorth.setLayout(new java.awt.BorderLayout());
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel12.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 2, 0));
@@ -447,7 +448,7 @@ public class MainWindow extends javax.swing.JFrame
         pSouth.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 0, 0, 0));
         pSouth.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -461,7 +462,7 @@ public class MainWindow extends javax.swing.JFrame
 
         jPanel3.add(jPanel5, java.awt.BorderLayout.WEST);
 
-        jPanel4.setLayout(new java.awt.FlowLayout(1, 10, 5));
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
         lbTimeOfDay.setText("Uhrzeit");
         jPanel4.add(lbTimeOfDay);
@@ -483,8 +484,10 @@ public class MainWindow extends javax.swing.JFrame
 
         neustarten.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/restartIcon16x16.png"))); // NOI18N
         neustarten.setText("Neustarten");
-        neustarten.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        neustarten.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onNeustarten(evt);
             }
         });
@@ -492,8 +495,10 @@ public class MainWindow extends javax.swing.JFrame
 
         herunterfahren.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/powerIcon16x16.png"))); // NOI18N
         herunterfahren.setText("Herunterfahren");
-        herunterfahren.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        herunterfahren.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onHerunterfahren(evt);
             }
         });
@@ -502,16 +507,20 @@ public class MainWindow extends javax.swing.JFrame
         jMenuBar1.add(raspberry);
 
         fuetterung.setText("Fütterung");
-        fuetterung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        fuetterung.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onFütterungszeitenVerwalten(evt);
             }
         });
 
         ein_aus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/switchIcon16x16.png"))); // NOI18N
-        ein_aus.setText("Ein-/Ausschalten");
-        ein_aus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ein_aus.setText("Einschalten");
+        ein_aus.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onEinAusSchalten(evt);
             }
         });
@@ -520,8 +529,10 @@ public class MainWindow extends javax.swing.JFrame
 
         fuetterungszeiten_verwalten.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/timeIcon16x16.png"))); // NOI18N
         fuetterungszeiten_verwalten.setText("Fütterungszeiten verwalten");
-        fuetterungszeiten_verwalten.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        fuetterungszeiten_verwalten.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onFuetterungszeitenVerwalten(evt);
             }
         });
@@ -533,8 +544,10 @@ public class MainWindow extends javax.swing.JFrame
 
         manuelleSteuerung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"))); // NOI18N
         manuelleSteuerung.setText("manuelle Steuerung");
-        manuelleSteuerung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        manuelleSteuerung.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onManuelleSteuerung(evt);
             }
         });
@@ -543,8 +556,10 @@ public class MainWindow extends javax.swing.JFrame
 
         positionsinformationen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/infoIcon16x16.png"))); // NOI18N
         positionsinformationen.setText("Positionsinformationen");
-        positionsinformationen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        positionsinformationen.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onPositionsinformation(evt);
             }
         });
@@ -556,8 +571,10 @@ public class MainWindow extends javax.swing.JFrame
 
         update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/downloadIcon16x16.png"))); // NOI18N
         update.setText("Update");
-        update.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        update.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onUpdate(evt);
             }
         });
@@ -565,8 +582,10 @@ public class MainWindow extends javax.swing.JFrame
 
         benutzer_anlegen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/userIcon16x16.png"))); // NOI18N
         benutzer_anlegen.setText("Benutzer anlegen");
-        benutzer_anlegen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        benutzer_anlegen.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onBenutzerAnlegen(evt);
             }
         });
@@ -574,8 +593,10 @@ public class MainWindow extends javax.swing.JFrame
 
         wlan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/wifi.png"))); // NOI18N
         wlan.setText("WLAN");
-        wlan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        wlan.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onWlan(evt);
             }
         });
@@ -584,8 +605,10 @@ public class MainWindow extends javax.swing.JFrame
 
         geraeteinformation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/info_aboutIcon16x16.png"))); // NOI18N
         geraeteinformation.setText("Geräteinformation");
-        geraeteinformation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        geraeteinformation.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 onGeraeteinformation(evt);
             }
         });
@@ -604,11 +627,13 @@ public class MainWindow extends javax.swing.JFrame
         {
             machineStateOn = true;
             lbState.setText("Ein");
+            ein_aus.setText("Ausschalten");
         }
         else
         {
             machineStateOn = false;
             lbState.setText("Aus");
+            ein_aus.setText("Einschalten");
         }
 
         // write machineState to mongodb in own Thread
