@@ -9,6 +9,7 @@ import com.mongodb.*;
 import com.mongodb.util.JSON;
 import diplomarbeit_projekt.gui.workers.AbstractFeedingWorker;
 import diplomarbeit_projekt.gui.workers.AbstractImportAndShowTimesWorker;
+import diplomarbeit_projekt.singleton.mongodb.Mongodb_Singleton;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -99,11 +100,8 @@ public class MainWindow extends javax.swing.JFrame
     // pi4j
     Pi4j_Singleton pi4j_instance;
 
-    // create object
-    MongoClient mongodb;
-    DB database;
-    DBCollection collTimes;
-    DBCollection collStatus;
+    // mongodb
+    Mongodb_Singleton mongodb_instance;
 
     //Workers
     TimeOfDayAndDateWorker timeAndDateWorker;
@@ -140,18 +138,9 @@ public class MainWindow extends javax.swing.JFrame
             pi4j_instance = Pi4j_Singleton.getInstance();
         }
 
-        // connect to Database
-        try
-        {
-            mongodb = new MongoClient();
-        }
-        catch (UnknownHostException ex)
-        {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        database = mongodb.getDB("fuettr");
-        collTimes = database.getCollection("data_times");
-        collStatus = database.getCollection("data_status");
+        // mongod instance
+        mongodb_instance = Mongodb_Singleton.getInstance();
+        
         //======================================================================
 
         // Worker 
@@ -679,16 +668,16 @@ public class MainWindow extends javax.swing.JFrame
     private void onFuetterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFuetterungszeitenVerwalten
     {//GEN-HEADEREND:event_onFuetterungszeitenVerwalten
         //Objektobjekt erzeugen ==> Dialog ist MODAL! (modal ... blockieren des Elternfensters) 
-        final TimeManagement zeitenDlg = new TimeManagement(this, true); // true = modal (blockiert das Hauptfenster) , false = nicht modal 
-        zeitenDlg.setVisible(true); //Dialog sichtbar setzen
+        final TimeManagement timesDlg = new TimeManagement(this, true); // true = modal (blockiert das Hauptfenster) , false = nicht modal 
+        timesDlg.setVisible(true); //Dialog sichtbar setzen
         //An dieser Stelle "blockiert" das Programm, solange der Dialog geöffnet ist!   
 
-//        if (zeitenDlg.zeitenVeraendert())
-//        {
-//            timesChanged = true;
-//            ZeitenAnzeigenWorker zaWorker = new ZeitenAnzeigenWorker();
-//            zaWorker.execute();
-//        }
+        if (timesDlg.isSaved())
+        {
+            // get JsonObject newTimes from TimeManagement and store it in Database
+            mongodb_instance.setTimeDoc(timesDlg.getNewTimes());
+        }
+        
     }//GEN-LAST:event_onFuetterungszeitenVerwalten
 
     private void onGeraeteinformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onGeraeteinformation
@@ -878,6 +867,7 @@ public class MainWindow extends javax.swing.JFrame
     // gets the current time and date and displays it in the gui MainWindow
     private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
     {
+        
         @Override
         protected Object doInBackground() throws Exception
         {
@@ -885,7 +875,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
                 date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
-
+                
                 publish();
 
                 TimeUnit.MILLISECONDS.sleep(500);
@@ -1029,21 +1019,24 @@ public class MainWindow extends javax.swing.JFrame
         @Override
         protected Object doInBackground() throws Exception
         {
-            while (!isCancelled())
-            {
-                collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
+            mongodb_instance.setInfoDoc(new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn));
+                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn), "Status");
+            
+//                collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
+//                    .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
+//                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn));
                 
-                publish();
+//                collTimes.update(new BasicDBObject("identifier", "Times"), new BasicDBObject("identifier", "Times").append("time1", time1).append("time2", time2)
+//                        .append("time3", time3).append("time4", time4)
+//                        .append("time1_active", time1_active).append("time2_active", time2_active)
+//                        .append("time3_active", time3_active).append("time4_active", time4_active));
                 
-                TimeUnit.SECONDS.sleep(1);
-            }
-            return 1;
+                return 1;
         }
 
         @Override
-        protected void process(List<String> chunks)
+        protected void done()
         {
             Logger.getLogger("Database updated!").log(Level.FINE, "Database updated!");
         }          

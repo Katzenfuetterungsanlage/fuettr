@@ -6,7 +6,6 @@
 package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
-import com.mongodb.util.JSON;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,15 +14,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.json.JsonObject;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import java.io.StringReader;
-import java.net.UnknownHostException;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 
 /**
  *
@@ -31,63 +26,15 @@ import javax.json.JsonReader;
  */
 public class TimeManagement extends javax.swing.JDialog
 {
-    boolean saved = false;
-    boolean timesChanged = false; 
-    
-    MongoClient mongodb;
-    DB database;
-    DBCollection collTimes;
-       
+    private boolean saved = false;
+    private boolean timesChanged = false;
+    private BasicDBObject newTimeDoc;
+
     //Datenaustausch
 //    public boolean timesChanged()
 //    {
 //        return timesChanged;
 //    }
-    
-    private void fillSpinners ()
-    {        
-        DBObject timeDoc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
-        String strTimes = JSON.serialize(timeDoc);
-        
-        Logger.getLogger("Times imported").log(Level.FINE, "Times imported");
-        
-        JsonReader jsonReader = Json.createReader(new StringReader(strTimes));
-        JsonObject obj = jsonReader.readObject();
-        jsonReader.close();
-
-        String time1 = obj.getString("time1");
-        String time2 = obj.getString("time2");
-        String time3 = obj.getString("time3");
-        String time4 = obj.getString("time4");  
-        Boolean time1_active = obj.getBoolean("time1_active"); //time1 checkbox
-        Boolean time2_active = obj.getBoolean("time2_active"); //time2 checkbox
-        Boolean time3_active = obj.getBoolean("time3_active"); //time3 checkbox
-        Boolean time4_active = obj.getBoolean("time4_active"); //time4 checkbox       
-        
-        Date date1 = null,date2 = null,date3 = null,date4 = null;
-        
-        DateFormat format = new SimpleDateFormat("HH:mm", Locale.GERMANY);
-        try
-        {
-            date1 = format.parse(time1);
-            date2 = format.parse(time2);
-            date3 = format.parse(time3);
-            date4 = format.parse(time4);
-        } catch (ParseException ex)
-        {
-            Logger.getLogger(TimeManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        spTime1.setValue(date1);
-        spTime2.setValue(date2);
-        spTime3.setValue(date3);
-        spTime4.setValue(date4);
-        cbTime1.setSelected(time1_active); 
-        cbTime2.setSelected(time2_active);
-        cbTime3.setSelected(time3_active);
-        cbTime4.setSelected(time4_active);
-        
-    }
     /**
      * Creates new form ZeitenManagemeint
      */
@@ -96,32 +43,21 @@ public class TimeManagement extends javax.swing.JDialog
         super(parent, modal);
 
         initComponents();
-        
-        try
-        {
-            mongodb = new MongoClient();
-        }
-        catch (UnknownHostException ex)
-        {
-            Logger.getLogger(TimeManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        database = mongodb.getDB("katzenfuetterungsanlage");  
-        collTimes = database.getCollection("data_times");
-        
+
         JSpinner.DateEditor at1 = new JSpinner.DateEditor(spTime1, "HH:mm");
         spTime1.setEditor(at1);
-        
+
         JSpinner.DateEditor at2 = new JSpinner.DateEditor(spTime2, "HH:mm");
         spTime2.setEditor(at2);
-        
+
         JSpinner.DateEditor at3 = new JSpinner.DateEditor(spTime3, "HH:mm");
         spTime3.setEditor(at3);
-        
+
         JSpinner.DateEditor at4 = new JSpinner.DateEditor(spTime4, "HH:mm");
         spTime4.setEditor(at4);
-        
+
         fillSpinners();
-         
+
         setLocationRelativeTo(parent);
         pack();
     }
@@ -408,112 +344,65 @@ public class TimeManagement extends javax.swing.JDialog
 
     private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
     {//GEN-HEADEREND:event_onSchließen
-       if (saved == false)
-       {
-           if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
-                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-           {
-               mongodb.close();
-               dispose();
-           }
-       }
-       else
-       {           
-           timesChanged = true; 
-           
-           mongodb.close();
-           dispose();
-       }
+        if (saved == false)
+        {
+            if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
+                    "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            {
+                dispose();
+            }
+        }
+        else
+        {
+            timesChanged = true;
+
+            dispose();
+        }
     }//GEN-LAST:event_onSchließen
 
     private void onSpeichern(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSpeichern
     {//GEN-HEADEREND:event_onSpeichern
-        DateFormat df = new SimpleDateFormat("HH:mm");
-
-        Date date1 = (Date) spTime1.getValue();   
-        String time1 = df.format(date1);
-        
-        Date date2 = (Date) spTime2.getValue();   
-        String time2 = df.format(date2);
-        
-        Date date3 = (Date) spTime3.getValue();   
-        String time3 = df.format(date3);
-        
-        Date date4 = (Date) spTime4.getValue();   
-        String time4 = df.format(date4);
-        
-        boolean time1_active = cbTime1.isSelected();
-        boolean time2_active = cbTime2.isSelected();
-        boolean time3_active = cbTime3.isSelected();
-        boolean time4_active = cbTime4.isSelected();
-        
-        if (time1_active == false && time2_active == false && time3_active == false && time4_active == false)
-        {
-            JOptionPane.showMessageDialog(this, "Es muss mindestens eine Zeit aktiv sein!", "Fehler",ERROR_MESSAGE);
-        }
-        
-        if (date1.equals(date2) || date1.equals(date3) || date1.equals(date4) || date2.equals(date3) || date2.equals(date4) || date3.equals(date4))
-        {
-            JOptionPane.showMessageDialog(this, "Es müssen 4 verschiedene Uhrzeiten gewählt werden!", "Fehler",ERROR_MESSAGE);
-        }
-        else
-        {
-            if (date1.after(date2) || date1.after(date3) || date1.after(date4) || date2.after(date3) || date2.after(date4) || date3.after(date4))
-            {
-                JOptionPane.showMessageDialog(this, "Die Uhrzeiten müssen in aufsteigender Reihenfolge angeordnet werden!", "Fehler",ERROR_MESSAGE);
-            }
-            else 
-            {                
-                collTimes.update(new BasicDBObject("identifier", "Times"), new BasicDBObject("identifier", "Times").append("time1", time1).append("time2", time2)
-                        .append("time3", time3).append("time4", time4)
-                        .append("time1_active", time1_active).append("time2_active", time2_active)
-                        .append("time3_active", time3_active).append("time4_active", time4_active));
-
-                Logger.getLogger("Times saved").log(Level.FINE, "Times saved"); 
-        
-                saved = true;
-            }
-        }           
+        getValues();
     }//GEN-LAST:event_onSpeichern
 
     private void spTime1StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_spTime1StateChanged
     {//GEN-HEADEREND:event_spTime1StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_spTime1StateChanged
 
     private void spTime2StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_spTime2StateChanged
     {//GEN-HEADEREND:event_spTime2StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_spTime2StateChanged
 
     private void spTime3StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_spTime3StateChanged
     {//GEN-HEADEREND:event_spTime3StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_spTime3StateChanged
 
     private void spTime4StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_spTime4StateChanged
     {//GEN-HEADEREND:event_spTime4StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_spTime4StateChanged
 
     private void cbTime1StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_cbTime1StateChanged
     {//GEN-HEADEREND:event_cbTime1StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_cbTime1StateChanged
 
     private void cbTime2StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_cbTime2StateChanged
     {//GEN-HEADEREND:event_cbTime2StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_cbTime2StateChanged
 
     private void cbTime3StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_cbTime3StateChanged
     {//GEN-HEADEREND:event_cbTime3StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_cbTime3StateChanged
 
     private void cbTime4StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_cbTime4StateChanged
     {//GEN-HEADEREND:event_cbTime4StateChanged
-        saved = false; 
+        saved = false;
     }//GEN-LAST:event_cbTime4StateChanged
 
     /**
@@ -528,7 +417,8 @@ public class TimeManagement extends javax.swing.JDialog
          */
         try
         {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels())
             {
                 if ("Nimbus".equals(info.getName()))
                 {
@@ -536,16 +426,20 @@ public class TimeManagement extends javax.swing.JDialog
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
+        }
+        catch (ClassNotFoundException ex)
         {
             java.util.logging.Logger.getLogger(TimeManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
+        }
+        catch (InstantiationException ex)
         {
             java.util.logging.Logger.getLogger(TimeManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
+        }
+        catch (IllegalAccessException ex)
         {
             java.util.logging.Logger.getLogger(TimeManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
             java.util.logging.Logger.getLogger(TimeManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -607,5 +501,110 @@ public class TimeManagement extends javax.swing.JDialog
     private javax.swing.JSpinner spTime3;
     private javax.swing.JSpinner spTime4;
     // End of variables declaration//GEN-END:variables
+
+    private void fillSpinners()
+    {
+        JsonObject obj = MainWindow.getInstace().getTimes();
+
+        Logger.getLogger("Times imported").log(Level.FINE, "Times imported");
+
+        String time1 = obj.getString("time1");
+        String time2 = obj.getString("time2");
+        String time3 = obj.getString("time3");
+        String time4 = obj.getString("time4");
+        Boolean time1_active = obj.getBoolean("time1_active"); //time1 checkbox
+        Boolean time2_active = obj.getBoolean("time2_active"); //time2 checkbox
+        Boolean time3_active = obj.getBoolean("time3_active"); //time3 checkbox
+        Boolean time4_active = obj.getBoolean("time4_active"); //time4 checkbox       
+
+        Date date1 = null, date2 = null, date3 = null, date4 = null;
+
+        DateFormat format = new SimpleDateFormat("HH:mm", Locale.GERMANY);
+        try
+        {
+            date1 = format.parse(time1);
+            date2 = format.parse(time2);
+            date3 = format.parse(time3);
+            date4 = format.parse(time4);
+        }
+        catch (ParseException ex)
+        {
+            Logger.getLogger(TimeManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        spTime1.setValue(date1);
+        spTime2.setValue(date2);
+        spTime3.setValue(date3);
+        spTime4.setValue(date4);
+        cbTime1.setSelected(time1_active);
+        cbTime2.setSelected(time2_active);
+        cbTime3.setSelected(time3_active);
+        cbTime4.setSelected(time4_active);
+    }
+
+    private void getValues()
+    {
+        DateFormat df = new SimpleDateFormat("HH:mm");
+
+        Date date1 = (Date) spTime1.getValue();
+        String time1 = df.format(date1);
+
+        Date date2 = (Date) spTime2.getValue();
+        String time2 = df.format(date2);
+
+        Date date3 = (Date) spTime3.getValue();
+        String time3 = df.format(date3);
+
+        Date date4 = (Date) spTime4.getValue();
+        String time4 = df.format(date4);
+
+        boolean time1_active = cbTime1.isSelected();
+        boolean time2_active = cbTime2.isSelected();
+        boolean time3_active = cbTime3.isSelected();
+        boolean time4_active = cbTime4.isSelected();
+
+        if (time1_active == false && time2_active == false && time3_active == false && time4_active == false)
+        {
+            JOptionPane.showMessageDialog(this, "Es muss mindestens eine Zeit aktiv sein!", "Fehler", ERROR_MESSAGE);
+        }
+
+        if (date1.equals(date2) || date1.equals(date3) || date1.equals(date4) || date2.equals(date3) || date2.equals(date4) || date3.equals(date4))
+        {
+            JOptionPane.showMessageDialog(this, "Es müssen 4 verschiedene Uhrzeiten gewählt werden!", "Fehler", ERROR_MESSAGE);
+        }
+        else
+        {
+            if (date1.after(date2) || date1.after(date3) || date1.after(date4) || date2.after(date3) || date2.after(date4) || date3.after(date4))
+            {
+                JOptionPane.showMessageDialog(this, "Die Uhrzeiten müssen in aufsteigender Reihenfolge angeordnet werden!", "Fehler", ERROR_MESSAGE);
+            }
+            else
+            {
+                newTimeDoc = new BasicDBObject("identifier", "Times")
+                        .append("time1", time1)
+                        .append("time1_active", time1_active)
+                        .append("time2", time2)
+                        .append("time2_active", time2_active)
+                        .append("time3", time3)
+                        .append("time3_active", time3_active)
+                        .append("time4", time4)
+                        .append("time4_active", time4_active);
+
+                Logger.getLogger("Times saved").log(Level.FINE, "Times saved");
+
+                saved = true;
+            }
+        }
+    }
+
+    public boolean isSaved()
+    {
+        return saved;
+    }
+
+    public BasicDBObject getNewTimes()
+    {
+        return newTimeDoc;
+    }
 
 }

@@ -7,8 +7,6 @@ package diplomarbeit_projekt.gui.workers;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-import diplomarbeit_projekt.gui.MainWindow;
 import diplomarbeit_projekt.singleton.mongodb.Mongodb_Singleton;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -35,7 +33,7 @@ public class AbstractImportAndShowTimesWorker extends SwingWorker<Object, DBObje
         Logger.getLogger(strCnt).log(Level.FINE, strCnt);
         if (mongodb_instance.countTimesColl() < 1)
         {
-            DBObject timeDoc = new BasicDBObject("identifier", "Times")
+            BasicDBObject timeDoc = new BasicDBObject("identifier", "Times")
               .append("time1", "06:00")
               .append("time1_active", true)
               .append("time2", "10:00")

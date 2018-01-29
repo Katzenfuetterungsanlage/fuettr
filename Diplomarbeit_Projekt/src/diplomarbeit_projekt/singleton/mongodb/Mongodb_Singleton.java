@@ -65,22 +65,22 @@ public class Mongodb_Singleton
         return collUser.find(new BasicDBObject("identifier", "User")).next();
     }
     
-    public void setTimeDoc (DBObject obj)
+    public void setTimeDoc (BasicDBObject obj)
     {
         collTimes.update(new BasicDBObject("identifier", "Times"), obj);
     }
     
-    public void setUserDoc (DBObject obj)
+    public void setUserDoc (BasicDBObject obj)
     {
         collUser.update(new BasicDBObject("identifier", "User"), obj);
     }
     
-    public void setHardwareDoc (DBObject obj)
+    public void setHardwareDoc (BasicDBObject obj)
     {
         collHardware.update(new BasicDBObject("identifier", "Hardware"), obj);
     }
     
-    public void setInfoDoc (DBObject obj, String identifier)
+    public void setInfoDoc (BasicDBObject obj, String identifier)
     {
         // identifiert can be Status or Info
         collInfo.update(new BasicDBObject("identifier", identifier), obj);
