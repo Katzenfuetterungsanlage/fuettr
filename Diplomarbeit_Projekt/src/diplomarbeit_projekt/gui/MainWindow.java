@@ -911,7 +911,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             // next feeding
             string = chunks.get(0);
-            chunks.clear();
+
             String[] token = string.split(";");
             nextFeedingAt = token[0];
             nextFeedingIn = token[1];
@@ -939,7 +939,6 @@ public class MainWindow extends javax.swing.JFrame
         protected void process(List<DBObject> chunks)
         {
             doc = chunks.get(0);
-            chunks.clear();
             
             String strTimes = JSON.serialize(doc);
             
