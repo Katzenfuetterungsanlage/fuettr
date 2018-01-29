@@ -27,40 +27,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   public time3_show = false;
   public time4_show = false;
 
-  public wolf = 100.00;
-  private time;
+  public wolf = 100.0;
   private call;
   private clock;
   private width;
+  private callerr;
 
-  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {
-  }
+  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {}
 
   private refreshTime() {
     this.Time = new Date().toLocaleTimeString();
   }
 
   public ngOnInit(): void {
+    console.log('ngOnInit: ' + this.Time);
     this.callMeMaybe();
 
-    this.clock = setInterval(this.refreshTime(), 100);
-    this.call = setInterval(this.callMeMaybe(), 30000);
-    this.width = setInterval(() => {
-      this.wolf = this.wolf + 0.01;
-    }, 1);
-    this.time = setTimeout(() => {
+    this.clock = setInterval(() => this.refreshTime(), 100);
+    this.call = setInterval(() => this.callMeMaybe(), 1000);
+    this.callerr = setInterval(() => this.callErrWarn(), 30000);
+    // this.width = setInterval(() => {
+    //   this.wolf = this.wolf + 0.01;
+    // }, 1);
+    setTimeout(() => {
       this.app.navShow = false;
     }, 0);
   }
 
   public ngOnDestroy(): void {
-    if (this.time !== undefined) {
-      clearInterval(this.time);
-      this.time = undefined;
-    }
+    console.log('ngOnDestroy: ' + this.Time);
     if (this.call !== undefined) {
       clearInterval(this.call);
       this.call = undefined;
+    }
+    if (this.callerr !== undefined) {
+      clearInterval(this.callerr);
+      this.callerr = undefined;
     }
     if (this.clock !== undefined) {
       clearInterval(this.clock);
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  private callMeMaybe(): void {
+  private callErrWarn(): void {
     this.httpgetService.get('warnings').then((res: itf.Warnings) => {
       this.warning_messages = res.warnings;
     });
@@ -80,7 +82,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.httpgetService.get('errors').then((res: itf.Errors) => {
       this.error_messages = res.errors;
     });
+  }
 
+  private callMeMaybe(): void {
     this.httpgetService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;

@@ -52,8 +52,8 @@ export class Server {
     let User: Login = { token: '', isLoggedIn: false };
     let done = false;
     const username = req.body.user;
-    const userpass = req.body.password;
-    // const userpass = SHA512(req.body.password).toString();
+    // const userpass = req.body.password;
+    const userpass = SHA512(req.body.password).toString();
     const Users = await FuettrDB.Instance.getUsers();
     for (let i = 0; i < Users.length; i++) {
       // let UserDb = JSON.parse(JSON.stringify(Users[i]));
