@@ -6,6 +6,7 @@
 package diplomarbeit_projekt.gui.workers;
 
 import diplomarbeit_projekt.gui.MainWindow;
+import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import diplomarbeit_projekt.utils.NextFeeding;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
@@ -16,67 +17,68 @@ import javax.swing.SwingWorker;
  */
 public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 {
-    private String string1, strLog;
-    
-     @Override
-        protected Object doInBackground() throws Exception
+
+    // pi4j
+    private Pi4j_Singleton pi4j_instance;
+
+    private String string, lastFeedingTime;
+
+    @Override
+    protected Object doInBackground() throws Exception
+    {
+        // pi4j instance
+        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
-            while (!isCancelled())
+            pi4j_instance = Pi4j_Singleton.getInstance();
+        }
+
+        while (!isCancelled())
+        {
+            if (MainWindow.getInstace().isMachineStateOn())
             {
-                if (MainWindow.getInstace().isMachineStateOn())
+                // next feeding
+                NextFeeding nextFeeding = new NextFeeding();
+                string = nextFeeding.next(MainWindow.getInstace().getTimes());
+            }
+            
+                // feedingcycle
+                if (MainWindow.getInstace().getTime1().equals(MainWindow.getInstace().getTimeOfDay()))
                 {
-                    // next feeding
-                    NextFeeding nextFeeding = new NextFeeding();
-                    string1 = nextFeeding.next(times);
-
-                    // feedingcycle
-                    if (time1.equals(timeOfDay))
-                    {
-                        pi4j_instance.feed();
-                        lastFeeding = 1;
-                        lastFeedingTime = time1;
-                        publish();
-                    }
-                    else
-                    {
-                        if (time2.equals(timeOfDay))
-                        {
-                            pi4j_instance.feed();
-                            lastFeeding = 2;
-                            lastFeedingTime = time2;
-                            publish();
-                        }
-                        else
-                        {
-                            if (time3.equals(timeOfDay))
-                            {
-                                pi4j_instance.feed();
-                                lastFeeding = 3;
-                                lastFeedingTime = time3;
-                                publish();
-                            }
-                            else
-                            {
-                                if (time4.equals(timeOfDay))
-                                {
-                                pi4j_instance.feed();
-                                    lastFeeding = 4;
-                                    lastFeedingTime = time4;
-                                    publish();
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    string1 = "-;-";
+                    pi4j_instance.feed();
+                    lastFeedingTime = MainWindow.getInstace().getTime1();
+                    string = string + ";" + lastFeedingTime;
+                    publish(string);
                 }
 
-                publish();
+                if (MainWindow.getInstace().getTime2().equals(MainWindow.getInstace().getTimeOfDay()))
+                {
+                    pi4j_instance.feed();
+                    lastFeedingTime = MainWindow.getInstace().getTime2();
+                    string = string + ";" + lastFeedingTime;
+                    publish(string);
+                }
+
+                if (MainWindow.getInstace().getTime3().equals(MainWindow.getInstace().getTimeOfDay()))
+                {
+                    pi4j_instance.feed();
+                    lastFeedingTime = MainWindow.getInstace().getTime3();
+                    string = string + ";" + lastFeedingTime;
+                    publish(string);
+                }
+
+                if (MainWindow.getInstace().getTime4().equals(MainWindow.getInstace().getTimeOfDay()))
+                {
+                    pi4j_instance.feed();
+                    lastFeedingTime = MainWindow.getInstace().getTime4();
+                    string = string + ";" + lastFeedingTime;
+                    publish(string);
+                }
+                
+//                string = "-;-;-";  
+                publish(string);
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
             return 1;
-        }
+    }      
 }

@@ -8,6 +8,7 @@ package diplomarbeit_projekt.gui;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 import diplomarbeit_projekt.gui.workers.AbstractFeedingWorker;
+import diplomarbeit_projekt.gui.workers.AbstractImportAndShowTimesWorker;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +51,39 @@ public class MainWindow extends javax.swing.JFrame
     {
         return machineStateOn;
     }
+
+    public JsonObject getTimes()
+    {
+        return times;
+    }
+
+    public String getTimeOfDay()
+    {
+        return timeOfDay;
+    }
+
+    public String getTime1()
+    {
+        return time1;
+    }
+
+    public String getTime2()
+    {
+        return time2;
+    }
+
+    public String getTime3()
+    {
+        return time3;
+    }
+
+    public String getTime4()
+    {
+        return time4;
+    }
+    
+    
+    
     
     
             
@@ -870,71 +904,45 @@ public class MainWindow extends javax.swing.JFrame
     // calculates nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
     private class FeedingWorker extends AbstractFeedingWorker
     {     
-
+        private String string;
+        
         @Override
         protected void process(List<String> chunks)
         {
             // next feeding
-            String[] token = string1.split(";");
+            string = chunks.get(0);
+            chunks.clear();
+            String[] token = string.split(";");
             nextFeedingAt = token[0];
             nextFeedingIn = token[1];
+            lastFeedingTime = token[2];
 
-            strLog = "nextFeedingAt: " + nextFeedingAt + " || " + "NextFeedingIn: " + nextFeedingIn;
+            String strLog = "nextFeedingAt: " + nextFeedingAt + " || " + "nextFeedingIn: " + nextFeedingIn + " || " + "lastFeedingTime: " + lastFeedingTime;
             Logger.getLogger(strLog).log(Level.FINE, strLog);
 
             lbNextFeedingAt.setText(nextFeedingAt);
             lbNextFeedingIn.setText(nextFeedingIn);
 
             // feedingcycle
-            lbLastFeeding.setText(lastFeedingTime);
+            if (lastFeedingTime != null)
+                lbLastFeeding.setText(lastFeedingTime);
         }
 
     }
 
     // Import times from mongodb and show them on gui
-    private class ImportAndShowTimesWorker extends SwingWorker<Object, String>
+    private class ImportAndShowTimesWorker extends AbstractImportAndShowTimesWorker
     {
-        String strTimes;
-        String str;
-
+        private DBObject doc;
+        
         @Override
-        protected Object doInBackground() throws Exception
+        protected void process(List<DBObject> chunks)
         {
-            String strCnt = "cnt: " + collTimes.count();
-            Logger.getLogger(strCnt).log(Level.FINE, strCnt);
-            if (collTimes.count() < 1)
-            {
-                // collection drop
-                // Collection mit Standard-Werten erstellen
-            }
-
-            while (!isCancelled())
-            {
-                // import times
-                DBObject doc = collTimes.find(new BasicDBObject("identifier", "Times")).next();
-
-                strTimes = JSON.serialize(doc);
-
-                // show times
-                if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
-                {
-                    str = "true";
-                }
-                else
-                {
-                    str = "false";
-                }
-
-                TimeUnit.MILLISECONDS.sleep(250);
-
-                publish();
-            }
-            return 1;
-        }
-
-        @Override
-        protected void process(List<String> chunks)
-        {
+            doc = chunks.get(0);
+            chunks.clear();
+            
+            String strTimes = JSON.serialize(doc);
+            
             // import times
             JsonReader jsonReader = Json.createReader(new StringReader(strTimes));
             JsonObject obj = jsonReader.readObject();
@@ -957,7 +965,7 @@ public class MainWindow extends javax.swing.JFrame
 
             // show times
             // show times if ("true".equals(str))
-            if ("true".equals(str))
+            if ("".equals(time1) || "".equals(time2) || "".equals(time3) || "".equals(time4))
             {
                 if (time1_active != true)
                 {
