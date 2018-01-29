@@ -85,7 +85,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onF&#xfc;tterungszeitenVerwalten"/>
           </Events>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="ein_aus">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_switchOnOff">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/diplomarbeit_projekt/icons/switchIcon16x16.png"/>
@@ -116,7 +116,7 @@
             <Property name="text" type="java.lang.String" value="Steuerung"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="manuelleSteuerung">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_manualControl">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"/>
@@ -147,7 +147,7 @@
             <Property name="text" type="java.lang.String" value="Einstellungen"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="update">
+            <MenuItem class="javax.swing.JMenuItem" name="menu_update">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/diplomarbeit_projekt/icons/downloadIcon16x16.png"/>

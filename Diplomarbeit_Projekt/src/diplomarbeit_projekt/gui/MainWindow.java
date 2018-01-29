@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import diplomarbeit_projekt.utils.NextFeeding;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.JsonObject;
@@ -23,7 +22,6 @@ import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonReader;
 import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
-import java.net.UnknownHostException;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.SwingUtilities;
 
@@ -46,70 +44,27 @@ public class MainWindow extends javax.swing.JFrame
         return instance;
     }
     
-    // *********************************************************************
-
-    public boolean isMachineStateOn()
-    {
-        return machineStateOn;
-    }
-
-    public JsonObject getTimes()
-    {
-        return times;
-    }
-
-    public String getTimeOfDay()
-    {
-        return timeOfDay;
-    }
-
-    public String getTime1()
-    {
-        return time1;
-    }
-
-    public String getTime2()
-    {
-        return time2;
-    }
-
-    public String getTime3()
-    {
-        return time3;
-    }
-
-    public String getTime4()
-    {
-        return time4;
-    }
-
-    public DBObject getUserDoc()
-    {
-        return userDoc;
-    }
-    
+    // *********************************************************************   
             
-    boolean machineStateOn = false;
-    boolean timesChanged = true;
-    String timeOfDay, date, time1, time2, time3, time4;
-    String time1_active_str, time2_active_str, time3_active_str, time4_active_str;
-    Boolean time1_active, time2_active, time3_active, time4_active;
-    int lastFeeding = 1;
-    String nextFeedingAt = "-", nextFeedingIn = "-", lastFeedingTime = "ausstehend";
-    JsonObject times;
-    DBObject userDoc;
+    private boolean machineStateOn = false;
+    private String timeOfDay, date, time1, time2, time3, time4;
+    private Boolean time1_active, time2_active, time3_active, time4_active;
+
+    private String nextFeedingAt = "-", nextFeedingIn = "-", lastFeedingTime = "ausstehend";
+    private JsonObject times;
+    private DBObject userDoc;
 
     // pi4j
-    Pi4j_Singleton pi4j_instance;
+    private Pi4j_Singleton pi4j_instance;
 
     // mongodb
-    Mongodb_Singleton mongodb_instance;
+    private final Mongodb_Singleton mongodb_instance;
 
     //Workers
-    TimeOfDayAndDateWorker timeAndDateWorker;
-    FeedingWorker feedingWorker;
-    ImportAndShowTimesWorker timesWorker;
-    DatabaseUpdateWorker dbUpdateWorker;
+    private TimeOfDayAndDateWorker timeAndDateWorker;
+    private FeedingWorker feedingWorker;
+    private ImportAndShowTimesWorker timesWorker;
+    private DatabaseUpdateWorker dbUpdateWorker;
 
     /**
      * Creates new form Hauptfenster
@@ -138,8 +93,6 @@ public class MainWindow extends javax.swing.JFrame
         // mongod instance
         mongodb_instance = Mongodb_Singleton.getInstance();
         
-        //======================================================================
-
         startup(); 
     }
 
@@ -209,15 +162,15 @@ public class MainWindow extends javax.swing.JFrame
         neustarten = new javax.swing.JMenuItem();
         herunterfahren = new javax.swing.JMenuItem();
         fuetterung = new javax.swing.JMenu();
-        ein_aus = new javax.swing.JMenuItem();
+        menu_switchOnOff = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         fuetterungszeiten_verwalten = new javax.swing.JMenuItem();
         steuerung = new javax.swing.JMenu();
-        manuelleSteuerung = new javax.swing.JMenuItem();
+        menu_manualControl = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         positionsinformationen = new javax.swing.JMenuItem();
         einstellungen = new javax.swing.JMenu();
-        update = new javax.swing.JMenuItem();
+        menu_update = new javax.swing.JMenuItem();
         benutzer_anlegen = new javax.swing.JMenuItem();
         wlan = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -484,16 +437,16 @@ public class MainWindow extends javax.swing.JFrame
             }
         });
 
-        ein_aus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/switchIcon16x16.png"))); // NOI18N
-        ein_aus.setText("Einschalten");
-        ein_aus.addActionListener(new java.awt.event.ActionListener()
+        menu_switchOnOff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/switchIcon16x16.png"))); // NOI18N
+        menu_switchOnOff.setText("Einschalten");
+        menu_switchOnOff.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 onSwitchOnOff(evt);
             }
         });
-        fuetterung.add(ein_aus);
+        fuetterung.add(menu_switchOnOff);
         fuetterung.add(jSeparator1);
 
         fuetterungszeiten_verwalten.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/timeIcon16x16.png"))); // NOI18N
@@ -511,16 +464,16 @@ public class MainWindow extends javax.swing.JFrame
 
         steuerung.setText("Steuerung");
 
-        manuelleSteuerung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"))); // NOI18N
-        manuelleSteuerung.setText("manuelle Steuerung");
-        manuelleSteuerung.addActionListener(new java.awt.event.ActionListener()
+        menu_manualControl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"))); // NOI18N
+        menu_manualControl.setText("manuelle Steuerung");
+        menu_manualControl.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 onManualControl(evt);
             }
         });
-        steuerung.add(manuelleSteuerung);
+        steuerung.add(menu_manualControl);
         steuerung.add(jSeparator3);
 
         positionsinformationen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/infoIcon16x16.png"))); // NOI18N
@@ -538,16 +491,16 @@ public class MainWindow extends javax.swing.JFrame
 
         einstellungen.setText("Einstellungen");
 
-        update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/downloadIcon16x16.png"))); // NOI18N
-        update.setText("Update");
-        update.addActionListener(new java.awt.event.ActionListener()
+        menu_update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/downloadIcon16x16.png"))); // NOI18N
+        menu_update.setText("Update");
+        menu_update.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 onUpdate(evt);
             }
         });
-        einstellungen.add(update);
+        einstellungen.add(menu_update);
 
         benutzer_anlegen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/userIcon16x16.png"))); // NOI18N
         benutzer_anlegen.setText("Benutzer anlegen");
@@ -596,15 +549,17 @@ public class MainWindow extends javax.swing.JFrame
         {
             machineStateOn = true;
             lbState.setText("Ein");
-            ein_aus.setText("Ausschalten");
+            menu_switchOnOff.setText("Ausschalten");
             dbUpdateWorker.execute(); // write machineState to mongodb
+            controlGUIElements();
         }
         else
         {
             machineStateOn = false;
             lbState.setText("Aus");
-            ein_aus.setText("Einschalten");
+            menu_switchOnOff.setText("Einschalten");
             dbUpdateWorker.execute(); // write machineState to mongodb
+            controlGUIElements();
         }
     }//GEN-LAST:event_onSwitchOnOff
 
@@ -631,8 +586,8 @@ public class MainWindow extends javax.swing.JFrame
             }
             else
             {
-                final ManualControl strDlg = new ManualControl(this, true);
-                strDlg.setVisible(true);
+                final ManualControl controlDlg = new ManualControl(this, true);
+                controlDlg.setVisible(true);
             }
         }
         else
@@ -657,8 +612,8 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onUpdate(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUpdate
     {//GEN-HEADEREND:event_onUpdate
-        final Update infoDlg = new Update(this, true);
-        infoDlg.setVisible(true);
+        final Update updateDlg = new Update(this, true);
+        updateDlg.setVisible(true);
     }//GEN-LAST:event_onUpdate
 
     private void onTimeManagement(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onTimeManagement
@@ -733,6 +688,8 @@ public class MainWindow extends javax.swing.JFrame
             }
 
             System.exit(0);
+            
+            // TODO
         }
     }//GEN-LAST:event_onShutdown
 
@@ -800,7 +757,6 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JPanel CenterNorth;
     private javax.swing.JPanel CenterSouth;
     private javax.swing.JMenuItem benutzer_anlegen;
-    private javax.swing.JMenuItem ein_aus;
     private javax.swing.JMenu einstellungen;
     private javax.swing.JMenu fuetterung;
     private javax.swing.JMenuItem fuetterungszeiten_verwalten;
@@ -855,7 +811,9 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JLabel lbTime4;
     private javax.swing.JLabel lbTime4Description;
     private javax.swing.JLabel lbTimeOfDay;
-    private javax.swing.JMenuItem manuelleSteuerung;
+    private javax.swing.JMenuItem menu_manualControl;
+    private javax.swing.JMenuItem menu_switchOnOff;
+    private javax.swing.JMenuItem menu_update;
     private javax.swing.JMenuItem neustarten;
     private javax.swing.JPanel pCenter;
     private javax.swing.JPanel pEast;
@@ -863,10 +821,65 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem positionsinformationen;
     private javax.swing.JMenu raspberry;
     private javax.swing.JMenu steuerung;
-    private javax.swing.JMenuItem update;
     private javax.swing.JMenuItem wlan;
     // End of variables declaration//GEN-END:variables
 
+    public boolean isMachineStateOn()
+    {
+        return machineStateOn;
+    }
+
+    public JsonObject getTimes()
+    {
+        return times;
+    }
+
+    public String getTimeOfDay()
+    {
+        return timeOfDay;
+    }
+
+    public String getTime1()
+    {
+        return time1;
+    }
+
+    public String getTime2()
+    {
+        return time2;
+    }
+
+    public String getTime3()
+    {
+        return time3;
+    }
+
+    public String getTime4()
+    {
+        return time4;
+    }
+
+    public DBObject getUserDoc()
+    {
+        return userDoc;
+    }
+        
+    private void controlGUIElements ()
+    {
+        // control GUI elements depending on the machine state
+        // update and manualControl not available while machine state = on 
+        if (machineStateOn == true)
+        {
+            menu_update.setEnabled(false);
+            menu_manualControl.setEnabled(false);
+        }
+        else
+        {
+            menu_update.setEnabled(true);
+            menu_manualControl.setEnabled(true);
+        }
+    }
+    
     // Startup method
     private void startup ()
     {
@@ -992,7 +1005,6 @@ public class MainWindow extends javax.swing.JFrame
             time4_active = obj.getBoolean("time4_active");
 
             // show times
-            // show times if ("true".equals(str))
             if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
             {
                 if (time1_active != true)
@@ -1062,15 +1074,6 @@ public class MainWindow extends javax.swing.JFrame
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
                     .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn), "Status");
             
-//                collStatus.update(new BasicDBObject("identifier", "Status"), new BasicDBObject("identifier", "Status")
-//                    .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-//                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn));
-                
-//                collTimes.update(new BasicDBObject("identifier", "Times"), new BasicDBObject("identifier", "Times").append("time1", time1).append("time2", time2)
-//                        .append("time3", time3).append("time4", time4)
-//                        .append("time1_active", time1_active).append("time2_active", time2_active)
-//                        .append("time3_active", time3_active).append("time4_active", time4_active));
-                
                 return 1;
         }
 

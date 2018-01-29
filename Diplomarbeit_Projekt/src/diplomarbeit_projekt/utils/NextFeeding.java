@@ -21,7 +21,7 @@ import javax.json.JsonObject;
 public class NextFeeding
 {
 
-    public String next(JsonObject timesObj)
+    public static String next(JsonObject timesObj)
     {
         Date date1 = null, date2 = null, date3 = null, date4 = null, dateUhrzeit = null;
         String time1, time2, time3, time4;

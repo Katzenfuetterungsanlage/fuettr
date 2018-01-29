@@ -7,7 +7,7 @@ package diplomarbeit_projekt.gui.workers;
 
 import diplomarbeit_projekt.gui.MainWindow;
 import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
-import diplomarbeit_projekt.utils.NextFeeding;
+import static diplomarbeit_projekt.utils.NextFeeding.next;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
 
@@ -37,8 +37,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
             if (MainWindow.getInstace().isMachineStateOn())
             {
                 // next feeding
-                NextFeeding nextFeeding = new NextFeeding();
-                string = nextFeeding.next(MainWindow.getInstace().getTimes());
+                string = next(MainWindow.getInstace().getTimes());
             }
             
                 // feedingcycle
