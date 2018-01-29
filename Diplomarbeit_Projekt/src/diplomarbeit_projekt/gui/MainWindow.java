@@ -964,7 +964,7 @@ public class MainWindow extends javax.swing.JFrame
 
             // show times
             // show times if ("true".equals(str))
-            if ("".equals(time1) || "".equals(time2) || "".equals(time3) || "".equals(time4))
+            if (!"".equals(time1) || !"".equals(time2) || !"".equals(time3) || !"".equals(time4))
             {
                 if (time1_active != true)
                 {
