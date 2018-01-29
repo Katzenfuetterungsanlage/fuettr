@@ -61,7 +61,7 @@
                 <Property name="text" type="java.lang.String" value="Neustarten"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onNeustarten"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onRestart"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="herunterfahren">
@@ -72,7 +72,7 @@
                 <Property name="text" type="java.lang.String" value="Herunterfahren"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onHerunterfahren"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onShutdown"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -93,7 +93,7 @@
                 <Property name="text" type="java.lang.String" value="Einschalten"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onEinAusSchalten"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onSwitchOnOff"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
@@ -106,7 +106,7 @@
                 <Property name="text" type="java.lang.String" value="F&#xfc;tterungszeiten verwalten"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onFuetterungszeitenVerwalten"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onTimeManagement"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -124,7 +124,7 @@
                 <Property name="text" type="java.lang.String" value="manuelle Steuerung"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onManuelleSteuerung"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onManualControl"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
@@ -166,7 +166,7 @@
                 <Property name="text" type="java.lang.String" value="Benutzer anlegen"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onBenutzerAnlegen"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreateUser"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="wlan">
@@ -190,7 +190,7 @@
                 <Property name="text" type="java.lang.String" value="Ger&#xe4;teinformation"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onGeraeteinformation"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onMachineInformation"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -7,7 +7,6 @@ package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
-import diplomarbeit_projekt.singleton.mongodb.Mongodb_Singleton;
 import diplomarbeit_projekt.utils.HashPassword;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -38,18 +37,7 @@ public class CreateUser extends javax.swing.JDialog
                
         initComponents();
         
-        DBObject userDoc = MainWindow.getInstace().getUserDoc();
-               
-        String strUser = JSON.serialize(userDoc);
-        
-        Logger.getLogger("User imported").log(Level.FINE, "User imported");
-        
-        JsonReader jsonReader = Json.createReader(new StringReader(strUser));
-        JsonObject obj = jsonReader.readObject();
-        jsonReader.close();
-
-        String user_name = obj.getString("user_name");
-        lbUser.setText(user_name);
+        setValue();
         
         setLocationRelativeTo(parent);
         pack();
@@ -284,6 +272,22 @@ public class CreateUser extends javax.swing.JDialog
     private javax.swing.JFormattedTextField tfUser_name;
     // End of variables declaration//GEN-END:variables
  
+    private void setValue ()
+    {
+        DBObject userDoc = MainWindow.getInstace().getUserDoc();
+               
+        String strUser = JSON.serialize(userDoc);
+        
+        Logger.getLogger("User imported").log(Level.FINE, "User imported");
+        
+        JsonReader jsonReader = Json.createReader(new StringReader(strUser));
+        JsonObject obj = jsonReader.readObject();
+        jsonReader.close();
+
+        String user_name = obj.getString("user_name");
+        lbUser.setText(user_name);
+    }
+    
     private void getValue ()
     {
         String user_name = tfUser_name.getText();

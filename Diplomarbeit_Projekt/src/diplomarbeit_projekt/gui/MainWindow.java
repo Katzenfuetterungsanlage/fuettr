@@ -129,11 +129,6 @@ public class MainWindow extends javax.swing.JFrame
 //        }
         initComponents();
 
-        if (machineStateOn == false)
-        {
-            lbState.setText("Aus");
-        }
-
         // pi4j instance
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
@@ -145,33 +140,7 @@ public class MainWindow extends javax.swing.JFrame
         
         //======================================================================
 
-        // Worker 
-        timeAndDateWorker = new TimeOfDayAndDateWorker();
-        timeAndDateWorker.execute();
-        Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
-
-        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
-        {
-            feedingWorker = new FeedingWorker();
-            feedingWorker.execute();
-            Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "FeedingWorker wird nicht gestartet weil nicht am Raspberry gearbeitet wird. "
-                    + "Deswegen sind nextFeedingIn und nextFeedingAt nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
-        }
-
-        timesWorker = new ImportAndShowTimesWorker();
-        timesWorker.execute();
-        Logger.getLogger("ImportTimeWorker started").log(Level.FINE, "ImportTimeWorker started");
-
-        dbUpdateWorker = new DatabaseUpdateWorker();
-        dbUpdateWorker.execute();
-        Logger.getLogger("IDatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
-        
-        lbLastFeeding.setText("ausstehend");
-
+        startup(); 
     }
 
     /**
@@ -488,7 +457,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onNeustarten(evt);
+                onRestart(evt);
             }
         });
         raspberry.add(neustarten);
@@ -499,7 +468,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onHerunterfahren(evt);
+                onShutdown(evt);
             }
         });
         raspberry.add(herunterfahren);
@@ -521,7 +490,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onEinAusSchalten(evt);
+                onSwitchOnOff(evt);
             }
         });
         fuetterung.add(ein_aus);
@@ -533,7 +502,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onFuetterungszeitenVerwalten(evt);
+                onTimeManagement(evt);
             }
         });
         fuetterung.add(fuetterungszeiten_verwalten);
@@ -548,7 +517,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onManuelleSteuerung(evt);
+                onManualControl(evt);
             }
         });
         steuerung.add(manuelleSteuerung);
@@ -586,7 +555,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onBenutzerAnlegen(evt);
+                onCreateUser(evt);
             }
         });
         einstellungen.add(benutzer_anlegen);
@@ -609,7 +578,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onGeraeteinformation(evt);
+                onMachineInformation(evt);
             }
         });
         einstellungen.add(geraeteinformation);
@@ -621,31 +590,31 @@ public class MainWindow extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void onEinAusSchalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onEinAusSchalten
-    {//GEN-HEADEREND:event_onEinAusSchalten
+    private void onSwitchOnOff(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSwitchOnOff
+    {//GEN-HEADEREND:event_onSwitchOnOff
         if (machineStateOn != true)
         {
             machineStateOn = true;
             lbState.setText("Ein");
             ein_aus.setText("Ausschalten");
+            dbUpdateWorker.execute(); // write machineState to mongodb
         }
         else
         {
             machineStateOn = false;
             lbState.setText("Aus");
             ein_aus.setText("Einschalten");
+            dbUpdateWorker.execute(); // write machineState to mongodb
         }
-
-        // write machineState to mongodb in own Thread
-    }//GEN-LAST:event_onEinAusSchalten
+    }//GEN-LAST:event_onSwitchOnOff
 
     private void onFütterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFütterungszeitenVerwalten
     {//GEN-HEADEREND:event_onFütterungszeitenVerwalten
         //Delete
     }//GEN-LAST:event_onFütterungszeitenVerwalten
 
-    private void onManuelleSteuerung(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onManuelleSteuerung
-    {//GEN-HEADEREND:event_onManuelleSteuerung
+    private void onManualControl(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onManualControl
+    {//GEN-HEADEREND:event_onManualControl
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
             if (machineStateOn == true)
@@ -670,7 +639,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             JOptionPane.showMessageDialog(this, "Diese Funktion ist nur am Raspberry verfügbar!", "Hinweis", ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_onManuelleSteuerung
+    }//GEN-LAST:event_onManualControl
 
     private void onPositionsinformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onPositionsinformation
     {//GEN-HEADEREND:event_onPositionsinformation
@@ -692,8 +661,8 @@ public class MainWindow extends javax.swing.JFrame
         infoDlg.setVisible(true);
     }//GEN-LAST:event_onUpdate
 
-    private void onFuetterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFuetterungszeitenVerwalten
-    {//GEN-HEADEREND:event_onFuetterungszeitenVerwalten
+    private void onTimeManagement(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onTimeManagement
+    {//GEN-HEADEREND:event_onTimeManagement
         //Objektobjekt erzeugen ==> Dialog ist MODAL! (modal ... blockieren des Elternfensters) 
         final TimeManagement timesDlg = new TimeManagement(this, true); // true = modal (blockiert das Hauptfenster) , false = nicht modal 
         timesDlg.setVisible(true); //Dialog sichtbar setzen
@@ -705,16 +674,16 @@ public class MainWindow extends javax.swing.JFrame
             mongodb_instance.setTimeDoc(timesDlg.getNewTimes());
         }
         
-    }//GEN-LAST:event_onFuetterungszeitenVerwalten
+    }//GEN-LAST:event_onTimeManagement
 
-    private void onGeraeteinformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onGeraeteinformation
-    {//GEN-HEADEREND:event_onGeraeteinformation
+    private void onMachineInformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMachineInformation
+    {//GEN-HEADEREND:event_onMachineInformation
         final SystemInfo infoDlg = new SystemInfo(this, true);
         infoDlg.setVisible(true);
-    }//GEN-LAST:event_onGeraeteinformation
+    }//GEN-LAST:event_onMachineInformation
 
-    private void onBenutzerAnlegen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onBenutzerAnlegen
-    {//GEN-HEADEREND:event_onBenutzerAnlegen
+    private void onCreateUser(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onCreateUser
+    {//GEN-HEADEREND:event_onCreateUser
         userDoc = mongodb_instance.getUserDoc();
         
         final CreateUser userDlg = new CreateUser(this, true);
@@ -724,10 +693,10 @@ public class MainWindow extends javax.swing.JFrame
         {
             mongodb_instance.setUserDoc(userDlg.getNewUserDoc());
         }
-    }//GEN-LAST:event_onBenutzerAnlegen
+    }//GEN-LAST:event_onCreateUser
 
-    private void onNeustarten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onNeustarten
-    {//GEN-HEADEREND:event_onNeustarten
+    private void onRestart(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onRestart
+    {//GEN-HEADEREND:event_onRestart
         try
         {
             timeAndDateWorker.cancel(true);
@@ -744,10 +713,10 @@ public class MainWindow extends javax.swing.JFrame
 
         // TODO
 
-    }//GEN-LAST:event_onNeustarten
+    }//GEN-LAST:event_onRestart
 
-    private void onHerunterfahren(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onHerunterfahren
-    {//GEN-HEADEREND:event_onHerunterfahren
+    private void onShutdown(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onShutdown
+    {//GEN-HEADEREND:event_onShutdown
         if (JOptionPane.showConfirmDialog(this, "Raspberry wirklick herunterfahren?",
                 "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
@@ -765,7 +734,7 @@ public class MainWindow extends javax.swing.JFrame
 
             System.exit(0);
         }
-    }//GEN-LAST:event_onHerunterfahren
+    }//GEN-LAST:event_onShutdown
 
     private void onWlan(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onWlan
         final ConnectToWlan wlan = new ConnectToWlan(this, true);
@@ -898,6 +867,42 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem wlan;
     // End of variables declaration//GEN-END:variables
 
+    // Startup method
+    private void startup ()
+    {
+        if (machineStateOn == false)
+        {
+            lbState.setText("Aus");
+        }
+        
+        lbLastFeeding.setText("ausstehend");
+        
+        // Worker 
+        timeAndDateWorker = new TimeOfDayAndDateWorker();
+        timeAndDateWorker.execute();
+        Logger.getLogger("TimeOfDayAndDateWorker started").log(Level.FINE, "TimeOfDayAndDateWorker started");
+
+        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
+        {
+            feedingWorker = new FeedingWorker();
+            feedingWorker.execute();
+            Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "FeedingWorker wird nicht gestartet weil nicht am Raspberry gearbeitet wird. "
+                    + "Deswegen sind nextFeedingIn und nextFeedingAt nicht verfügbar.", "Hinweis", ERROR_MESSAGE);
+        }
+
+        timesWorker = new ImportAndShowTimesWorker();
+        timesWorker.execute();
+        Logger.getLogger("ImportTimeWorker started").log(Level.FINE, "ImportTimeWorker started");
+
+        dbUpdateWorker = new DatabaseUpdateWorker();
+        dbUpdateWorker.execute();
+        Logger.getLogger("IDatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
+    }
+    
     // gets the current time and date and displays it in the gui MainWindow
     private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
     {
