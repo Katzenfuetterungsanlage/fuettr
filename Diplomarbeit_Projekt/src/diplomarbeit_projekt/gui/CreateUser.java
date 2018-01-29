@@ -26,11 +26,9 @@ import javax.json.JsonReader;
  */
 public class CreateUser extends javax.swing.JDialog
 {
-    boolean saved = false; 
-    
-    // create object
-    Mongodb_Singleton mongodb_instance;
-    
+    private boolean saved = false; 
+    private BasicDBObject newUserDoc;
+        
     /**
      * Creates new form BenutzerAnlegen
      */
@@ -39,25 +37,9 @@ public class CreateUser extends javax.swing.JDialog
         super(parent, modal);
                
         initComponents();
-         
-        // mongodb instance
-        mongodb_instance = Mongodb_Singleton.getInstance();
         
-        // connect to Database
-//        try
-//        {
-//            mongodb = new MongoClient();
-//        }
-//        catch (UnknownHostException ex)
-//        {
-//            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        database = mongodb.getDB("katzenfuetterungsanlage");  
-//        collUser = database.getCollection("data_user");
-        //======================================================================
-        
-        DBObject userDoc = mongodb_instance.getUserDoc();
-                //collUser.find(new BasicDBObject("identifier", "User")).next();
+        DBObject userDoc = MainWindow.getInstace().getUserDoc();
+               
         String strUser = JSON.serialize(userDoc);
         
         Logger.getLogger("User imported").log(Level.FINE, "User imported");
@@ -163,26 +145,26 @@ public class CreateUser extends javax.swing.JDialog
         pButton.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel7.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
-        btSpeichern.setText("Speichern");
+        btSpeichern.setText("Ok");
         btSpeichern.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onSpeichern(evt);
+                onOk(evt);
             }
         });
         jPanel7.add(btSpeichern);
 
-        btSchließen1.setText("Schließen");
+        btSchließen1.setText("Abbrechen");
         btSchließen1.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onSchließen(evt);
+                onCancel(evt);
             }
         });
         jPanel7.add(btSchließen1);
@@ -198,70 +180,28 @@ public class CreateUser extends javax.swing.JDialog
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
-    {//GEN-HEADEREND:event_onSchließen
+    private void onCancel(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onCancel
+    {//GEN-HEADEREND:event_onCancel
         if (saved == false)
        {
            if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
                  "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
            {
-//               mongodb.close();
                dispose();
            }
        }
        else
        {          
-//           mongodb.close();
            dispose();
        }
-    }//GEN-LAST:event_onSchließen
+    }//GEN-LAST:event_onCancel
 
-    private void onSpeichern(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSpeichern
-    {//GEN-HEADEREND:event_onSpeichern
-        String user_name = tfUser_name.getText();
-        char[] user_password = pwtfUser_password.getPassword();
-        char[] user_passwordConfirm = pwtfUser_passwordConfirm.getPassword();
-
-        String strUser_password = valueOf(user_password);
-        String strUser_passwordConfirm = valueOf(user_passwordConfirm);
+    private void onOk(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onOk
+    {//GEN-HEADEREND:event_onOk
+        getValue();
         
-        if ("".equals(strUser_passwordConfirm) || "".equals(user_name) || "".equals(strUser_password))
-        {
-            JOptionPane.showMessageDialog(this, "Benutzername und Passwort dürfen nicht leer sein!", "Fehler",ERROR_MESSAGE);
-        }
-        else
-        {
-            if (!strUser_password.equals(strUser_passwordConfirm))
-            {
-                JOptionPane.showMessageDialog(this, "Die Passwörter stimmen nicht überein!", "Fehler",ERROR_MESSAGE);
-                pwtfUser_password.setText("");
-                pwtfUser_passwordConfirm.setText("");
-            }
-            else
-            {
-                HashPassword hashPassword = new HashPassword();
-                String hashedPassword = hashPassword.hash(strUser_password, "");
-                
-                BasicDBObject obj = new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword);
-                mongodb_instance.setUserDoc(obj);
-                
-//                collUser.update(new BasicDBObject("identifier", "User"), new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword));
-
-                Logger.getLogger("User saved").log(Level.FINE, "User saved");  
-      
-                lbUser.setText(user_name);
-                
-                JOptionPane.showMessageDialog(this, String.format("Der Benutzer %s wurde erfolgreich angelegt!",user_name), "Hinweis",INFORMATION_MESSAGE);
-            
-                saved = true; 
-            
-                tfUser_name.setText(""); 
-                pwtfUser_password.setText("");
-                pwtfUser_passwordConfirm.setText("");
-            }
-        }
-    
-    }//GEN-LAST:event_onSpeichern
+        dispose();    
+    }//GEN-LAST:event_onOk
 
     /**
      * @param args the command line arguments
@@ -343,4 +283,60 @@ public class CreateUser extends javax.swing.JDialog
     private javax.swing.JPasswordField pwtfUser_passwordConfirm;
     private javax.swing.JFormattedTextField tfUser_name;
     // End of variables declaration//GEN-END:variables
+ 
+    private void getValue ()
+    {
+        String user_name = tfUser_name.getText();
+        char[] user_password = pwtfUser_password.getPassword();
+        char[] user_passwordConfirm = pwtfUser_passwordConfirm.getPassword();
+
+        String strUser_password = valueOf(user_password);
+        String strUser_passwordConfirm = valueOf(user_passwordConfirm);
+        
+        if ("".equals(strUser_passwordConfirm) || "".equals(user_name) || "".equals(strUser_password))
+        {
+            JOptionPane.showMessageDialog(this, "Benutzername und Passwort dürfen nicht leer sein!", "Fehler",ERROR_MESSAGE);
+        }
+        else
+        {
+            if (!strUser_password.equals(strUser_passwordConfirm))
+            {
+                JOptionPane.showMessageDialog(this, "Die Passwörter stimmen nicht überein!", "Fehler",ERROR_MESSAGE);
+                pwtfUser_password.setText("");
+                pwtfUser_passwordConfirm.setText("");
+            }
+            else
+            {
+                HashPassword hashPassword = new HashPassword();
+                String hashedPassword = hashPassword.hash(strUser_password, "");
+                
+                newUserDoc = new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword);
+                
+                Logger.getLogger("User saved").log(Level.FINE, "User saved");  
+      
+                lbUser.setText(user_name);
+                
+                JOptionPane.showMessageDialog(this, String.format("Der Benutzer %s wurde erfolgreich angelegt!",user_name), "Hinweis",INFORMATION_MESSAGE);
+            
+                saved = true; 
+            
+                tfUser_name.setText(""); 
+                pwtfUser_password.setText("");
+                pwtfUser_passwordConfirm.setText("");
+            }
+        }
+    }
+
+    public boolean isSaved()
+    {
+        return saved;
+    }
+
+    public BasicDBObject getNewUserDoc()
+    {
+        return newUserDoc;
+    }
+
+    
+
 }

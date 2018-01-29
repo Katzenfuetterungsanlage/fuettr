@@ -82,10 +82,11 @@ public class MainWindow extends javax.swing.JFrame
     {
         return time4;
     }
-    
-    
-    
-    
+
+    public DBObject getUserDoc()
+    {
+        return userDoc;
+    }
     
             
     boolean machineStateOn = false;
@@ -96,6 +97,7 @@ public class MainWindow extends javax.swing.JFrame
     int lastFeeding = 1;
     String nextFeedingAt = "-", nextFeedingIn = "-", lastFeedingTime = "ausstehend";
     JsonObject times;
+    DBObject userDoc;
 
     // pi4j
     Pi4j_Singleton pi4j_instance;
@@ -688,8 +690,15 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onBenutzerAnlegen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onBenutzerAnlegen
     {//GEN-HEADEREND:event_onBenutzerAnlegen
-        final CreateUser infoDlg = new CreateUser(this, true);
-        infoDlg.setVisible(true);
+        userDoc = mongodb_instance.getUserDoc();
+        
+        final CreateUser userDlg = new CreateUser(this, true);
+        userDlg.setVisible(true);
+        
+        if (userDlg.isSaved())
+        {
+            mongodb_instance.setUserDoc(userDlg.getNewUserDoc());
+        }
     }//GEN-LAST:event_onBenutzerAnlegen
 
     private void onNeustarten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onNeustarten

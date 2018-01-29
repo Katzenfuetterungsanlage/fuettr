@@ -124,26 +124,26 @@ public class TimeManagement extends javax.swing.JDialog
         pButton.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel5.setLayout(new java.awt.GridLayout(1, 0, 4, 0));
 
-        btSpeichern.setText("Speichern");
+        btSpeichern.setText("Ok");
         btSpeichern.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onSpeichern(evt);
+                onOk(evt);
             }
         });
         jPanel5.add(btSpeichern);
 
-        btSchließen.setText("Schließen");
+        btSchließen.setText("Abbrechen");
         btSchließen.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onSchließen(evt);
+                onCancel(evt);
             }
         });
         jPanel5.add(btSchließen);
@@ -342,8 +342,8 @@ public class TimeManagement extends javax.swing.JDialog
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
-    {//GEN-HEADEREND:event_onSchließen
+    private void onCancel(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onCancel
+    {//GEN-HEADEREND:event_onCancel
         if (saved == false)
         {
             if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
@@ -358,12 +358,14 @@ public class TimeManagement extends javax.swing.JDialog
 
             dispose();
         }
-    }//GEN-LAST:event_onSchließen
+    }//GEN-LAST:event_onCancel
 
-    private void onSpeichern(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSpeichern
-    {//GEN-HEADEREND:event_onSpeichern
+    private void onOk(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onOk
+    {//GEN-HEADEREND:event_onOk
         getValues();
-    }//GEN-LAST:event_onSpeichern
+        
+        dispose();
+    }//GEN-LAST:event_onOk
 
     private void spTime1StateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_spTime1StateChanged
     {//GEN-HEADEREND:event_spTime1StateChanged
