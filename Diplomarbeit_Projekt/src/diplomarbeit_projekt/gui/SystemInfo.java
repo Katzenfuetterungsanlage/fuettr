@@ -7,12 +7,7 @@ package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -25,10 +20,9 @@ import javax.json.JsonReader;
  */
 public class SystemInfo extends javax.swing.JDialog
 {
-    MongoClient mongodb;
-    DB database;
-    DBCollection collInfo;
-    
+    private String internal, serialnumber, wlanState, strInfo, version, ip;
+    private String versionJson = null, ipJson = null;
+    private DBObject infoDoc;
     /**
      * Creates new form GeraeteInfo
      */
@@ -37,71 +31,10 @@ public class SystemInfo extends javax.swing.JDialog
         super(parent, modal);
                
         initComponents();
-         
-        try
-        {
-            mongodb = new MongoClient();
-        }
-        catch (UnknownHostException ex)
-        {
-            Logger.getLogger(SystemInfo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        database = mongodb.getDB("katzenfuetterungsanlage");  
-        collInfo = database.getCollection("data_info");
         
-        DBObject infoDoc = collInfo.find(new BasicDBObject("identifier", "Info")).next();
-        String strInfo = JSON.serialize(infoDoc);
-        
-        Logger.getLogger("Info imported").log(Level.FINE, "Info imported");
-        
-        JsonReader jsonReader = Json.createReader(new StringReader(strInfo));
-        JsonObject obj = jsonReader.readObject();
-        jsonReader.close();
+        importInfo();
 
-        String internal = obj.getString("internal");
-        String serialnumber = obj.getString("serialnumber");
-        String wlanState = obj.getString("wlanState");
-        
-        String versionJson = null, ipJson = null;
-        
-        try
-        {
-            URL urlVersion = new URL("http://localhost:17325/api/version");
-            URL urlIp = new URL("http://localhost:17325/api/ip");
-
-            URLConnection conVersion = urlVersion.openConnection();
-            URLConnection conIp = urlIp.openConnection();
-            
-            BufferedReader bReaderVersion = new BufferedReader(new InputStreamReader(conVersion.getInputStream())); 
-            BufferedReader bReaderIp = new BufferedReader(new InputStreamReader(conIp.getInputStream())); 
-            
-            versionJson = bReaderVersion.readLine();
-            ipJson = bReaderIp.readLine();
-        }
-        catch (Exception ex)
-        {
-            Logger.getLogger(Update.UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        jsonReader = Json.createReader(new StringReader(versionJson));
-        JsonObject versionObj = jsonReader.readObject();
-        jsonReader.close();
-        
-        String version = versionObj.getString("version");
-        
-        jsonReader = Json.createReader(new StringReader(ipJson));
-        JsonObject ipObj = jsonReader.readObject();
-        jsonReader.close();
-        
-        String ip = ipObj.getString("ip");
-
-        lbInternal.setText(internal);       
-        lbSerialnumber.setText(serialnumber);
-        lbVersion.setText(version);
-        lbWlanState.setText(wlanState);
-        lbIpAddress.setText(ip);
-        
-        mongodb.close();
+        setText();
         
         setLocationRelativeTo(parent);
         pack();
@@ -327,12 +260,43 @@ public class SystemInfo extends javax.swing.JDialog
     private javax.swing.JPanel pInfo;
     // End of variables declaration//GEN-END:variables
 
-//private void version()
-//{
-//    StreamReader streamReader = new StreamReader(); 
-//    String string_json = streamReader.einlesen("D:\\Schule\\Diplomarbeit\\Git\\fuettr_prototype\\Java_Application\\Java\\src\\data\\version.json");
-//    
-//    System.out.format("%s",string_json);
-//}
-//    
+    private void importInfo ()
+    {
+        infoDoc = MainWindow.getInstace().getInfoDoc();
+        strInfo = JSON.serialize(infoDoc);
+        
+        Logger.getLogger("Info imported").log(Level.FINE, "Info imported");
+        
+        JsonReader jsonReader = Json.createReader(new StringReader(strInfo));
+        JsonObject obj = jsonReader.readObject();
+        jsonReader.close();
+
+        internal = obj.getString("internal");
+        serialnumber = obj.getString("serialnumber");
+        wlanState = obj.getString("wlanState");
+        
+        ipJson = MainWindow.getInstace().getIp();
+        versionJson = MainWindow.getInstace().getVersion();
+        
+        jsonReader = Json.createReader(new StringReader(versionJson));
+        JsonObject versionObj = jsonReader.readObject();
+        jsonReader.close();
+        
+        version = versionObj.getString("version");
+        
+        jsonReader = Json.createReader(new StringReader(ipJson));
+        JsonObject ipObj = jsonReader.readObject();
+        jsonReader.close();
+        
+        ip = ipObj.getString("ip");
+    }
+    
+    private void setText ()
+    {
+        lbInternal.setText(internal);       
+        lbSerialnumber.setText(serialnumber);
+        lbVersion.setText(version);
+        lbWlanState.setText(wlanState);
+        lbIpAddress.setText(ip);
+    }
 }

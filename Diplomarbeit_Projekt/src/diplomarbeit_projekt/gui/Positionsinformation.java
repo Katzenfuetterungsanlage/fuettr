@@ -42,10 +42,10 @@ import javax.swing.SwingWorker;
 public class Positionsinformation extends javax.swing.JDialog
 {   
     // pi4j
-    Pi4j_Singleton pi4j_instance;
+    private Pi4j_Singleton pi4j_instance;
     
     // Worker
-    PositionWorker positionWorker;
+    private PositionWorker positionWorker;
     
     /**
      * Creates new form Positionsinformation

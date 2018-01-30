@@ -22,6 +22,10 @@ import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonReader;
 import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.SwingUtilities;
 
@@ -47,12 +51,12 @@ public class MainWindow extends javax.swing.JFrame
     // *********************************************************************   
             
     private boolean machineStateOn = false;
-    private String timeOfDay, date, time1, time2, time3, time4;
+    private String timeOfDay, date, time1, time2, time3, time4, version, ip;
     private Boolean time1_active, time2_active, time3_active, time4_active;
 
     private String nextFeedingAt = "-", nextFeedingIn = "-", lastFeedingTime = "ausstehend";
     private JsonObject times;
-    private DBObject userDoc;
+    private DBObject userDoc, infoDoc;
 
     // pi4j
     private Pi4j_Singleton pi4j_instance;
@@ -632,6 +636,27 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onMachineInformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMachineInformation
     {//GEN-HEADEREND:event_onMachineInformation
+       infoDoc = mongodb_instance.getInfoDoc("Info");
+        
+       try
+        {
+            URL urlVersion = new URL("http://localhost:17325/api/version");
+            URL urlIp = new URL("http://localhost:17325/api/ip");
+
+            URLConnection conVersion = urlVersion.openConnection();
+            URLConnection conIp = urlIp.openConnection();
+            
+            BufferedReader bReaderVersion = new BufferedReader(new InputStreamReader(conVersion.getInputStream())); 
+            BufferedReader bReaderIp = new BufferedReader(new InputStreamReader(conIp.getInputStream())); 
+            
+            version = bReaderVersion.readLine();
+            ip = bReaderIp.readLine();
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(Update.UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
         final SystemInfo infoDlg = new SystemInfo(this, true);
         infoDlg.setVisible(true);
     }//GEN-LAST:event_onMachineInformation
@@ -863,6 +888,25 @@ public class MainWindow extends javax.swing.JFrame
     {
         return userDoc;
     }
+
+    public DBObject getInfoDoc()
+    {
+        return infoDoc;
+    }
+
+    public String getVersion()
+    {
+        return version;
+    }
+
+    public String getIp()
+    {
+        return ip;
+    }
+    
+    
+    
+    
         
     private void controlGUIElements ()
     {

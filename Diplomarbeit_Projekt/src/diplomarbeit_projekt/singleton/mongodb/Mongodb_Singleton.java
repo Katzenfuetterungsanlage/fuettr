@@ -65,6 +65,12 @@ public class Mongodb_Singleton
         return collUser.find(new BasicDBObject("identifier", "User")).next();
     }
     
+    public DBObject getInfoDoc (String identifier)
+    {
+        // identifier can be Info or Status
+        return collInfo.find(new BasicDBObject("identifier", "identifier")).next();
+    }
+    
     public void setTimeDoc (BasicDBObject obj)
     {
         collTimes.update(new BasicDBObject("identifier", "Times"), obj);
