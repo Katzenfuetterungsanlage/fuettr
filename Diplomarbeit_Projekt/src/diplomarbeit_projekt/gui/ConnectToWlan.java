@@ -24,44 +24,30 @@ import static java.lang.String.valueOf;
  *
  * @author Florian
  */
+public class ConnectToWlan extends javax.swing.JDialog {
 
-/*
-    In Database:
-    ===========
-    "wlan_name" : "<name>"
-    "wlan_password" : "<password>"
-
-    if there is a name and a password stored, then the machine will connect to the
-    wlan automatically, if the name or password is wrong a warning will be displayed on 
-    the main window 
-
-    password can be empty
-    
-*/
-
-public class ConnectToWlan extends javax.swing.JDialog
-{
     String wlan_name;
     String wlan_password;
-    
-    private int connect (String name, String password)
-    {
+
+    private int connect(String name, String password) {
         // TODO - implement connect
-        
+
         return 1; //connected succesful
     }
-    
+
+    private void init() {
+    }
+
     /**
      * Creates new form BenutzerAnlegen
      */
-    public ConnectToWlan(java.awt.Frame parent, boolean modal)
-    {
+    public ConnectToWlan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-               
+
         initComponents();
+        init();
 
         // TODO - scan for wlan's and display them in cbWlanNames
-        
         setLocationRelativeTo(parent);
         pack();
     }
@@ -73,9 +59,7 @@ public class ConnectToWlan extends javax.swing.JDialog
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
-        java.awt.GridBagConstraints gridBagConstraints;
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         pWlan = new javax.swing.JPanel();
@@ -85,7 +69,6 @@ public class ConnectToWlan extends javax.swing.JDialog
         cbWlanNames = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         pwtfWlan_password = new javax.swing.JPasswordField();
-        cbSavePassword = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -117,9 +100,6 @@ public class ConnectToWlan extends javax.swing.JDialog
         jPanel2.add(jLabel3);
         jPanel2.add(pwtfWlan_password);
 
-        cbSavePassword.setText("Passwort speichern");
-        jPanel2.add(cbSavePassword);
-
         jPanel3.add(jPanel2);
 
         pWlan.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -147,20 +127,16 @@ public class ConnectToWlan extends javax.swing.JDialog
         jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         btSpeichern.setText("Verbinden");
-        btSpeichern.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btSpeichern.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onVerbinden(evt);
             }
         });
         jPanel7.add(btSpeichern);
 
         btSchließen1.setText("Schließen");
-        btSchließen1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        btSchließen1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onSchließen(evt);
             }
         });
@@ -181,52 +157,44 @@ public class ConnectToWlan extends javax.swing.JDialog
     {//GEN-HEADEREND:event_onSchließen
         dispose();
     }//GEN-LAST:event_onSchließen
-  
+
     private void onVerbinden(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onVerbinden
     {//GEN-HEADEREND:event_onVerbinden
         char[] CharWlan_password = pwtfWlan_password.getPassword();
         wlan_password = valueOf(CharWlan_password);
-        
-        wlan_name = (String)cbWlanNames.getSelectedItem();
-        
+
+        wlan_name = (String) cbWlanNames.getSelectedItem();
+
         pwtfWlan_password.setText("");
-        
+
         connect(wlan_name, wlan_password);
-        
-        lbConnectedWlan.setText("wlan_name"); 
+
+        lbConnectedWlan.setText("wlan_name");
     }//GEN-LAST:event_onVerbinden
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -239,16 +207,12 @@ public class ConnectToWlan extends javax.swing.JDialog
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 ConnectToWlan dialog = new ConnectToWlan(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
@@ -260,7 +224,6 @@ public class ConnectToWlan extends javax.swing.JDialog
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSchließen1;
     private javax.swing.JButton btSpeichern;
-    private javax.swing.JCheckBox cbSavePassword;
     private javax.swing.JComboBox<String> cbWlanNames;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

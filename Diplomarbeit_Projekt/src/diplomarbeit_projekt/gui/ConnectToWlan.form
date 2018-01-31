@@ -100,11 +100,6 @@
                     </Component>
                     <Component class="javax.swing.JPasswordField" name="pwtfWlan_password">
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="cbSavePassword">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Passwort speichern"/>
-                      </Properties>
-                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>

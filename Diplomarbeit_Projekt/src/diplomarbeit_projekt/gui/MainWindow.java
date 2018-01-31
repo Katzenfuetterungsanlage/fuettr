@@ -85,6 +85,7 @@ public class MainWindow extends javax.swing.JFrame
 //        {
         this.setSize(800, 480);
         this.setVisible(true);
+        this.setResizable(false);
 //        }
         initComponents();
 
