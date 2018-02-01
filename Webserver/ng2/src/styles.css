@@ -4,6 +4,26 @@
 @import url('https://fonts.googleapis.com/css?family=Concert+One');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 @import url('https://fonts.googleapis.com/css?family=Allerta');
+
+.color-1 {
+  color: #daf7a6;
+}
+.color-2 {
+  color: #ffc300;
+}
+.color-3 {
+  color: #ff5733;
+}
+.color-4 {
+  color: #c70039;
+}
+.color-5 {
+  color: #900c3f;
+}
+.color-6 {
+  color: #581845;
+}
+
 .navbar {
   margin-bottom: 0;
   background-color: #191816;
