@@ -87,7 +87,6 @@
         <move file="dist/Diplomarbeit_Projekt.jar" tofile="dist/Fuettr.jar" />
     </target>
     -->
-    <!--
     <target name="-post-jar">
 
         <property name="store.jar.name" value="Fuettr"/>
@@ -120,6 +119,5 @@
         <delete dir="${temp.dir}"/>
 
     </target>
-    -->
     
 </project>
