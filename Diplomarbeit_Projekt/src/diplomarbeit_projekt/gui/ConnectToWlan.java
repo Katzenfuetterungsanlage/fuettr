@@ -5,20 +5,12 @@
  */
 package diplomarbeit_projekt.gui;
 
-import com.mongodb.*;
-import com.mongodb.util.JSON;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import java.io.StringReader;
 import static java.lang.String.valueOf;
-import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import static java.lang.String.valueOf;
 
 /**
  *
@@ -36,6 +28,16 @@ public class ConnectToWlan extends javax.swing.JDialog {
     }
 
     private void init() {
+        try {
+            execCmd("sudo iwlist wlan0 scan");
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectToWlan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static String execCmd(String cmd) throws java.io.IOException {
+        java.util.Scanner s = new java.util.Scanner(Runtime.getRuntime().exec(cmd).getInputStream()).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
     /**
