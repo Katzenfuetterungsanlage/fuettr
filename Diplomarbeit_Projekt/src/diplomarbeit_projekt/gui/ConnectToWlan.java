@@ -29,7 +29,7 @@ public class ConnectToWlan extends javax.swing.JDialog {
 
     private void init() {
         try {
-            execCmd("sudo iwlist wlan0 scan");
+            System.out.println(execCmd("sudo iwlist wlan0 scan"));
         } catch (IOException ex) {
             Logger.getLogger(ConnectToWlan.class.getName()).log(Level.SEVERE, null, ex);
         }
