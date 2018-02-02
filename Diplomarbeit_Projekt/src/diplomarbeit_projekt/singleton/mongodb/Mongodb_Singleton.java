@@ -41,7 +41,7 @@ public class Mongodb_Singleton
         }
         database = mongodb.getDB("fuettr");
         collTimes = database.getCollection("data_times");
-        collInfo = database.getCollection("data_status");
+        collInfo = database.getCollection("data_info");
         collUser = database.getCollection("data_user");
         collHardware = database.getCollection("data_hardware");
     }
