@@ -33,9 +33,14 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
             System.out.println("pi4j instance created");
         }
+        // test
+        System.out.println(MainWindow.getInstace().isMachineStateOn());
 
         while (!isCancelled())
         {
+            // test
+        System.out.println("while: " + MainWindow.getInstace().isMachineStateOn());
+            
             if (MainWindow.getInstace().isMachineStateOn() == true)
             {
                 // next feeding
