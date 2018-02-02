@@ -63,7 +63,9 @@ rpl USERR $THISUSER $THISUSER/.config/lxsession/LXDE-$USER/autostart
 echo -e "\e[92m
 --> getting serialnumber...\e[0m"
 IFACE=$(ip route show default | awk '/default/ {print $5}')
-read MAC </sys/class/net/$IFACE/address
+IFACES=( $IFACE )
+IIFACE=${IFACES[0]}
+read MAC < /sys/class/net/$IIFACE/address
 JSON={\"mac\":\"$MAC\"}
 curl -X POST \
 -H "Content-type: application/json" \
