@@ -68,7 +68,7 @@ public class Mongodb_Singleton
     public DBObject getInfoDoc (String identifier)
     {
         // identifier can be Info or Status
-        return collInfo.find(new BasicDBObject("identifier", "identifier")).next();
+        return collInfo.find(new BasicDBObject("identifier", identifier)).next();
     }
     
     public void insertTimeDoc (BasicDBObject obj)
