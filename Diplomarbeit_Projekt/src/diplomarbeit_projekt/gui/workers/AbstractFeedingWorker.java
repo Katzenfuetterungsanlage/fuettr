@@ -36,7 +36,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
         // test
         System.out.println(MainWindow.getInstace().isMachineStateOn());
 
-        while (!isCancelled())
+        while (true) //!isCancelled()
         {
             // test
         System.out.println("while: " + MainWindow.getInstace().isMachineStateOn());
@@ -88,6 +88,6 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 TimeUnit.MILLISECONDS.sleep(500);
             }
         }
-        return 1;
+        //return 1;
     }
 }
