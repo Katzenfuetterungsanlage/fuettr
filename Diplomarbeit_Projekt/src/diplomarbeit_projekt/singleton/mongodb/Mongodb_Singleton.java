@@ -96,5 +96,10 @@ public class Mongodb_Singleton
     {
         return collTimes.count();
     }
+    
+    public double countUserColl ()
+    {
+        return collUser.count();
+    }
        
 }

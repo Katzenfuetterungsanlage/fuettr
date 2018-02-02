@@ -663,13 +663,15 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onCreateUser(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onCreateUser
     {//GEN-HEADEREND:event_onCreateUser
-        userDoc = mongodb_instance.getUserDoc();
-        
-        if (userDoc == null)
-        {
-            userDoc = new BasicDBObject("identifier", "User")
+        if (mongodb_instance.countUserColl() < 1)
+        {            
+            mongodb_instance.setUserDoc(new BasicDBObject("identifier", "User")
               .append("user_name", "cat_standard_user")
-              .append("user_password", "testpassword");
+              .append("user_password", "testpassword"));
+        }
+        else
+        {
+            userDoc = mongodb_instance.getUserDoc();
         }
         
         final CreateUser userDlg = new CreateUser(this, true);
