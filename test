@@ -3,10 +3,14 @@
 echo -e "\e[92m
 --> getting serialnumber...\e[0m"
 IFACE=$(ip route show default | awk '/default/ {print $5}')
-echo IFACE: $IFACE
-read MAC </sys/class/net/$IFACE/address
-JSON={\"mac\":\"$MAC\"}
+IFACES=( $IFACE )
+echo "First  word of var: '${IFACES[0]}'"
+IIFACE=${IFACES[0]}
 
+echo IFACE: $IFACE
+
+read MAC < /sys/class/net/$IIFACE/address
+JSON={\"mac\":\"$MAC\"}
 echo MAC: $MAC
 
 curl -X POST \
