@@ -70,7 +70,7 @@ JSON={\"mac\":\"$MAC\"}
 curl -X POST \
 -H "Content-type: application/json" \
 -d $JSON \
-'sorogon.duckdns.org:2525/serialnumber' <$THISUSER/git/fuettr/seriennummer
+'sorogon.duckdns.org:2525/serialnumber' >>$THISUSER/git/fuettr/seriennummer
 
 echo -e "\e[92m
 --> installing node dependencies...\e[0m"
