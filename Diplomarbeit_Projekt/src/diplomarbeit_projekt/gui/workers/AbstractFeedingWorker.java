@@ -30,6 +30,8 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
             pi4j_instance = Pi4j_Singleton.getInstance();
+            
+            System.out.println("pi4j instance created");
         }
 
         while (!isCancelled())
