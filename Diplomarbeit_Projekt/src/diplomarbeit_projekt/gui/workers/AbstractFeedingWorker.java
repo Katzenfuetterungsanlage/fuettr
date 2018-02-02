@@ -75,6 +75,9 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                     publish(string);
                 }
                 
+                // test
+                System.out.println(string);
+                
 //                string = "-;-;-";  
                 publish(string);
 

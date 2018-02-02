@@ -1154,7 +1154,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             mongodb_instance.setInfoDoc(new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn == true ? "An": "Aus"), "Status");
+                    .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn ? "An": "Aus"), "Status");
 
             return 1;
         }
