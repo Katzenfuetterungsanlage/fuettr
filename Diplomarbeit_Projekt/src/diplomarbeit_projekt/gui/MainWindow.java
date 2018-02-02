@@ -971,6 +971,9 @@ public class MainWindow extends javax.swing.JFrame
             feedingWorker = new FeedingWorker();
             feedingWorker.execute();
             Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
+            
+            // test
+            System.out.println("FeedingWorker started");
         }
         else
         {
