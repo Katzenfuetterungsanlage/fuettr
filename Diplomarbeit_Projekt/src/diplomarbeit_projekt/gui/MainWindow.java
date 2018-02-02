@@ -641,6 +641,12 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onMachineInformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMachineInformation
     {//GEN-HEADEREND:event_onMachineInformation
+        // Version and IP are imported from "Web-Server"
+        // wlanState, internal and serialnumber are in the database
+        // serialnumber is inserted in the database by the WebServer (Greisl)
+        // wlanState will be set in the ConnectToWlan class
+        // internal will be set by the install script
+        
         infoDoc = mongodb_instance.getInfoDoc("Info");
 
         try

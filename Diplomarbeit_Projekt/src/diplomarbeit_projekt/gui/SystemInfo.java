@@ -22,6 +22,7 @@ public class SystemInfo extends javax.swing.JDialog
 {
     private String internal, serialnumber, wlanState, strInfo, version, ip;
     private String versionJson = null, ipJson = null;
+    private int serialnumberInt;
     private DBObject infoDoc;
     /**
      * Creates new form GeraeteInfo
@@ -272,7 +273,8 @@ public class SystemInfo extends javax.swing.JDialog
         jsonReader.close();
 
         internal = obj.getString("internal");
-        serialnumber = obj.getString("serialnumber");
+        serialnumberInt = obj.getInt("serialnumber");
+        serialnumber = String.format("%d", serialnumberInt);
         wlanState = obj.getString("wlanState");
         
         ipJson = MainWindow.getInstace().getIp();
