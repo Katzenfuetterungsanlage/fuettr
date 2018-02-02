@@ -181,8 +181,6 @@ public class Update extends javax.swing.JDialog
 
     private void onUeberpruefen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUeberpruefen
     {//GEN-HEADEREND:event_onUeberpruefen
-        
-        
         UpdateWorker updateWorker = new UpdateWorker();
         updateWorker.execute();
         

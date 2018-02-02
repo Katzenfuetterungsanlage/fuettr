@@ -85,7 +85,6 @@ public class MainWindow extends javax.swing.JFrame
 //        {
         this.setSize(800, 480);
         this.setVisible(true);
-        this.setResizable(false);
 //        }
         initComponents();
 
@@ -665,6 +664,13 @@ public class MainWindow extends javax.swing.JFrame
     private void onCreateUser(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onCreateUser
     {//GEN-HEADEREND:event_onCreateUser
         userDoc = mongodb_instance.getUserDoc();
+        
+        if (userDoc == null)
+        {
+            userDoc = new BasicDBObject("identifier", "User")
+              .append("user_name", "cat_standard_user")
+              .append("user_password", "testpassword");
+        }
         
         final CreateUser userDlg = new CreateUser(this, true);
         userDlg.setVisible(true);
