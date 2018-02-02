@@ -36,7 +36,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
         while (!isCancelled())
         {
-            if (MainWindow.getInstace().isMachineStateOn())
+            if (MainWindow.getInstace().isMachineStateOn() == true)
             {
                 // next feeding
                 string = next(MainWindow.getInstace().getTimes());
