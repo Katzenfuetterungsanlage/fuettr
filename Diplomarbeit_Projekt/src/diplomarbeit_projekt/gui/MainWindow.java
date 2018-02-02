@@ -670,7 +670,7 @@ public class MainWindow extends javax.swing.JFrame
     {//GEN-HEADEREND:event_onCreateUser
         if (mongodb_instance.countUserColl() < 1)
         {
-            mongodb_instance.setUserDoc(new BasicDBObject("identifier", "User")
+            mongodb_instance.insertUserDoc(new BasicDBObject("identifier", "User")
                     .append("user_name", "cat_standard_user")
                     .append("user_password", "testpassword"));
 

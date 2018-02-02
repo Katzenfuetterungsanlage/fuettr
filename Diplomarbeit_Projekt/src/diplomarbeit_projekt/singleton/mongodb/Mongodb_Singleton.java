@@ -71,6 +71,16 @@ public class Mongodb_Singleton
         return collInfo.find(new BasicDBObject("identifier", "identifier")).next();
     }
     
+    public void insertTimeDoc (BasicDBObject obj)
+    {
+        collTimes.insert(obj);
+    }
+    
+    public void insertUserDoc (BasicDBObject obj)
+    {
+        collUser.insert(obj);
+    }
+    
     public void setTimeDoc (BasicDBObject obj)
     {
         collTimes.update(new BasicDBObject("identifier", "Times"), obj);

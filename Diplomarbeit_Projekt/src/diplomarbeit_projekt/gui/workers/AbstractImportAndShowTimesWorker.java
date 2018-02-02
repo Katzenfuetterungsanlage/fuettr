@@ -43,7 +43,7 @@ public class AbstractImportAndShowTimesWorker extends SwingWorker<Object, DBObje
               .append("time4", "18:00")
               .append("time4_active", true);
             
-            mongodb_instance.setTimeDoc(timeDoc);
+            mongodb_instance.insertTimeDoc(timeDoc);
         }
 
         while (!isCancelled())
