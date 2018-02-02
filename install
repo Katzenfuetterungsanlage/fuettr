@@ -90,9 +90,9 @@ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
 cd $THISUSER/git/fuettr/Webserver/ng2 && sudo ng build
 cd $THISUSER/git/fuettr/Webserver/server && sudo gulp cleanAndBuild
 
-echo -e "\e[92m
---> building java program...\e[0m"
-cd $THISUSER/git/fuettr/Diplomarbeit_Projekt && ant jar
+#echo -e "\e[92m
+#--> building java program...\e[0m"
+#cd $THISUSER/git/fuettr/Diplomarbeit_Projekt && ant jar
 
 echo -e "\e[92m
 --> starting server...\e[0m"
