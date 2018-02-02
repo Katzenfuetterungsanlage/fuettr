@@ -331,7 +331,7 @@ public class Positionsinformation extends javax.swing.JDialog
                 strSensor1 = pi4j_instance.statusSensor1();
                 strSensor2 = pi4j_instance.statusSensor2();
                 strEngine1 = pi4j_instance.statusEngine1();
-                strEngine2 = pi4j_instance.statusSensor2();
+                strEngine2 = pi4j_instance.statusEngine2();
                 
                 publish();
                 

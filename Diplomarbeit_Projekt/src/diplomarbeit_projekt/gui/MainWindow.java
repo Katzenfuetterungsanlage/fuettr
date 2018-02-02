@@ -659,7 +659,7 @@ public class MainWindow extends javax.swing.JFrame
         }
         catch (Exception ex)
         {
-            Logger.getLogger(Update.UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         final SystemInfo infoDlg = new SystemInfo(this, true);
