@@ -5,63 +5,49 @@
  */
 package diplomarbeit_projekt.gui;
 
-import com.mongodb.*;
-import com.mongodb.util.JSON;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import java.io.StringReader;
-import static java.lang.String.valueOf;
-import java.net.UnknownHostException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import static java.lang.String.valueOf;
 
 /**
  *
  * @author Florian
  */
+public class ConnectToWlan extends javax.swing.JDialog {
 
-/*
-    In Database:
-    ===========
-    "wlan_name" : "<name>"
-    "wlan_password" : "<password>"
-
-    if there is a name and a password stored, then the machine will connect to the
-    wlan automatically, if the name or password is wrong a warning will be displayed on 
-    the main window 
-
-    password can be empty
-    
-*/
-
-public class ConnectToWlan extends javax.swing.JDialog
-{
     String wlan_name;
     String wlan_password;
-    
-    private int connect (String name, String password)
-    {
+
+    private int connect(String name, String password) {
         // TODO - implement connect
-        
+
         return 1; //connected succesful
     }
-    
+
+    private void init() {
+        try {
+            System.out.println(execCmd("sudo iwlist wlan0 scan"));
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectToWlan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static String execCmd(String cmd) throws java.io.IOException {
+        java.util.Scanner s = new java.util.Scanner(Runtime.getRuntime().exec(cmd).getInputStream()).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+
     /**
      * Creates new form BenutzerAnlegen
      */
-    public ConnectToWlan(java.awt.Frame parent, boolean modal)
-    {
+    public ConnectToWlan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-               
+
         initComponents();
+        init();
 
         // TODO - scan for wlan's and display them in cbWlanNames
-        
         setLocationRelativeTo(parent);
         pack();
     }
@@ -181,52 +167,44 @@ public class ConnectToWlan extends javax.swing.JDialog
     {//GEN-HEADEREND:event_onSchließen
         dispose();
     }//GEN-LAST:event_onSchließen
-  
+
     private void onVerbinden(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onVerbinden
     {//GEN-HEADEREND:event_onVerbinden
         char[] CharWlan_password = pwtfWlan_password.getPassword();
         wlan_password = valueOf(CharWlan_password);
-        
-        wlan_name = (String)cbWlanNames.getSelectedItem();
-        
+
+        wlan_name = (String) cbWlanNames.getSelectedItem();
+
         pwtfWlan_password.setText("");
-        
+
         connect(wlan_name, wlan_password);
-        
-        lbConnectedWlan.setText("wlan_name"); 
+
+        lbConnectedWlan.setText("wlan_name");
     }//GEN-LAST:event_onVerbinden
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ConnectToWlan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -239,16 +217,12 @@ public class ConnectToWlan extends javax.swing.JDialog
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 ConnectToWlan dialog = new ConnectToWlan(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
