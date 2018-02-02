@@ -30,7 +30,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
             pi4j_instance = Pi4j_Singleton.getInstance();
-            
+
             System.out.println("pi4j instance created");
         }
 
@@ -40,8 +40,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
             {
                 // next feeding
                 string = next(MainWindow.getInstace().getTimes());
-            }
-            
+
                 // feedingcycle
                 if (MainWindow.getInstace().getTime1().equals(MainWindow.getInstace().getTimeOfDay()))
                 {
@@ -74,15 +73,16 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
-                
+
                 // test
                 System.out.println(string);
-                
+
 //                string = "-;-;-";  
                 publish(string);
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
-            return 1;
-    }      
+        }
+        return 1;
+    }
 }
