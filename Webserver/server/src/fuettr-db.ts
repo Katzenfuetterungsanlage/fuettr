@@ -91,14 +91,14 @@ export class FuettrDB {
         const mockData = [
           {
             identifier: 'Times',
-            time1: '--:--',
-            time2: '--:--',
-            time3: '--:--',
-            time4: '--:--',
-            time1_active: false,
-            time2_active: false,
-            time3_active: false,
-            time4_active: false
+            time1: '06:00',
+            time2: '10:00',
+            time3: '14:00',
+            time4: '18:00',
+            time1_active: true,
+            time2_active: true,
+            time3_active: true,
+            time4_active: true
           }
         ];
         await collTimes.insertMany(mockData);
