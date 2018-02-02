@@ -668,6 +668,8 @@ public class MainWindow extends javax.swing.JFrame
             mongodb_instance.setUserDoc(new BasicDBObject("identifier", "User")
               .append("user_name", "cat_standard_user")
               .append("user_password", "testpassword"));
+            
+            userDoc = mongodb_instance.getUserDoc();
         }
         else
         {
