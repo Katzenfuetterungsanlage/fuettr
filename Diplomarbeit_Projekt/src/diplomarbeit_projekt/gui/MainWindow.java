@@ -53,9 +53,9 @@ public class MainWindow extends javax.swing.JFrame
     }
 
     // *********************************************************************   
-    private Boolean machineStateOn = false;
+    private boolean machineStateOn = false;
     private String timeOfDay, date, time1, time2, time3, time4, version, ip;
-    private Boolean time1_active, time2_active, time3_active, time4_active;
+    private boolean time1_active, time2_active, time3_active, time4_active;
 
     private String nextFeedingAt = "-", nextFeedingIn = "-", lastFeedingTime = "ausstehend";
     private JsonObject times;
@@ -880,7 +880,7 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem wlan;
     // End of variables declaration//GEN-END:variables
 
-    public Boolean isMachineStateOn()
+    public boolean isMachineStateOn()
     {
         System.out.println(machineStateOn);
         return machineStateOn;
@@ -1021,7 +1021,6 @@ public class MainWindow extends javax.swing.JFrame
     // calculates nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
     private class FeedingWorker extends AbstractFeedingWorker
     {
-
         private String string;
 
         @Override

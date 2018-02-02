@@ -109,7 +109,7 @@ public class CreateUser extends javax.swing.JDialog
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 2, 0, 4));
 
-        jLabel1.setText("Benutername:");
+        jLabel1.setText("Benutzername:");
         jPanel2.add(jLabel1);
 
         tfUser_name.setColumns(16);
