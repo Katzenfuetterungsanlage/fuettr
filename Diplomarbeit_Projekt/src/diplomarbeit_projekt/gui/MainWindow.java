@@ -23,6 +23,7 @@ import javax.json.Json;
 import javax.json.JsonReader;
 import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,21 +36,23 @@ import javax.swing.SwingUtilities;
  */
 public class MainWindow extends javax.swing.JFrame
 {
+
     private static MainWindow instance;
-    
+
     public static MainWindow getInstace()
     {
         if (instance == null)
         {
             if (!SwingUtilities.isEventDispatchThread())
+            {
                 throw new RuntimeException("not in EDT");
+            }
             instance = new MainWindow();
         }
         return instance;
     }
-    
+
     // *********************************************************************   
-            
     private boolean machineStateOn = false;
     private String timeOfDay, date, time1, time2, time3, time4, version, ip;
     private Boolean time1_active, time2_active, time3_active, time4_active;
@@ -96,8 +99,8 @@ public class MainWindow extends javax.swing.JFrame
 
         // mongod instance
         mongodb_instance = Mongodb_Singleton.getInstance();
-        
-        startup(); 
+
+        startup();
     }
 
     /**
@@ -616,6 +619,8 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onUpdate(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUpdate
     {//GEN-HEADEREND:event_onUpdate
+        //TODO: lokale Versionsdatei einlesen und werfen
+
         final Update updateDlg = new Update(this, true);
         updateDlg.setVisible(true);
     }//GEN-LAST:event_onUpdate
@@ -636,19 +641,19 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onMachineInformation(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMachineInformation
     {//GEN-HEADEREND:event_onMachineInformation
-       infoDoc = mongodb_instance.getInfoDoc("Info");
-        
-       try
+        infoDoc = mongodb_instance.getInfoDoc("Info");
+
+        try
         {
             URL urlVersion = new URL("http://localhost:17325/api/version");
             URL urlIp = new URL("http://localhost:17325/api/ip");
 
             URLConnection conVersion = urlVersion.openConnection();
             URLConnection conIp = urlIp.openConnection();
-            
-            BufferedReader bReaderVersion = new BufferedReader(new InputStreamReader(conVersion.getInputStream())); 
-            BufferedReader bReaderIp = new BufferedReader(new InputStreamReader(conIp.getInputStream())); 
-            
+
+            BufferedReader bReaderVersion = new BufferedReader(new InputStreamReader(conVersion.getInputStream()));
+            BufferedReader bReaderIp = new BufferedReader(new InputStreamReader(conIp.getInputStream()));
+
             version = bReaderVersion.readLine();
             ip = bReaderIp.readLine();
         }
@@ -656,7 +661,7 @@ public class MainWindow extends javax.swing.JFrame
         {
             Logger.getLogger(Update.UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
         final SystemInfo infoDlg = new SystemInfo(this, true);
         infoDlg.setVisible(true);
     }//GEN-LAST:event_onMachineInformation
@@ -664,21 +669,21 @@ public class MainWindow extends javax.swing.JFrame
     private void onCreateUser(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onCreateUser
     {//GEN-HEADEREND:event_onCreateUser
         if (mongodb_instance.countUserColl() < 1)
-        {            
+        {
             mongodb_instance.setUserDoc(new BasicDBObject("identifier", "User")
-              .append("user_name", "cat_standard_user")
-              .append("user_password", "testpassword"));
-            
+                    .append("user_name", "cat_standard_user")
+                    .append("user_password", "testpassword"));
+
             userDoc = mongodb_instance.getUserDoc();
         }
         else
         {
             userDoc = mongodb_instance.getUserDoc();
         }
-        
+
         final CreateUser userDlg = new CreateUser(this, true);
         userDlg.setVisible(true);
-        
+
         if (userDlg.isSaved())
         {
             // gets BasicDBObject newUserDoc from TimeManagement and stores it in Database
@@ -688,22 +693,30 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onRestart(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onRestart
     {//GEN-HEADEREND:event_onRestart
-        try
+        if (JOptionPane.showConfirmDialog(this, "Raspberry wirklick neustarten?",
+                "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
-            timeAndDateWorker.cancel(true);
-            feedingWorker.cancel(true);
-            timesWorker.cancel(true);
-            dbUpdateWorker.cancel(true);
+            try
+            {
+                timeAndDateWorker.cancel(true);
+                feedingWorker.cancel(true);
+                timesWorker.cancel(true);
+                dbUpdateWorker.cancel(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
+            }
+
+            try
+            {
+                Runtime.getRuntime().exec("sudo reboot");
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        catch (Exception ex)
-        {
-            Logger.getLogger("TimeUnit Error").log(Level.INFO, "TimeUnit Error");
-        }
-
-        JOptionPane.showMessageDialog(this, "worker shut down because restart is not implemented", "Fehler", ERROR_MESSAGE);
-
-        // TODO
-
     }//GEN-LAST:event_onRestart
 
     private void onShutdown(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onShutdown
@@ -724,7 +737,7 @@ public class MainWindow extends javax.swing.JFrame
             }
 
             System.exit(0);
-            
+
             // TODO
         }
     }//GEN-LAST:event_onShutdown
@@ -914,12 +927,8 @@ public class MainWindow extends javax.swing.JFrame
     {
         return ip;
     }
-    
-    
-    
-    
-        
-    private void controlGUIElements ()
+
+    private void controlGUIElements()
     {
         // control GUI elements depending on the machine state
         // update and manualControl not available while machine state = on 
@@ -934,17 +943,17 @@ public class MainWindow extends javax.swing.JFrame
             menu_manualControl.setEnabled(true);
         }
     }
-    
+
     // Startup method
-    private void startup ()
+    private void startup()
     {
         if (machineStateOn == false)
         {
             lbState.setText("Aus");
         }
-        
+
         lbLastFeeding.setText("ausstehend");
-        
+
         // Worker 
         timeAndDateWorker = new TimeOfDayAndDateWorker();
         timeAndDateWorker.execute();
@@ -970,11 +979,11 @@ public class MainWindow extends javax.swing.JFrame
         dbUpdateWorker.execute();
         Logger.getLogger("IDatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
     }
-    
+
     // gets the current time and date and displays it in the gui MainWindow
     private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
     {
-        
+
         @Override
         protected Object doInBackground() throws Exception
         {
@@ -982,7 +991,7 @@ public class MainWindow extends javax.swing.JFrame
             {
                 timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
                 date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
-                
+
                 publish();
 
                 TimeUnit.MILLISECONDS.sleep(500);
@@ -1000,9 +1009,10 @@ public class MainWindow extends javax.swing.JFrame
 
     // calculates nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
     private class FeedingWorker extends AbstractFeedingWorker
-    {     
+    {
+
         private String string;
-        
+
         @Override
         protected void process(List<String> chunks)
         {
@@ -1022,7 +1032,9 @@ public class MainWindow extends javax.swing.JFrame
 
             // feedingcycle
             if (lastFeedingTime != null)
+            {
                 lbLastFeeding.setText(lastFeedingTime);
+            }
         }
 
     }
@@ -1030,15 +1042,16 @@ public class MainWindow extends javax.swing.JFrame
     // Import times from mongodb and show them on gui
     private class ImportAndShowTimesWorker extends AbstractImportAndShowTimesWorker
     {
+
         private DBObject doc;
-        
+
         @Override
         protected void process(List<DBObject> chunks)
         {
             doc = chunks.get(0);
-            
+
             String strTimes = JSON.serialize(doc);
-            
+
             // import times
             JsonReader jsonReader = Json.createReader(new StringReader(strTimes));
             JsonObject obj = jsonReader.readObject();
@@ -1119,23 +1132,24 @@ public class MainWindow extends javax.swing.JFrame
         }
 
     }
-    
+
     private class DatabaseUpdateWorker extends SwingWorker<Object, String>
     {
+
         @Override
         protected Object doInBackground() throws Exception
         {
             mongodb_instance.setInfoDoc(new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
                     .append("nexFeedingIn", nextFeedingIn).append("machineState", machineStateOn), "Status");
-            
-                return 1;
+
+            return 1;
         }
 
         @Override
         protected void done()
         {
             Logger.getLogger("Database updated!").log(Level.FINE, "Database updated!");
-        }          
+        }
     }
 }
