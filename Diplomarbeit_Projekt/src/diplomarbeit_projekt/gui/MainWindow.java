@@ -1025,6 +1025,9 @@ public class MainWindow extends javax.swing.JFrame
         {
             // next feeding
             string = chunks.get(0);
+            
+            // test
+            System.out.println(string);
 
             String[] token = string.split(";");
             nextFeedingAt = token[0];

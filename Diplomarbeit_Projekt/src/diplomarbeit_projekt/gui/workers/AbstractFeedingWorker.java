@@ -75,9 +75,6 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 
 //                string = "-;-;-";  
                 publish(string);
-                
-                // test
-                System.out.println(string);
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
