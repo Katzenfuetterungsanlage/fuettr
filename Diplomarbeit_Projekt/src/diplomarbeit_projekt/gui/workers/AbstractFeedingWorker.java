@@ -33,10 +33,8 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
             System.out.println("pi4j instance created");
         }
-        // test
-        System.out.println(MainWindow.getInstace().isMachineStateOn());
 
-        while (true) //!isCancelled()
+        while (!isCancelled()) 
         {
             // test
         System.out.println("while: " + MainWindow.getInstace().isMachineStateOn());
@@ -88,6 +86,6 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 TimeUnit.MILLISECONDS.sleep(500);
             }
         }
-        //return 1;
+        return 1;
     }
 }

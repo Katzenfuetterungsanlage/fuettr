@@ -53,7 +53,7 @@ public class MainWindow extends javax.swing.JFrame
     }
 
     // *********************************************************************   
-    private boolean machineStateOn = false;
+    private Boolean machineStateOn = false;
     private String timeOfDay, date, time1, time2, time3, time4, version, ip;
     private Boolean time1_active, time2_active, time3_active, time4_active;
 
@@ -880,8 +880,9 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem wlan;
     // End of variables declaration//GEN-END:variables
 
-    public boolean isMachineStateOn()
+    public Boolean isMachineStateOn()
     {
+        System.out.println(machineStateOn);
         return machineStateOn;
     }
 
