@@ -1044,10 +1044,7 @@ public class MainWindow extends javax.swing.JFrame
             lbNextFeedingIn.setText(nextFeedingIn);
 
             // feedingcycle
-            if (lastFeedingTime != null)
-            {
-                lbLastFeeding.setText(lastFeedingTime);
-            }
+            lbLastFeeding.setText(lastFeedingTime);
         }
 
     }

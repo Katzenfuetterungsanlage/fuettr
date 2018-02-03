@@ -21,7 +21,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
     // pi4j
     private Pi4j_Singleton pi4j_instance;
 
-    private String string, lastFeedingTime;
+    private String string, lastFeedingTime = "";
     private boolean test;
 
     @Override
@@ -83,10 +83,14 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                     publish(string);
                 }
 
+                if  ("".equals(lastFeedingTime))
+                    lastFeedingTime = "ausstehend";
+                               
+                string = string + ";" + lastFeedingTime;
+                
                 // test
                 System.out.println(string);
-
-//                string = "-;-;-";  
+                
                 publish(string);
 
                 TimeUnit.MILLISECONDS.sleep(500);
