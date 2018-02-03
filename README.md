@@ -11,6 +11,5 @@
 ## Installation
 
 ```bash
-curl -L https://goo.gl/npRzS6 | bash
 bash -c "$(curl -sL https://goo.gl/npRzS6)"
 ```
