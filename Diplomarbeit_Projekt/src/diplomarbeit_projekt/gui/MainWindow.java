@@ -880,17 +880,17 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem wlan;
     // End of variables declaration//GEN-END:variables
 
+    
     public boolean isMachineStateOn()
     {
-        System.out.println(machineStateOn);
         return machineStateOn;
     }
-
+    
     public JsonObject getTimes()
     {
         return times;
     }
-
+    
     public String getTimeOfDay()
     {
         return timeOfDay;
@@ -1152,6 +1152,7 @@ public class MainWindow extends javax.swing.JFrame
         @Override
         protected Object doInBackground() throws Exception
         {
+            // create before update
             mongodb_instance.setInfoDoc(new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
                     .append("nextFeedingIn", nextFeedingIn).append("machineState", machineStateOn ? "An": "Aus"), "Status");

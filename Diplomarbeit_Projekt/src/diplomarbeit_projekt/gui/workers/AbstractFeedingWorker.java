@@ -37,7 +37,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
         while (!isCancelled()) 
         {
-            System.out.println("i bimst im while vont AbstractFeedingWorker");
+            System.out.println("while vom AbstractFeedingWorker");
             
             test = MainWindow.getInstace().isMachineStateOn();
             System.out.println(test);
@@ -45,7 +45,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
             if (test) // MainWindow.getInstace().isMachineStateOn()
             {
                 // test
-                System.out.println("i bims im if vong AbstractFeedingWorker");
+                System.out.println("if vom AbstractFeedingWorker");
                 
                 // next feeding
                 string = next(MainWindow.getInstace().getTimes());
