@@ -43,7 +43,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
             machineState = MainWindow.getInstace().isMachineStateOn();
             
             // test
-            System.out.println(machineState);
+            System.out.println("machineState: " + machineState);
             
             if (machineState) 
             {
@@ -53,7 +53,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 // next feeding
                 string = next(MainWindow.getInstace().getTimes());
 
-                //if  ("".equals(lastFeedingTime))
+                if  ("".equals(lastFeedingTime))
                     lastFeedingTime = "ausstehend";
                 
                 // feedingcycle
