@@ -111,6 +111,6 @@ done\e[0m"
 
 _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
-  echo "
+  echo -e "
 \e[41m My IP address is \e[30m$_IP\e[0m\n"
 fi
