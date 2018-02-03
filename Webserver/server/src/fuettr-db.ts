@@ -28,7 +28,7 @@ export class FuettrDB {
   private _hardware: mongodb.Collection;
   private _users: mongodb.Collection;
   private _serialnumber = parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
-  private _internal = '"' + parseInt(fs.readFileSync(path.join(__dirname, '../../../internal')).toString()) + '"';
+  private _internal = fs.readFileSync(path.join(__dirname, '../../../internal')).toString();
 
   private constructor() {}
 
