@@ -3,6 +3,10 @@
 
 THISUSER=/home/$USER
 
+echo -echo "\e[92m
+--> Please enter the Board you are using...\e[0m"
+read internal; echo $internal >> $THISUSER/git/fuettr/internal
+
 echo -e "\e[92m
 --> downloading and installing node.js...\e[0m"
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
