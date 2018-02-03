@@ -105,7 +105,7 @@ export class FuettrDB {
       }
       if (sizeinfo === 0) {
         const mockData = [
-          { identifier: 'Status', lastFeeding: '-', nextFeeding: '-', nextFeedingIn: '-', machineState: '' },
+          { identifier: 'Status', lastFeeding: 'ausstehend', nextFeeding: '-', nextFeedingIn: '-', machineState: '' },
           { identifier: 'Info', serialnumber: this._serialnumber, internal: '-', wlanState: '-' }
         ];
         await collInfo.insertMany(mockData);
