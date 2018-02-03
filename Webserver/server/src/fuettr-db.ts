@@ -28,6 +28,7 @@ export class FuettrDB {
   private _hardware: mongodb.Collection;
   private _users: mongodb.Collection;
   private _serialnumber = parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
+  private _internal = parseInt(fs.readFileSync(path.join(__dirname, '../../../internal')).toString());
 
   private constructor() {}
 
@@ -106,7 +107,7 @@ export class FuettrDB {
       if (sizeinfo === 0) {
         const mockData = [
           { identifier: 'Status', lastFeeding: 'ausstehend', nextFeeding: '-', nextFeedingIn: '-', machineState: '' },
-          { identifier: 'Info', serialnumber: this._serialnumber, internal: '-', wlanState: '-' }
+          { identifier: 'Info', serialnumber: this._serialnumber, internal: this._internal, wlanState: '-' }
         ];
         await collInfo.insertMany(mockData);
       }
