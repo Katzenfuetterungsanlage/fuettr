@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class HashPassword
 {
-   public String hash(String passwordToHash, String salt)
+   public static String hash(String passwordToHash, String salt)
     {
         String generatedPassword = null;
         try

@@ -37,9 +37,12 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
         while (!isCancelled()) 
         {
+            // test
             System.out.println("while vom AbstractFeedingWorker");
             
             machineState = MainWindow.getInstace().isMachineStateOn();
+            
+            // test
             System.out.println(machineState);
             
             if (machineState) 
@@ -50,6 +53,9 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 // next feeding
                 string = next(MainWindow.getInstace().getTimes());
 
+                //if  ("".equals(lastFeedingTime))
+                    lastFeedingTime = "ausstehend";
+                
                 // feedingcycle
                 if (MainWindow.getInstace().getTime1().equals(MainWindow.getInstace().getTimeOfDay()))
                 {
@@ -82,9 +88,6 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
-
-                if  ("".equals(lastFeedingTime))
-                    lastFeedingTime = "ausstehend";
                                
                 string = string + ";" + lastFeedingTime;
                 

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import static java.util.Objects.hash;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.SwingUtilities;
 
@@ -678,8 +679,8 @@ public class MainWindow extends javax.swing.JFrame
         if (mongodb_instance.countUserColl() < 1)
         {
             mongodb_instance.insertUserDoc(new BasicDBObject("identifier", "User")
-                    .append("user_name", "cat_standard_user")
-                    .append("user_password", "testpassword"));
+                    .append("user_name", "standard_user")
+                    .append("user_password", hash("1234")));
 
             userDoc = mongodb_instance.getUserDoc();
         }
