@@ -4,7 +4,6 @@
 THISUSER=/home/$USER
 
 read -p 'Please enter the Board you are using: ' internal
-echo $internal >> $THISUSER/git/fuettr/internal
 
 echo -e "\e[92m
 --> downloading and installing node.js...\e[0m"
@@ -44,6 +43,8 @@ chmod 755 $THISUSER/git
 cd $THISUSER/git && git clone https://github.com/Katzenfuetterungsanlage/fuettr.git
 cd $THISUSER/git/fuettr && git reset --hard
 cd $THISUSER/git/fuettr && git pull
+
+echo $internal >> $THISUSER/git/fuettr/internal
 
 echo -e "\e[92m
 --> copy rc.local...\e[0m"
