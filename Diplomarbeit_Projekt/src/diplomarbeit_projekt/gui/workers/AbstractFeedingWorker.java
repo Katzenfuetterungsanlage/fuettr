@@ -22,7 +22,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
     private Pi4j_Singleton pi4j_instance;
 
     private String string, lastFeedingTime = "";
-    private boolean test;
+    private boolean machineState;
 
     @Override
     protected Object doInBackground() throws Exception
@@ -39,10 +39,10 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
         {
             System.out.println("while vom AbstractFeedingWorker");
             
-            test = MainWindow.getInstace().isMachineStateOn();
-            System.out.println(test);
+            machineState = MainWindow.getInstace().isMachineStateOn();
+            System.out.println(machineState);
             
-            if (test) // MainWindow.getInstace().isMachineStateOn()
+            if (machineState) 
             {
                 // test
                 System.out.println("if vom AbstractFeedingWorker");
