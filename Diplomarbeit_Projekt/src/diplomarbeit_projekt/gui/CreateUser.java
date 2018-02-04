@@ -7,7 +7,7 @@ package diplomarbeit_projekt.gui;
 
 import com.mongodb.*;
 import com.mongodb.util.JSON;
-import diplomarbeit_projekt.utils.HashPassword;
+import static diplomarbeit_projekt.utils.HashPassword.hash;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -311,8 +311,7 @@ public class CreateUser extends javax.swing.JDialog
             }
             else
             {
-                HashPassword hashPassword = new HashPassword();
-                String hashedPassword = hashPassword.hash(strUser_password, "");
+                String hashedPassword = hash(strUser_password, "");
                 
                 newUserDoc = new BasicDBObject("identifier", "User").append("user_name", user_name).append("user_password", hashedPassword);
                 
