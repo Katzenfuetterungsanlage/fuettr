@@ -28,8 +28,8 @@ public class NextFeeding
         String nextFeedingAt = null, nextFeedingIn = null;
 
         long diffInMillis;
-
-        System.out.println("nextFeeding start");
+        
+        Logger.getLogger("nextFeeding start").log(Level.FINE, "nextFeeding start");
         
         String d = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
 
@@ -38,7 +38,7 @@ public class NextFeeding
         time3 = timesObj.getString("time3");
         time4 = timesObj.getString("time4");
         
-        System.out.println(time1 + " + " + time2 + " + " + time3  + " + " + time4 );
+        Logger.getLogger("imported times: ").log(Level.FINEST, "imported times: " + " + " +  time1 + " + " +  time2 + " + " +  time3 + " + " +  time4);
 
         DateFormat format = new SimpleDateFormat("HH:mm", Locale.GERMANY);
         try
@@ -87,6 +87,8 @@ public class NextFeeding
 
         String returnValue = nextFeedingAt + ";" + nextFeedingIn;
 
+        Logger.getLogger("nextFeeding successful").log(Level.FINE, "nextFeeding successful");
+        
         return returnValue;
     }
 }

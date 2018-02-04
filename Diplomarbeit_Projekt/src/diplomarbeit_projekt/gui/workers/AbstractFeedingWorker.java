@@ -9,6 +9,7 @@ import diplomarbeit_projekt.gui.MainWindow;
 import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import static diplomarbeit_projekt.utils.NextFeeding.next;
 import java.util.concurrent.TimeUnit;
+import javax.json.JsonObject;
 import javax.swing.SwingWorker;
 
 /**
@@ -17,12 +18,12 @@ import javax.swing.SwingWorker;
  */
 public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 {
-
     // pi4j
     private Pi4j_Singleton pi4j_instance;
 
-    private String string, lastFeedingTime = "";
+    private String string, lastFeedingTime = "", time1, time2, time3, time4, timeOfDay;
     private boolean machineState;
+    JsonObject obj;
 
     @Override
     protected Object doInBackground() throws Exception
@@ -37,6 +38,8 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
         while (!isCancelled()) 
         {
+            string = null;
+            
             // test
             System.out.println("while vom AbstractFeedingWorker");
             
@@ -51,21 +54,28 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 System.out.println("if vom AbstractFeedingWorker");
                 
                 // next feeding
-                string = next(MainWindow.getInstace().getTimes());
+                obj = MainWindow.getInstace().getTimes();
+                string = next(obj);
 
                 if  ("".equals(lastFeedingTime))
                     lastFeedingTime = "ausstehend";
                 
                 // feedingcycle
-                if (MainWindow.getInstace().getTime1().equals(MainWindow.getInstace().getTimeOfDay()))
+                timeOfDay = MainWindow.getInstace().getTimeOfDay();
+                time1 = MainWindow.getInstace().getTime1();
+                time2 = MainWindow.getInstace().getTime2();
+                time3 = MainWindow.getInstace().getTime3();
+                time4 = MainWindow.getInstace().getTime4();
+                
+                if (time1.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
                     lastFeedingTime = MainWindow.getInstace().getTime1();
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
-
-                if (MainWindow.getInstace().getTime2().equals(MainWindow.getInstace().getTimeOfDay()))
+                
+                if (time2.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
                     lastFeedingTime = MainWindow.getInstace().getTime2();
@@ -73,7 +83,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                     publish(string);
                 }
 
-                if (MainWindow.getInstace().getTime3().equals(MainWindow.getInstace().getTimeOfDay()))
+                if (time3.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
                     lastFeedingTime = MainWindow.getInstace().getTime3();
@@ -81,7 +91,7 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                     publish(string);
                 }
 
-                if (MainWindow.getInstace().getTime4().equals(MainWindow.getInstace().getTimeOfDay()))
+                if (time4.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
                     lastFeedingTime = MainWindow.getInstace().getTime4();
