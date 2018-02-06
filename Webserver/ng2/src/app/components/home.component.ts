@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   public wolf = 100.0;
   private call;
   private clock;
-  private width;
   private callerr;
 
   public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {}
@@ -46,9 +45,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.clock = setInterval(() => this.refreshTime(), 100);
     this.call = setInterval(() => this.callMeMaybe(), 1000);
     this.callerr = setInterval(() => this.callErrWarn(), 30000);
-    // this.width = setInterval(() => {
-    //   this.wolf = this.wolf + 0.01;
-    // }, 1);
     setTimeout(() => {
       this.app.navShow = false;
     }, 0);
@@ -67,10 +63,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.clock !== undefined) {
       clearInterval(this.clock);
       this.clock = undefined;
-    }
-    if (this.width !== undefined) {
-      clearInterval(this.width);
-      this.width = undefined;
     }
   }
 
