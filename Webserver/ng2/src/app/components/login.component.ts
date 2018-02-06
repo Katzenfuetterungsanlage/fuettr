@@ -20,7 +20,7 @@ export class LoginComponent {
       this.router.navigateByUrl('/home');
     }).catch(() => {
       this.fail = true;
-      setTimeout(() => this.fail = false, 1000);
+      setTimeout(() => this.fail = false, 3000);
     });
   }
 }
