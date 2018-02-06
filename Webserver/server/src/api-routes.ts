@@ -49,7 +49,6 @@ export class ApiRoutes {
     this._routes.get('/version', (req, res) => {
       res.sendFile(path.join(__dirname, '../../../version.json'));
     });
-    9;
     this._routes.use((req, res, next) => this.error404Handler(req, res, next));
     // tslint:disable-next-line:max-line-length
     this._routes.use((err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) =>
@@ -186,7 +185,7 @@ export class ApiRoutes {
       switch (req.query.q) {
         case 'times': {
           await FuettrDB.Instance.putTimes(req.body);
-          await setTimeout(() => {}, 10);
+          await setTimeout(() => { }, 10);
           const Times = await FuettrDB.Instance.getTimes();
           res.send(Times);
           break;
