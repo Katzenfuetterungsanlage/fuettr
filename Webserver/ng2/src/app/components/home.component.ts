@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    console.log('ngOnInit: ' + this.Time);
     this.callMeMaybe();
 
     this.clock = setInterval(() => this.refreshTime(), 100);
@@ -51,7 +50,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    console.log('ngOnDestroy: ' + this.Time);
     if (this.call !== undefined) {
       clearInterval(this.call);
       this.call = undefined;
