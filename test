@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+THISUSER=/home/$USER
+
 echo -e "\e[92m
 --> creating Keypair...\e[0m"
 cd $THISUER/git/fuettr/Webserver/server && mkdir keys
