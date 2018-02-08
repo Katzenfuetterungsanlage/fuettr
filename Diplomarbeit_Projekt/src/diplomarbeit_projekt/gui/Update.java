@@ -6,6 +6,7 @@
 package diplomarbeit_projekt.gui;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.URL;
@@ -14,30 +15,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 
-
-
 /**
  *
  * @author Florian
  */
-public class Update extends javax.swing.JDialog
-{
-    boolean updateVerfuegbar = false; 
-    
-        
+public class Update extends javax.swing.JDialog {
+
+    boolean updateVerfuegbar = false;
+
     /**
      * Creates new form Update
      */
-    public Update(java.awt.Frame parent, boolean modal)
-    {
+    public Update(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-               
+
         initComponents();
-         
+
         pTextUpdateErfolgreich.setVisible(false);
         lbUpdateVerfuegbar.setText("Update: -");
         btUpdate.setEnabled(false);
-        
+
         setLocationRelativeTo(parent);
         pack();
     }
@@ -175,70 +172,54 @@ public class Update extends javax.swing.JDialog
 
     private void onUpdate(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUpdate
     {//GEN-HEADEREND:event_onUpdate
-            
+        try {
+            Runtime.getRuntime().exec("git pull");
+        } catch (IOException ex) {
+            Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_onUpdate
 
     private void onUeberpruefen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUeberpruefen
     {//GEN-HEADEREND:event_onUeberpruefen
         UpdateWorker updateWorker = new UpdateWorker();
         updateWorker.execute();
-        
-        
-        if (updateVerfuegbar == true)
-        {
-            lbUpdateVerfuegbar.setText("Update: Verfügbar");
-            btUpdate.setEnabled(true);
-        }
-        
     }//GEN-LAST:event_onUeberpruefen
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 Update dialog = new Update(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
@@ -268,49 +249,60 @@ public class Update extends javax.swing.JDialog
     private javax.swing.JPanel pUpdateErfolgreich;
     // End of variables declaration//GEN-END:variables
 
-public class UpdateWorker extends SwingWorker
-{   
-    @Override
-    protected Object doInBackground() 
-            throws Exception
-    {
-        Socket socket = null; 
-        
-        try
-        {
-            URL url = new URL("https://raw.githubusercontent.com/Katzenfuetterungsanlage/fuettr_prototype/master/version.json");
+    public class UpdateWorker extends SwingWorker {
 
-            URLConnection con = url.openConnection();
-            //InputStream is = con.getInputStream();
-            
-            BufferedReader bReader = new BufferedReader(new InputStreamReader(con.getInputStream())); 
-            
-            System.out.println(bReader.readLine()); //json Datei einlesen 
-            
+        boolean update = false;
+
+        @Override
+        protected Object doInBackground() throws Exception {
+            Socket socket = null;
+
+            try {
+                URL globalUrl = new URL("https://raw.githubusercontent.com/Katzenfuetterungsanlage/fuettr_prototype/master/version.json");
+                URL localUrl = new URL("http://localhost:17325/api/version");
+
+                URLConnection globalCon = globalUrl.openConnection();
+                URLConnection localCon = localUrl.openConnection();
+
+                BufferedReader globalReader = new BufferedReader(new InputStreamReader(globalCon.getInputStream()));
+                BufferedReader localReader = new BufferedReader(new InputStreamReader(localCon.getInputStream()));
+
+                globalReader.readLine(); //json Datei einlesen 
+                String globalVersion = globalReader.readLine();
+                String localVersion = localReader.readLine();
+
+                if (globalVersion.equals(localVersion)) {
+                    update = false;
+                } else {
+                    update = true;
+                }
+
 //            Gson g = new Gson();
 //
 //            Person person = g.fromJson("{\"name\": \"John\"}", Person.class);
 //            System.out.println(person.name); //John
 //
 //            System.out.println(g.toJson(person)); // {"name":"John"}
-        }
-        catch (Exception ex)
-        {
-            Logger.getLogger(UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        //TODO: lokale Versionsdatei einlesen und mit der online Version vergleichen
-        
-        return null; 
-    }
+            } catch (Exception ex) {
+                Logger.getLogger(UpdateWorker.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-    @Override
-    protected void done()
-    {
-        updateVerfuegbar = true;
+            //TODO: lokale Versionsdatei einlesen und mit der online Version vergleichen
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            if (update) {
+                lbUpdateVerfuegbar.setText("Update: Verfügbar");
+                btUpdate.setEnabled(true);
+            } else {
+                lbUpdateVerfuegbar.setText("Up do date.");
+                btUpdate.setEnabled(false);
+
+            }
+        }
+
     }
-    
-    
-}
 
 }
