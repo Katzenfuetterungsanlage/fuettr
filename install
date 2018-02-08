@@ -90,7 +90,7 @@ sudo systemctl start mongodb
 
 echo -e "\e[92m
 --> creating Keypair...\e[0m"
-cd $THISUER/git/fuettr/Webserver/server && mkdir keys
+cd $THISUSER/git/fuettr/Webserver/server && mkdir keys
 openssl genrsa -out $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem
 openssl rsa -in $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem -pubout -out $THISUSER/git/fuettr/Webserver/server/keys/server-public.pem
 
