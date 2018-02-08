@@ -1,9 +1,0 @@
-#!/bin/bash -e
-
-THISUSER=/home/$USER
-
-echo -e "\e[92m
---> creating Keypair...\e[0m"
-cd $THISUSER/git/fuettr/Webserver/server && mkdir keys
-openssl genrsa -out $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem
-openssl rsa -in $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem -pubout -out $THISUSER/git/fuettr/Webserver/server/keys/server-public.pem
