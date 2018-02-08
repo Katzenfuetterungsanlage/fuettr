@@ -89,6 +89,12 @@ sudo mkdir -p /data/db
 sudo systemctl start mongodb
 
 echo -e "\e[92m
+--> creating Keypair...\e[0m"
+cd $THISUER/git/fuettr/Webserver/server && mkdir keys
+openssl genrsa -out $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem
+openssl rsa -in $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem -pubout -out $THISUSER/git/fuettr/Webserver/server/keys/server-public.pem
+
+echo -e "\e[92m
 --> building server...\e[0m"
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
 cd $THISUSER/git/fuettr/Webserver/ng2 && sudo ng build --prod
