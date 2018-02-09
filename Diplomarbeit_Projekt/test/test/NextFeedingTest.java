@@ -7,7 +7,6 @@ package test;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
-import diplomarbeit_projekt.gui.MainWindow;
 import static diplomarbeit_projekt.utils.NextFeeding.next;
 import java.io.StringReader;
 import java.util.logging.Level;

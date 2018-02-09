@@ -40,16 +40,27 @@ public class MainWindow extends javax.swing.JFrame
 
     private static MainWindow instance;
 
-    public static MainWindow getInstace()
+    public static MainWindow createInstance()
+    {
+        if (instance != null)
+        {
+            throw new RuntimeException("intance already created");
+        }
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            throw new RuntimeException("not in EDT");
+        }
+        instance = new MainWindow();
+
+        return instance;
+    }
+
+    public static MainWindow getInstance()
     {
         if (instance == null)
-        {
-            if (!SwingUtilities.isEventDispatchThread())
-            {
-                throw new RuntimeException("not in EDT");
-            }
-            instance = new MainWindow();
-        }
+            throw new RuntimeException("instance not created");
+
         return instance;
     }
 
@@ -559,7 +570,7 @@ public class MainWindow extends javax.swing.JFrame
             lbState.setText("Ein");
             menu_switchOnOff.setText("Ausschalten");
             dbUpdateWorker.execute(); // write machineState to mongodb
-            controlGUIElements();
+            updateGUIElements();
         }
         else
         {
@@ -567,7 +578,7 @@ public class MainWindow extends javax.swing.JFrame
             lbState.setText("Aus");
             menu_switchOnOff.setText("Einschalten");
             dbUpdateWorker.execute(); // write machineState to mongodb
-            controlGUIElements();
+            updateGUIElements();
         }
     }//GEN-LAST:event_onSwitchOnOff
 
@@ -647,7 +658,7 @@ public class MainWindow extends javax.swing.JFrame
         // serialnumber is inserted in the database by the WebServer (Greisl)
         // wlanState will be set in the ConnectToWlan class
         // internal will be set by the install script
-        
+
         infoDoc = mongodb_instance.getInfoDoc("Info");
 
         try
@@ -804,7 +815,7 @@ public class MainWindow extends javax.swing.JFrame
             @Override
             public void run()
             {
-                MainWindow frame = MainWindow.getInstace();
+                MainWindow frame = MainWindow.createInstance();
 
             }
         });
@@ -881,17 +892,16 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuItem wlan;
     // End of variables declaration//GEN-END:variables
 
-    
     public boolean isMachineStateOn()
     {
         return machineStateOn;
     }
-    
+
     public JsonObject getTimes()
     {
         return times;
     }
-    
+
     public String getTimeOfDay()
     {
         return timeOfDay;
@@ -937,7 +947,7 @@ public class MainWindow extends javax.swing.JFrame
         return ip;
     }
 
-    private void controlGUIElements()
+    private void updateGUIElements()
     {
         // control GUI elements depending on the machine state
         // update and manualControl not available while machine state = on 
@@ -973,7 +983,7 @@ public class MainWindow extends javax.swing.JFrame
             feedingWorker = new FeedingWorker();
             feedingWorker.execute();
             Logger.getLogger("FeedingWorker started").log(Level.FINE, "FeedingWorker started");
-            
+
             // test
             System.out.println("FeedingWorker started");
         }
@@ -1022,6 +1032,7 @@ public class MainWindow extends javax.swing.JFrame
     // calculates nextFeedingAt and NextFeedingIn & executes feedingCycle and updates gui
     private class FeedingWorker extends AbstractFeedingWorker
     {
+
         private String string;
 
         @Override
@@ -1029,9 +1040,6 @@ public class MainWindow extends javax.swing.JFrame
         {
             // next feeding
             string = chunks.get(0);
-            
-            // test
-            System.out.println(string);
 
             String[] token = string.split(";");
             nextFeedingAt = token[0];
@@ -1154,7 +1162,7 @@ public class MainWindow extends javax.swing.JFrame
             // "bedingte Berwertung" is not working like it should - state is always "Aus"
             mongodb_instance.setInfoDoc(new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-                    .append("nextFeedingIn", nextFeedingIn).append("machineState", machineStateOn ? "An": "Aus"), "Status");
+                    .append("nextFeedingIn", nextFeedingIn).append("machineState", machineStateOn ? "An" : "Aus"), "Status");
 
             return 1;
         }

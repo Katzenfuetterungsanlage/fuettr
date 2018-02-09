@@ -22,8 +22,8 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
     private Pi4j_Singleton pi4j_instance;
 
     private String string, lastFeedingTime = "", time1, time2, time3, time4, timeOfDay;
-    private boolean machineState;
-    JsonObject obj;
+    private boolean machineStateOn;
+    private JsonObject timesJsonObject;
 
     @Override
     protected Object doInBackground() throws Exception
@@ -43,66 +43,65 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
             // test
             System.out.println("while vom AbstractFeedingWorker");
             
-            machineState = MainWindow.getInstace().isMachineStateOn();
+            // nicht mehr im EDT Thread -> Exception wird geworten -> mit trycatch abfangen
+            // behoben durch eine neue Mathode im MainWindow: createInstance
+            machineStateOn = MainWindow.getInstance().isMachineStateOn();
             
             // test
-            System.out.println("machineState: " + machineState);
+            System.out.println("machineState: " + machineStateOn);
             
-            if (machineState) 
+            if (machineStateOn) 
             {
                 // test
                 System.out.println("if vom AbstractFeedingWorker");
                 
                 // next feeding
-                obj = MainWindow.getInstace().getTimes();
-                string = next(obj);
+                timesJsonObject = MainWindow.getInstance().getTimes();
+                string = next(timesJsonObject);
 
                 if  ("".equals(lastFeedingTime))
                     lastFeedingTime = "ausstehend";
                 
                 // feedingcycle
-                timeOfDay = MainWindow.getInstace().getTimeOfDay();
-                time1 = MainWindow.getInstace().getTime1();
-                time2 = MainWindow.getInstace().getTime2();
-                time3 = MainWindow.getInstace().getTime3();
-                time4 = MainWindow.getInstace().getTime4();
+                timeOfDay = MainWindow.getInstance().getTimeOfDay();
+                time1 = MainWindow.getInstance().getTime1(); // aus timesJsonObject holen
+                time2 = MainWindow.getInstance().getTime2();
+                time3 = MainWindow.getInstance().getTime3();
+                time4 = MainWindow.getInstance().getTime4();
                 
                 if (time1.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
-                    lastFeedingTime = MainWindow.getInstace().getTime1();
+                    lastFeedingTime = time1;
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
                 
-                if (time2.equals(timeOfDay))
+                else if (time2.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
-                    lastFeedingTime = MainWindow.getInstace().getTime2();
+                    lastFeedingTime = time2;
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
 
-                if (time3.equals(timeOfDay))
+                else if (time3.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
-                    lastFeedingTime = MainWindow.getInstace().getTime3();
+                    lastFeedingTime = time3;
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
 
-                if (time4.equals(timeOfDay))
+                else if (time4.equals(timeOfDay))
                 {
                     pi4j_instance.feed();
-                    lastFeedingTime = MainWindow.getInstace().getTime4();
+                    lastFeedingTime = time4;
                     string = string + ";" + lastFeedingTime;
                     publish(string);
                 }
                                
                 string = string + ";" + lastFeedingTime;
-                
-                // test
-                System.out.println(string);
                 
                 publish(string);
 

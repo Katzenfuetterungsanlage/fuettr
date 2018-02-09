@@ -263,7 +263,7 @@ public class SystemInfo extends javax.swing.JDialog
 
     private void importInfo ()
     {
-        infoDoc = MainWindow.getInstace().getInfoDoc();
+        infoDoc = MainWindow.getInstance().getInfoDoc();
         strInfo = JSON.serialize(infoDoc);
         
         Logger.getLogger("Info imported").log(Level.FINE, "Info imported");
@@ -277,8 +277,8 @@ public class SystemInfo extends javax.swing.JDialog
         serialnumber = String.format("%d", serialnumberInt);
         wlanState = obj.getString("wlanState");
         
-        ipJson = MainWindow.getInstace().getIp();
-        versionJson = MainWindow.getInstace().getVersion();
+        ipJson = MainWindow.getInstance().getIp();
+        versionJson = MainWindow.getInstance().getVersion();
         
         jsonReader = Json.createReader(new StringReader(versionJson));
         JsonObject versionObj = jsonReader.readObject();

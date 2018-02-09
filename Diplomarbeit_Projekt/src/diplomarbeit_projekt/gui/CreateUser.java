@@ -274,7 +274,7 @@ public class CreateUser extends javax.swing.JDialog
  
     private void setValue ()
     {
-        DBObject userDoc = MainWindow.getInstace().getUserDoc();
+        DBObject userDoc = MainWindow.getInstance().getUserDoc();
                
         String strUser = JSON.serialize(userDoc);
         

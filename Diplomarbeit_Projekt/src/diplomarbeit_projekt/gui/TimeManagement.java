@@ -511,7 +511,7 @@ public class TimeManagement extends javax.swing.JDialog
     
     private void fillSpinners()
     {
-        JsonObject obj = MainWindow.getInstace().getTimes();
+        JsonObject obj = MainWindow.getInstance().getTimes();
 
         Logger.getLogger("Times imported").log(Level.FINE, "Times imported");
 
