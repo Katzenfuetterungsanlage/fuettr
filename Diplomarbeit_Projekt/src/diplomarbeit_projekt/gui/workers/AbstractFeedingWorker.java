@@ -64,10 +64,10 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 
                 // feedingcycle
                 timeOfDay = MainWindow.getInstance().getTimeOfDay();
-                time1 = MainWindow.getInstance().getTime1(); // aus timesJsonObject holen
-                time2 = MainWindow.getInstance().getTime2();
-                time3 = MainWindow.getInstance().getTime3();
-                time4 = MainWindow.getInstance().getTime4();
+                time1 = timesJsonObject.getString("time1"); 
+                time2 = timesJsonObject.getString("time2");
+                time3 = timesJsonObject.getString("time3");
+                time4 = timesJsonObject.getString("time4");
                 
                 if (time1.equals(timeOfDay))
                 {
