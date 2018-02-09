@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'bootstrap.css';
 @import url('https://fonts.googleapis.com/css?family=Concert+One');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 @import url('https://fonts.googleapis.com/css?family=Allerta');
+@import 'bootstrap.css';
 
 .color-1 {
   color: #daf7a6;
@@ -144,4 +144,3 @@
     border-bottom: 2px solid white;
   }
 }
-
