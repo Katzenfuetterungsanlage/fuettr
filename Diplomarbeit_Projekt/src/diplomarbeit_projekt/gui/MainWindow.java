@@ -25,6 +25,7 @@ import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import static java.util.Objects.hash;
@@ -631,8 +632,6 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onUpdate(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUpdate
     {//GEN-HEADEREND:event_onUpdate
-        //TODO: lokale Versionsdatei einlesen und werfen
-
         final Update updateDlg = new Update(this, true);
         updateDlg.setVisible(true);
     }//GEN-LAST:event_onUpdate
@@ -672,8 +671,18 @@ public class MainWindow extends javax.swing.JFrame
             BufferedReader bReaderVersion = new BufferedReader(new InputStreamReader(conVersion.getInputStream()));
             BufferedReader bReaderIp = new BufferedReader(new InputStreamReader(conIp.getInputStream()));
 
-            version = bReaderVersion.readLine();
-            ip = bReaderIp.readLine();
+            final StringBuilder sbVersion = new StringBuilder();
+            final StringBuilder sbIp = new StringBuilder();
+            String line;
+            
+            while ((line = bReaderVersion.readLine()) != null)
+                sbVersion.append(line)/*.append("\n")*/; 
+            
+            while ((line = bReaderIp.readLine()) != null)
+                sbIp.append(line)/*.append("\n")*/; 
+            
+            version = sbVersion.toString();
+            ip = sbIp.toString();
         }
         catch (Exception ex)
         {
