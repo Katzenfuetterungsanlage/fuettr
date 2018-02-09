@@ -105,6 +105,9 @@ export class FuettrDB {
         await collTimes.insertMany(mockData);
       }
       if (sizeinfo === 0) {
+        if (this._serialnumber === NaN) {
+          this._serialnumber = 0;
+        }
         const mockData = [
           { identifier: 'Status', lastFeeding: 'ausstehend', nextFeeding: '-', nextFeedingIn: '-', machineState: '' },
           { identifier: 'Info', serialnumber: this._serialnumber, internal: this._internal, wlanState: '-' }
