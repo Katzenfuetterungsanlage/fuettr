@@ -1048,7 +1048,7 @@ public class MainWindow extends javax.swing.JFrame
         protected void process(List<String> chunks)
         {
             // next feeding
-            string = chunks.get(0);
+            string = chunks.get((chunks.size() - 1));
 
             String[] token = string.split(";");
             nextFeedingAt = token[0];
@@ -1076,7 +1076,7 @@ public class MainWindow extends javax.swing.JFrame
         @Override
         protected void process(List<DBObject> chunks)
         {
-            doc = chunks.get(0);
+            doc = chunks.get((chunks.size() - 1));
 
             String strTimes = JSON.serialize(doc);
 
