@@ -27,8 +27,8 @@ export class FuettrDB {
   private _info: mongodb.Collection;
   private _hardware: mongodb.Collection;
   private _users: mongodb.Collection;
-  private _serialnumber = parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
-  private _internal = fs.readFileSync(path.join(__dirname, '../../../internal')).toString();
+  private _serialnumber: number;
+  private _internal = '';
 
   private constructor() {}
 
@@ -62,6 +62,11 @@ export class FuettrDB {
   }
 
   private async start() {
+    this._serialnumber = await parseInt(fs.readFileSync(path.join(__dirname, '../../../seriennummer')).toString());
+    if (isNaN(this._serialnumber)) {
+      this._serialnumber = 0;
+    }
+    this._internal = await fs.readFileSync(path.join(__dirname, '../../../internal')).toString();
     const url = 'mongodb://localhost:27017/fuettr';
     try {
       const dbServer = await mongodb.MongoClient.connect(url);
@@ -105,9 +110,6 @@ export class FuettrDB {
         await collTimes.insertMany(mockData);
       }
       if (sizeinfo === 0) {
-        if (this._serialnumber === NaN) {
-          this._serialnumber = 0;
-        }
         const mockData = [
           { identifier: 'Status', lastFeeding: 'ausstehend', nextFeeding: '-', nextFeedingIn: '-', machineState: '' },
           { identifier: 'Info', serialnumber: this._serialnumber, internal: this._internal, wlanState: '-' }
