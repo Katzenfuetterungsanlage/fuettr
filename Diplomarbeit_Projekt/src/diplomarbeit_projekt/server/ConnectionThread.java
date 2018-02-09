@@ -5,6 +5,7 @@
  */
 package diplomarbeit_projekt.server;
 
+import diplomarbeit_projekt.gui.MainWindow;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class ConnectionThread implements Runnable
 {
+
     private final Socket socket;
 
     public ConnectionThread(Socket socket)
@@ -53,27 +55,28 @@ public class ConnectionThread implements Runnable
                 {
                     handleRequest(inputLines);
                     System.out.println("Wait for Request:");
-                } else
+                }
+                else
                 {
                     System.out.println(line);
                     inputLines.add(line);
                 }
             }
-        } 
+        }
         catch (SocketException se)
         {
             System.out.println("done");
-        } 
+        }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        } 
+        }
         finally
         {
             System.out.println("ConnectionThread beendet " + socket);
         }
     }
-    
+
     private void handleRequest(List<String> header) throws IOException
     {
         Request req = new Request(header);
@@ -86,6 +89,7 @@ public class ConnectionThread implements Runnable
             }
         }
 
+        // send to client
         if (req.getMethod().equals("GET"))
         {
             switch (req.getUrl())
@@ -98,13 +102,15 @@ public class ConnectionThread implements Runnable
             }
         }
 
+        // receive from client
         if (req.getMethod().equals("PUT"))
         {
             switch (req.getUrl())
             {
-                case "/putTimes":
-                    System.out.println(req.getAttributes());
-                    sendResponse(200, "OK");
+                case "/putMachineStateOn":
+                    // System.out.println(req.getAttributes()); // test
+                    sendResponse(200, "MachineStae received");
+                    MainWindow.getInstance().machineStateChanger();
                     break;
                 default:
                     sendResponse(404);
@@ -124,18 +130,18 @@ public class ConnectionThread implements Runnable
         {
             body = "";
         }
-        BufferedWriter w = new BufferedWriter(
+        BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(socket.getOutputStream()));
 
-        w.append("HTTP/1.1 ").append("" + statusCode).append("\n");
-        w.append("Date: ").append(String.format("%tc", new GregorianCalendar())).append("\n");
-        w.append("Server: ").append("Example JSON response Server by Florian Greistorfer feat. SX").append("\n");
-        w.append("Connection: Keep-Alive\n");
-        w.append("Content-Length: ").append(String.valueOf(body.length())).append("\n");
-        w.append("Content-Type: application/json\n");
-        w.append("\n");
-        w.append(body);
-        w.flush();
+        writer.append("HTTP/1.1 ").append("" + statusCode).append("\n");
+        writer.append("Date: ").append(String.format("%tc", new GregorianCalendar())).append("\n");
+        writer.append("Server: ").append("Example JSON response Server by Florian Greistorfer feat. SX").append("\n");
+        writer.append("Connection: Keep-Alive\n");
+        writer.append("Content-Length: ").append(String.valueOf(body.length())).append("\n");
+        writer.append("Content-Type: application/json\n");
+        writer.append("\n");
+        writer.append(body);
+        writer.flush();
 
     }
 

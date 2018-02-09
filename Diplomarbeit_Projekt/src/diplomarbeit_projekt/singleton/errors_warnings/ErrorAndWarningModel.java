@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package diplomarbeit_projekt.list;
+package diplomarbeit_projekt.singleton.errors_warnings;
 
 import java.util.List;
 import javax.swing.AbstractListModel;

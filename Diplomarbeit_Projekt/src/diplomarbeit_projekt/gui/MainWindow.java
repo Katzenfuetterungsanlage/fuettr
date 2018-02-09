@@ -25,7 +25,6 @@ import diplomarbeit_projekt.singleton.pi4j.Pi4j_Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import static java.util.Objects.hash;
@@ -79,7 +78,7 @@ public class MainWindow extends javax.swing.JFrame
 
     // mongodb
     private final Mongodb_Singleton mongodb_instance;
-
+    
     //Workers
     private TimeOfDayAndDateWorker timeAndDateWorker;
     private FeedingWorker feedingWorker;
@@ -565,22 +564,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onSwitchOnOff(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSwitchOnOff
     {//GEN-HEADEREND:event_onSwitchOnOff
-        if (machineStateOn != true)
-        {
-            machineStateOn = true;
-            lbState.setText("Ein");
-            menu_switchOnOff.setText("Ausschalten");
-            dbUpdateWorker.execute(); // write machineState to mongodb
-            updateGUIElements();
-        }
-        else
-        {
-            machineStateOn = false;
-            lbState.setText("Aus");
-            menu_switchOnOff.setText("Einschalten");
-            dbUpdateWorker.execute(); // write machineState to mongodb
-            updateGUIElements();
-        }
+        machineStateChanger();
     }//GEN-LAST:event_onSwitchOnOff
 
     private void onFütterungszeitenVerwalten(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onFütterungszeitenVerwalten
@@ -676,10 +660,10 @@ public class MainWindow extends javax.swing.JFrame
             String line;
             
             while ((line = bReaderVersion.readLine()) != null)
-                sbVersion.append(line)/*.append("\n")*/; 
+                sbVersion.append(line); 
             
             while ((line = bReaderIp.readLine()) != null)
-                sbIp.append(line)/*.append("\n")*/; 
+                sbIp.append(line); 
             
             version = sbVersion.toString();
             ip = sbIp.toString();
@@ -916,26 +900,6 @@ public class MainWindow extends javax.swing.JFrame
         return timeOfDay;
     }
 
-    public String getTime1()
-    {
-        return time1;
-    }
-
-    public String getTime2()
-    {
-        return time2;
-    }
-
-    public String getTime3()
-    {
-        return time3;
-    }
-
-    public String getTime4()
-    {
-        return time4;
-    }
-
     public DBObject getUserDoc()
     {
         return userDoc;
@@ -956,6 +920,26 @@ public class MainWindow extends javax.swing.JFrame
         return ip;
     }
 
+    public void machineStateChanger ()
+    {
+        if (machineStateOn != true)
+        {
+            machineStateOn = true;
+            lbState.setText("Ein");
+            menu_switchOnOff.setText("Ausschalten");
+            dbUpdateWorker.execute(); // write machineState to mongodb
+            updateGUIElements();
+        }
+        else
+        {
+            machineStateOn = false;
+            lbState.setText("Aus");
+            menu_switchOnOff.setText("Einschalten");
+            dbUpdateWorker.execute(); // write machineState to mongodb
+            updateGUIElements();
+        }
+    }
+    
     private void updateGUIElements()
     {
         // control GUI elements depending on the machine state
@@ -1009,6 +993,7 @@ public class MainWindow extends javax.swing.JFrame
         dbUpdateWorker = new DatabaseUpdateWorker();
         dbUpdateWorker.execute();
         Logger.getLogger("IDatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
+        
     }
 
     // gets the current time and date and displays it in the gui MainWindow

@@ -15,25 +15,45 @@ import java.net.Socket;
  */
 public class Server
 {
+
     private final int port;
+    private ServerSocket serverSocket;
+    private Socket socket;
 
-  public Server(int port)
-  {
-    this.port = port;
-  }
+    private static Server instance = null;
+    
+    protected Server() throws IOException, InterruptedException
+    {
+        port = 62222;
+        start();
+    }
+    
+    public static Server getInstance() throws IOException, InterruptedException
+    {
+        if (instance == null)
+        {
+            instance = new Server();
+        }
+        return instance;
+    }
 
-  public void start() throws IOException, InterruptedException
-  {
-    ServerSocket serverSocket = new ServerSocket(port);
-    while (true)
+    private void start() throws IOException, InterruptedException
     {
-      Socket socket = serverSocket.accept();
-      new Thread(new ConnectionThread(socket)).start();
+        serverSocket = new ServerSocket(port);
+        while (true)
+        {
+            socket = serverSocket.accept();
+            new Thread(new ConnectionThread(socket)).start();
+        }
     }
-  }
-  
-    public static void main(String[] args) throws IOException, InterruptedException
+
+    public void stop() throws IOException
     {
-        new Server(666).start();
+        socket.close();
     }
+
+//    public static void main(String[] args) throws IOException, InterruptedException
+//    {
+//        new Server(666).start();
+//    }
 }
