@@ -99,15 +99,9 @@ export class ApiRoutes {
 
   public async callMeMaybe(req: express.Request, res: express.Response, next: express.NextFunction) {
     switch (req.query.q) {
-      case 'warnings': {
-        // getFromJava(res, 'warnings');
-        res.send(JSON.stringify({}));
-        break;
-      }
-
-      case 'errors': {
-        // getFromJava(res, 'errors');
-        res.send(JSON.stringify({}));
+      case 'errors_warnings': {
+        getFromJava(res, 'errors_warnings');
+        // res.send(JSON.stringify({}));
         break;
       }
 
