@@ -9,7 +9,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const auth = this.inj.get(AuthService);
-    console.log(req.urlWithParams);
     if (req.urlWithParams === 'https://raw.githubusercontent.com/Katzenfuetterungsanlage/fuettr/master/version.json') {
       return next.handle(req);
     }

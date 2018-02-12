@@ -77,7 +77,7 @@ export class ApiRoutes {
 
   public getFromJava(res: express.Response, path: string) {
     http
-      .get({ port: 666, host: 'localhost', path: '/' + path }, resp => {
+      .get({ port: 62222, host: 'localhost', path: '/' + path }, resp => {
         let data = '';
 
         resp.on('data', chunk => {
@@ -100,7 +100,7 @@ export class ApiRoutes {
   public async callMeMaybe(req: express.Request, res: express.Response, next: express.NextFunction) {
     switch (req.query.q) {
       case 'errors_warnings': {
-        getFromJava(res, 'errors_warnings');
+        this.getFromJava(res, 'errors_warnings');
         // res.send(JSON.stringify({}));
         break;
       }

@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.callMeMaybe();
+    this.callErrWarn();
 
     this.clock = setInterval(() => this.refreshTime(), 100);
     this.call = setInterval(() => this.callMeMaybe(), 1000);
@@ -65,12 +66,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private callErrWarn(): void {
-    this.httpgetService.get('warnings').then((res: itf.Warnings) => {
-      this.warning_messages = res.warnings;
-    });
-
-    this.httpgetService.get('errors').then((res: itf.Errors) => {
-      this.error_messages = res.errors;
+    console.log('resource: errors_warnings');
+    this.httpgetService.get('errors_warnings').then(res => {
+      console.log(res);
     });
   }
 
