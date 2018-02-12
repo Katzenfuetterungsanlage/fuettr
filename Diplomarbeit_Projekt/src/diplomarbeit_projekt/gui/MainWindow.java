@@ -9,6 +9,7 @@ import com.mongodb.*;
 import com.mongodb.util.JSON;
 import diplomarbeit_projekt.gui.workers.AbstractFeedingWorker;
 import diplomarbeit_projekt.gui.workers.AbstractImportAndShowTimesWorker;
+import diplomarbeit_projekt.server.Server;
 import diplomarbeit_projekt.singleton.mongodb.Mongodb_Singleton;
 import java.util.Date;
 import java.util.List;
@@ -742,6 +743,7 @@ public class MainWindow extends javax.swing.JFrame
                 feedingWorker.cancel(true);
                 timesWorker.cancel(true);
                 dbUpdateWorker.cancel(true);
+                Server.getInstance().stop();
             }
             catch (Exception ex)
             {
@@ -992,8 +994,21 @@ public class MainWindow extends javax.swing.JFrame
 
         dbUpdateWorker = new DatabaseUpdateWorker();
         dbUpdateWorker.execute();
-        Logger.getLogger("IDatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
+        Logger.getLogger("DatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
         
+        try
+        {
+            Server.getInstance().start();
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (InterruptedException ex)
+        {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Logger.getLogger("Server started").log(Level.FINE, "Server started");
     }
 
     // gets the current time and date and displays it in the gui MainWindow

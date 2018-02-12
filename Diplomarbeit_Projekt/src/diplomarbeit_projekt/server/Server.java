@@ -37,7 +37,7 @@ public class Server
         return instance;
     }
 
-    private void start() throws IOException, InterruptedException
+    public void start() throws IOException, InterruptedException
     {
         serverSocket = new ServerSocket(port);
         while (true)
