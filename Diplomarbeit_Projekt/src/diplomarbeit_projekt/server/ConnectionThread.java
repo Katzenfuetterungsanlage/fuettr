@@ -6,6 +6,7 @@
 package diplomarbeit_projekt.server;
 
 import diplomarbeit_projekt.gui.MainWindow;
+import diplomarbeit_projekt.singleton.errors_warnings.ErrorAndWarningHandler_Singleton;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -94,8 +95,8 @@ public class ConnectionThread implements Runnable
         {
             switch (req.getUrl())
             {
-                case "/warnings":
-                    sendResponse(200, getDefaultBody());
+                case "/errors_warnings":
+                    sendResponse(200, ErrorAndWarningHandler_Singleton.getInstance().toJson().toString());
                     break;
                 default:
                     sendResponse(404);
@@ -107,7 +108,7 @@ public class ConnectionThread implements Runnable
         {
             switch (req.getUrl())
             {
-                case "/putMachineStateOn":
+                case "/ChangeMachineState":
                     // System.out.println(req.getAttributes()); // test
                     sendResponse(200, "MachineStae received");
                     MainWindow.getInstance().machineStateChanger();

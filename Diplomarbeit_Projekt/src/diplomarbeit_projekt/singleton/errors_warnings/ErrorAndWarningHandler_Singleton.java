@@ -5,7 +5,6 @@
  */
 package diplomarbeit_projekt.singleton.errors_warnings;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.*;
@@ -24,7 +23,7 @@ public class ErrorAndWarningHandler_Singleton
 {
 
     private static ErrorAndWarningHandler_Singleton instance = null;
-    List<String> list;
+    List<String> list = null;
 
     protected ErrorAndWarningHandler_Singleton()
     {
@@ -55,18 +54,23 @@ public class ErrorAndWarningHandler_Singleton
         list.remove(index);
     }
 
-    public JsonObject listToJson()
+    public JsonObject toJson()
     {
         JsonObjectBuilder obj = Json.createObjectBuilder();
-        String string;
-        for (int i = 0;i <= (list.size() - 1);i++)
-        {
-            string = list.get(i);
+//        String string;
+//        for (int i = 0;i <= (list.size() - 1);i++)
+//        {
+//            string = list.get(i);
+//
+//            obj.add("Error",string);
+//        }
 
-            obj.add("Error",string);
-        }
-
+        // test
+        obj.add("Error", "I bims a Error!");
+        obj.add("Warning", "I bims a Warnung!");
+        
         JsonObject listJsonObject =  obj.build();
+        
         return listJsonObject;
     }
 
