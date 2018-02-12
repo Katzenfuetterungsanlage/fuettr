@@ -60,7 +60,9 @@ public class MainWindow extends javax.swing.JFrame
     public static MainWindow getInstance()
     {
         if (instance == null)
+        {
             throw new RuntimeException("instance not created");
+        }
 
         return instance;
     }
@@ -79,12 +81,13 @@ public class MainWindow extends javax.swing.JFrame
 
     // mongodb
     private final Mongodb_Singleton mongodb_instance;
-    
+
     //Workers
     private TimeOfDayAndDateWorker timeAndDateWorker;
     private FeedingWorker feedingWorker;
     private ImportAndShowTimesWorker timesWorker;
     private DatabaseUpdateWorker dbUpdateWorker;
+    private ServerWorker serverWorker;
 
     /**
      * Creates new form Hauptfenster
@@ -659,13 +662,17 @@ public class MainWindow extends javax.swing.JFrame
             final StringBuilder sbVersion = new StringBuilder();
             final StringBuilder sbIp = new StringBuilder();
             String line;
-            
+
             while ((line = bReaderVersion.readLine()) != null)
-                sbVersion.append(line); 
-            
+            {
+                sbVersion.append(line);
+            }
+
             while ((line = bReaderIp.readLine()) != null)
-                sbIp.append(line); 
-            
+            {
+                sbIp.append(line);
+            }
+
             version = sbVersion.toString();
             ip = sbIp.toString();
         }
@@ -922,7 +929,7 @@ public class MainWindow extends javax.swing.JFrame
         return ip;
     }
 
-    public void machineStateChanger ()
+    public void machineStateChanger()
     {
         if (machineStateOn != true)
         {
@@ -941,7 +948,7 @@ public class MainWindow extends javax.swing.JFrame
             updateGUIElements();
         }
     }
-    
+
     private void updateGUIElements()
     {
         // control GUI elements depending on the machine state
@@ -995,19 +1002,9 @@ public class MainWindow extends javax.swing.JFrame
         dbUpdateWorker = new DatabaseUpdateWorker();
         dbUpdateWorker.execute();
         Logger.getLogger("DatabaseUpdateWorker started").log(Level.FINE, "DatabaseUpdateWorker started");
-        
-        try
-        {
-            Server.getInstance().start();
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (InterruptedException ex)
-        {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        serverWorker = new ServerWorker();
+        serverWorker.execute();
         Logger.getLogger("Server started").log(Level.FINE, "Server started");
     }
 
@@ -1180,6 +1177,35 @@ public class MainWindow extends javax.swing.JFrame
         protected void done()
         {
             Logger.getLogger("Database updated!").log(Level.FINE, "Database updated!");
+        }
+    }
+
+    private class ServerWorker extends SwingWorker<Object, Object>
+    {
+
+        @Override
+        protected Object doInBackground() throws Exception
+        {
+            try
+            {
+                Server.getInstance().start();
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (InterruptedException ex)
+            {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return 1;
+        }
+
+        @Override
+        protected void done()
+        {
+             Logger.getLogger("Server stopped/failed").log(Level.FINE, "Server stopped/failed");
         }
     }
 }
