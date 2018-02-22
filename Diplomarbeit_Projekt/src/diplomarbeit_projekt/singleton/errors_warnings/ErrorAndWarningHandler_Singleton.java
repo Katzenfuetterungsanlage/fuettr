@@ -5,6 +5,7 @@
  */
 package diplomarbeit_projekt.singleton.errors_warnings;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.*;
@@ -60,27 +61,27 @@ public class ErrorAndWarningHandler_Singleton
         
         // add Errors        
         if (error_hasFeedingFailed)
-            errors.add(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime));
+            errors.add(createJsonObject(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime)));
         
         if (error_hasLoadingIpOrVersionFailed)
-            errors.add("Laden der Ip-Adresse oder der Version ist fehlgeschlagen!");
+            errors.add(createJsonObject("Laden der Ip-Adresse oder der Version ist fehlgeschlagen!"));
         
         // test
-        errors.add("Error");
-        errors.add("Error2");
+        errors.add(createJsonObject("Error"));
+        errors.add(createJsonObject("Error2"));
         
         obj.add("Errors", errors);
 
         // add warnings
         if (warning_isPackageEmpty)
-            warnings.add("Es wurden alle Futtersackerl verbraucht! Bitte nachfüllen!");
+            warnings.add(createJsonObject("Es wurden alle Futtersackerl verbraucht! Bitte nachfüllen!"));
         
         if (warning_isUserCreated)
-            warnings.add("Bitte legen Sie einen Benutzer an!");
+            warnings.add(createJsonObject("Bitte legen Sie einen Benutzer an!"));
         
         // test
-        warnings.add("Warning");
-        warnings.add("Warning2");
+        warnings.add(createJsonObject("Warning"));
+        warnings.add(createJsonObject("Warning2"));
         
         obj.add("Warnings", warnings);
          
@@ -120,6 +121,19 @@ public class ErrorAndWarningHandler_Singleton
     {
         error_hasFeedingFailed = errorOn;
         failedFeedingTime = errorTime;
+    }
+    
+    // add id to the error/warning for the web application
+    private JsonObject createJsonObject(String message)
+    {
+        JsonObjectBuilder obj = Json.createObjectBuilder();
+        
+        obj.add("message",message);
+        obj.add("hidden",false);
+        
+        JsonObject jsonObject =  obj.build();
+        
+        return jsonObject;
     }
             
 }
