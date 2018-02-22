@@ -110,7 +110,7 @@ public class ConnectionThread implements Runnable
             {
                 case "/ChangeMachineState":
                     // System.out.println(req.getAttributes()); // test
-                    sendResponse(200, "MachineStae received");
+                    sendResponse(200, "MachineState received");
                     MainWindow.getInstance().machineStateChanger();
                     break;
                 default:

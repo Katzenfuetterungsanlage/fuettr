@@ -16,11 +16,18 @@ import javax.json.*;
 
 /*
     structure
-    index[0]: error: no feeding package
-    index[1]: ...
+       error: no feeding package
+       error: feeding not succesful
  */
 public class ErrorAndWarningHandler_Singleton
 {
+    // errors
+    private Boolean error_hasFeedingFailed, error_hasLoadingIpOrVersionFailed;
+    
+    // warnings
+    private Boolean warning_isPackageEmpty, warning_isUserCreated;
+    
+    private String failedFeedingTime;
 
     private static ErrorAndWarningHandler_Singleton instance = null;
     List<String> list = null;
@@ -43,32 +50,40 @@ public class ErrorAndWarningHandler_Singleton
     {
         return list.size();
     }
-
-    public void addElement(int index, String element)
-    {
-        list.add(index, element);
-    }
-
-    public void removeElement(int index)
-    {
-        list.remove(index);
-    }
-
+    
     public JsonObject toJson()
     {
         JsonObjectBuilder obj = Json.createObjectBuilder();
-//        String string;
-//        for (int i = 0;i <= (list.size() - 1);i++)
-//        {
-//            string = list.get(i);
-//
-//            obj.add("Error",string);
-//        }
-
-        // test
-        obj.add("Error", "I bims a Error!");
-        obj.add("Warning", "I bims a Warnung!");
         
+        JsonArrayBuilder errors = Json.createArrayBuilder();
+        JsonArrayBuilder warnings = Json.createArrayBuilder();
+        
+        // add Errors        
+        if (error_hasFeedingFailed)
+            errors.add(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime));
+        
+        if (error_hasLoadingIpOrVersionFailed)
+            errors.add("Lader der Ip-Adresse oder der Version ist fehlgeschlagen!");
+        
+        // test
+        errors.add("Error");
+        errors.add("Error2");
+        
+        obj.add("Errors", errors);
+
+        // add warnings
+        if (warning_isPackageEmpty)
+            warnings.add("Es wurden alle Futtersackerl verbraucht! Bitte nachfüllen!");
+        
+        if (warning_isUserCreated)
+            warnings.add("Bitte legen Sie einen Benutzer an!");
+        
+        // test
+        warnings.add("Warning");
+        warnings.add("Warning2");
+        
+        obj.add("Warnings", warnings);
+         
         JsonObject listJsonObject =  obj.build();
         
         return listJsonObject;
@@ -77,6 +92,34 @@ public class ErrorAndWarningHandler_Singleton
     // Getter
     public List<String> getList()
     {
+        list.clear();
+        
+        // add errors
+        if (error_hasFeedingFailed)
+            list.add(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime));
+        
+        if (error_hasLoadingIpOrVersionFailed)
+            list.add("Lader der Ip-Adresse oder der Version ist fehlgeschlagen!");
+        
+        // add warnings
+        if (warning_isPackageEmpty)
+            list.add("Es wurden alle Futtersackerl verbraucht! Bitte nachfüllen!");
+        
+        if (warning_isUserCreated)
+            list.add("Bitte legen Sie einen Benutzer an!");
+        
         return list;
     }
+    
+    public void setPackageEmptyWarning(Boolean warningOn)
+    {
+        warning_isPackageEmpty = warningOn;
+    }
+    
+    public void setFeedingHasFailedError (Boolean errorOn, String errorTime)
+    {
+        error_hasFeedingFailed = errorOn;
+        failedFeedingTime = errorTime;
+    }
+            
 }
