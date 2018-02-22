@@ -22,10 +22,10 @@ import javax.json.*;
 public class ErrorAndWarningHandler_Singleton
 {
     // errors
-    private Boolean error_hasFeedingFailed, error_hasLoadingIpOrVersionFailed;
+    private Boolean error_hasFeedingFailed = false, error_hasLoadingIpOrVersionFailed = false;
     
     // warnings
-    private Boolean warning_isPackageEmpty, warning_isUserCreated;
+    private Boolean warning_isPackageEmpty = false, warning_isUserCreated = false;
     
     private String failedFeedingTime;
 
