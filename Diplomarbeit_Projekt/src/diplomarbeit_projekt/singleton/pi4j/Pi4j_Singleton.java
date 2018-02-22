@@ -386,4 +386,9 @@ public class Pi4j_Singleton
         pin07.low();
         pin08.low();
     }
+    
+    public void closeController()
+    {
+        gpio.shutdown();
+    }
 }

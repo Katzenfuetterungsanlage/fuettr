@@ -108,6 +108,9 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 TimeUnit.MILLISECONDS.sleep(500);
             }
         }
+        
+        pi4j_instance.closeController();
+        
         return 1;
     }
 }
