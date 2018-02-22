@@ -63,7 +63,7 @@ public class ErrorAndWarningHandler_Singleton
             errors.add(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime));
         
         if (error_hasLoadingIpOrVersionFailed)
-            errors.add("Lader der Ip-Adresse oder der Version ist fehlgeschlagen!");
+            errors.add("Laden der Ip-Adresse oder der Version ist fehlgeschlagen!");
         
         // test
         errors.add("Error");

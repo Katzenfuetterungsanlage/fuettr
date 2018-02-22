@@ -16,44 +16,51 @@ import javax.json.JsonObjectBuilder;
  */
 public class JsonTest
 {
+    // errors
+    static private Boolean error_hasFeedingFailed = false, error_hasLoadingIpOrVersionFailed = true;
+
+    // warnings
+    static private Boolean warning_isPackageEmpty = true, warning_isUserCreated = false;
+
+    static private String failedFeedingTime;
+    
     static public JsonObject toJson()
     {
         JsonObjectBuilder obj = Json.createObjectBuilder();
-        
+
         JsonArrayBuilder errors = Json.createArrayBuilder();
         JsonArrayBuilder warnings = Json.createArrayBuilder();
-        
+
         // add Errors        
-//        if (error_hasFeedingFailed)
-//            errors.add(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime));
-//        
-//        if (error_hasLoadingIpOrVersionFailed)
-//            errors.add("Lader der Ip-Adresse oder der Version ist fehlgeschlagen!");
+        if (error_hasFeedingFailed)
+            errors.add(String.format("Die letzte Fütterung um %s war nicht erfolgreich", failedFeedingTime));
         
+        if (error_hasLoadingIpOrVersionFailed)
+            errors.add("Laden der Ip-Adresse oder der Version ist fehlgeschlagen!");
         // test
         errors.add("Error");
         errors.add("Error2");
-        
+
         obj.add("Errors", errors);
 
         // add warnings
-//        if (warning_isPackageEmpty)
-//            warnings.add("Es wurden alle Futtersackerl verbraucht! Bitte nachfüllen!");
-//        
-//        if (warning_isUserCreated)
-//            warnings.add("Bitte legen Sie einen Benutzer an!");
+        if (warning_isPackageEmpty)
+            warnings.add("Es wurden alle Futtersackerl verbraucht! Bitte nachfüllen!");
+        
+        if (warning_isUserCreated)
+            warnings.add("Bitte legen Sie einen Benutzer an!");
 //        
         // test
         warnings.add("Warning");
         warnings.add("Warning2");
-        
+
         obj.add("Warnings", warnings);
-         
-        JsonObject listJsonObject =  obj.build();
-        
+
+        JsonObject listJsonObject = obj.build();
+
         return listJsonObject;
     }
-    
+
     public static void main(String[] args)
     {
         System.out.println(toJson());
