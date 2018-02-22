@@ -722,6 +722,8 @@ public class MainWindow extends javax.swing.JFrame
                 feedingWorker.cancel(true);
                 timesWorker.cancel(true);
                 dbUpdateWorker.cancel(true);
+                mongodb_instance.closeConnection();
+                Server.getInstance().stop();
             }
             catch (Exception ex)
             {
@@ -750,6 +752,7 @@ public class MainWindow extends javax.swing.JFrame
                 feedingWorker.cancel(true);
                 timesWorker.cancel(true);
                 dbUpdateWorker.cancel(true);
+                mongodb_instance.closeConnection();
                 Server.getInstance().stop();
             }
             catch (Exception ex)

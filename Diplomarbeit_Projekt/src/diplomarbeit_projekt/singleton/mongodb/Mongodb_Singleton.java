@@ -111,5 +111,10 @@ public class Mongodb_Singleton
     {
         return collUser.count();
     }
+    
+    public void closeConnection()
+    {
+        mongodb.close();
+    }
        
 }
