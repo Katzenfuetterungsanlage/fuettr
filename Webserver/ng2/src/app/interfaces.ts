@@ -2,26 +2,23 @@ export interface Version {
   version: string;
 }
 
-export interface Warning {
-  warning: string;
-  id: number;
+export interface Error {
+  message: string;
+  hidden: boolean;
 }
 
-export interface Warnings {
-  warnings: Warning[];
+export interface Warning {
+  message: string;
+  hidden: boolean;
+}
+
+export interface ErrorsAndWarnings {
+  Errors: Error[];
+  Warnings: Warning[];
 }
 
 export interface AckWarn {
   id: number;
-}
-
-export interface Error {
-  error: string;
-  id: number;
-}
-
-export interface Errors {
-  errors: Error[];
 }
 
 export interface AckErr {

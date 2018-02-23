@@ -8,22 +8,20 @@
                     <p>Nächste Fütterung erfolgt in: {{next_time_in}}</p>
                 </div>
                 <ul style="list-style-type: none; margin-left: -40px;">
-                    <li *ngFor="let warning_message of warning_messages">
-                        <div class="alert alert-warning alert-dismissable fade show" role="alert">
+                    <li *ngFor="let warning_message of ErrorsAndWarnings.Warnings">
+                        <div class="alert alert-warning alert-dismissable fade show" role="alert" [hidden]="warning_message.hidden">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true" (click)="ackwarn(warning_message)">&times;</span>
+                                <span aria-hidden="true" (click)="ack(warning_message)">&times;</span>
                             </button>
-                            <strong>Warning! </strong>{{warning_message.warning}}
+                            <strong>Warning! </strong>{{warning_message.message}}
                         </div>
                     </li>
-                </ul>
-                <ul style="list-style-type: none; margin-left: -40px;">
-                    <li *ngFor="let error_message of error_messages">
-                        <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    <li *ngFor="let error_message of ErrorsAndWarnings.Errors">
+                        <div class="alert alert-danger alert-dismissable fade show" role="alert" [hidden]="error_message.hidden">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true" (click)="ackerr(error_message)">&times;</span>
+                                <span aria-hidden="true" (click)="ack(error_message)">&times;</span>
                             </button>
-                            <strong>Error! </strong>{{error_message.error}}
+                            <strong>Error! </strong>{{error_message.message}}
                         </div>
                     </li>
                 </ul>

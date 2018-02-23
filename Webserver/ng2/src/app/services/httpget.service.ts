@@ -12,7 +12,7 @@ export class HttpgetService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public async get(resource: string, options?: { headers?: HttpHeaders }): Promise<Object> {
+  public async get(resource: string, options?: { headers?: HttpHeaders }): Promise<any> {
     return await this.httpGet(resource, options).catch(this.handleError);
   }
 
@@ -23,7 +23,7 @@ export class HttpgetService {
       .catch(this.handleError);
   }
 
-  private async httpGet(resource: string, options?: { headers?: HttpHeaders }): Promise<Object> {
+  private async httpGet(resource: string, options?: { headers?: HttpHeaders }): Promise<any> {
     if (!resource) {
       return Promise.reject(new Error('invalid arguments'));
     }

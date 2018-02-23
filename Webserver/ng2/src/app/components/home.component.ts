@@ -10,8 +10,8 @@ import * as itf from '../interfaces';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public Time: string;
-  public warning_messages: itf.Warning[];
-  public error_messages: itf.Error[];
+  public ErrorsAndWarnings: itf.ErrorsAndWarnings = { Errors: [], Warnings: [] };
+  private AddErrorsAndWarnings: itf.ErrorsAndWarnings = { Errors: [], Warnings: [] };
   public last_time: string;
   public next_time: string;
   public next_time_in: string;
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.clock = setInterval(() => this.refreshTime(), 100);
     this.call = setInterval(() => this.callMeMaybe(), 1000);
-    this.callerr = setInterval(() => this.callErrWarn(), 30000);
+    this.callerr = setInterval(() => this.addErrWarn(), 30000);
     setTimeout(() => {
       this.app.navShow = false;
     }, 0);
@@ -66,9 +66,41 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private callErrWarn(): void {
-    console.log('resource: errors_warnings');
     this.httpgetService.get('errors_warnings').then(res => {
-      console.log(res);
+      this.ErrorsAndWarnings = JSON.parse(JSON.stringify(res));
+    });
+  }
+
+  private async addErrWarn() {
+    this.httpgetService.get('errors_warnings').then(res => {
+      this.AddErrorsAndWarnings = JSON.parse(JSON.stringify(res));
+      let same = false;
+      try {
+        for (let i = 0; i < this.AddErrorsAndWarnings.Errors.length; i++) {
+          for (let j = 0; i < this.ErrorsAndWarnings.Errors.length; j++) {
+            if (this.ErrorsAndWarnings.Errors[j].message === this.AddErrorsAndWarnings.Errors[i].message) {
+              same = true;
+            }
+          }
+          if (!same) {
+            this.ErrorsAndWarnings.Errors.push(this.AddErrorsAndWarnings.Errors[i]);
+            same = false;
+          }
+        }
+        for (let i = 0; i < this.AddErrorsAndWarnings.Warnings.length; i++) {
+          for (let j = 0; i < this.ErrorsAndWarnings.Warnings.length; j++) {
+            if (this.ErrorsAndWarnings.Warnings[j].message === this.AddErrorsAndWarnings.Warnings[i].message) {
+              same = true;
+            }
+          }
+          if (!same) {
+            this.ErrorsAndWarnings.Warnings.push(this.AddErrorsAndWarnings.Warnings[i]);
+            same = false;
+          }
+        }
+      } catch (error) {
+        return;
+      }
     });
   }
 
@@ -92,13 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private ackwarn(warning: itf.Warning) {
-    const id: itf.AckWarn = { id: warning.id };
-    this.httpputService.ackErr(id).subscribe();
-  }
-
-  private ackerr(error: itf.Error) {
-    const id: itf.AckErr = { id: error.id };
-    this.httpputService.ackErr(id).subscribe();
+  private ack(Message) {
+    Message.hidden = true;
   }
 }
