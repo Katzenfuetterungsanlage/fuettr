@@ -979,7 +979,7 @@ public class MainWindow extends javax.swing.JFrame
         lbLastFeeding.setText("ausstehend");
 
         // create MainWindow Instance
-        createInstance();
+        MainWindow.createInstance();
         
         // Worker 
         timeAndDateWorker = new TimeOfDayAndDateWorker();
