@@ -5,6 +5,7 @@
  */
 package diplomarbeit_projekt.utils;
 
+import static diplomarbeit_projekt.utils.DatePulsOneDay.addOneDay;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,7 +56,6 @@ public class NextFeeding
         }
 
         MilliZuStundenUndMinuten milliZuStdUndMin = new MilliZuStundenUndMinuten();
-        DatumPlusEinTag datumPlusEinTag = new DatumPlusEinTag();
 
         if (dateUhrzeit.after(date1) == true && dateUhrzeit.before(date2) == true)
         {
@@ -78,10 +78,10 @@ public class NextFeeding
             nextFeedingIn = milliZuStdUndMin.rechnen(diffInMillis);
         }
 
-        if (dateUhrzeit.after(date4) == true || dateUhrzeit.before(date1) && datumPlusEinTag.rechnen(dateUhrzeit).before(datumPlusEinTag.rechnen(date1)) == true)
+        if (dateUhrzeit.after(date4) == true || dateUhrzeit.before(date1) && addOneDay(dateUhrzeit).before(addOneDay(date1)) == true)
         {
             nextFeedingAt = time1;
-            diffInMillis = date1.getTime() - dateUhrzeit.getTime();
+            diffInMillis = addOneDay(date1).getTime() - dateUhrzeit.getTime();
             nextFeedingIn = milliZuStdUndMin.rechnen(diffInMillis);
         }
 

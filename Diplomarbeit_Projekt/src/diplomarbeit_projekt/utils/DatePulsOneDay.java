@@ -11,14 +11,14 @@ import java.util.Date;
  *
  * @author Florian
  */
-public class DatumPlusEinTag
+public class DatePulsOneDay
 {
-    public Date rechnen(Date datum)
+    public static Date addOneDay(Date date)
     {
-        long millis = datum.getTime();
+        long millis = date.getTime();
         millis = millis + (24*1000*3600);
-        datum = new Date(millis);
+        date = new Date(millis);
 
-        return datum;
+        return date;
     }
 }
