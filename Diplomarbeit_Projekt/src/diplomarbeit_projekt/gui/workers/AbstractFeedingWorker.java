@@ -42,6 +42,8 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 
             while (!isCancelled())
             {
+                TimeUnit.SECONDS.sleep(5);
+                
                 string = null;
 
                 // test
