@@ -970,7 +970,7 @@ public class MainWindow extends javax.swing.JFrame
 
     // Startup method
     private void startup()
-    {
+    {        
         if (machineStateOn == false)
         {
             lbState.setText("Aus");

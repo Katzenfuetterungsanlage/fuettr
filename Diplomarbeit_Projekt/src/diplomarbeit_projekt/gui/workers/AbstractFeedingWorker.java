@@ -54,6 +54,8 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
                 // test
                 System.out.println("machineState: " + machineStateOn);
 
+                machineStateOn = true;
+                
                 if (machineStateOn)
                 {
                     // test
