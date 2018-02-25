@@ -18,6 +18,7 @@ import javax.swing.SwingWorker;
  */
 public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
 {
+
     // pi4j
     private Pi4j_Singleton pi4j_instance;
 
@@ -28,89 +29,109 @@ public abstract class AbstractFeedingWorker extends SwingWorker<Object, String>
     @Override
     protected Object doInBackground() throws Exception
     {
-        // pi4j instance
-        if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
+        try
         {
-            pi4j_instance = Pi4j_Singleton.getInstance();
 
-            System.out.println("pi4j instance created");
-        }
-
-        while (!isCancelled()) 
-        {
-            string = null;
-            
-            // test
-            System.out.println("while vom AbstractFeedingWorker");
-            
-            // nicht mehr im EDT Thread -> Exception wird geworten -> mit trycatch abfangen
-            // behoben durch eine neue Mathode im MainWindow: createInstance
-            machineStateOn = MainWindow.getInstance().isMachineStateOn();
-            
-            // test
-            System.out.println("machineState: " + machineStateOn);
-            
-            if (machineStateOn) 
+            // pi4j instance
+            if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
             {
-                // test
-                System.out.println("if vom AbstractFeedingWorker");
-                
-                // next feeding
-                timesJsonObject = MainWindow.getInstance().getTimes();
-                string = next(timesJsonObject);
+                pi4j_instance = Pi4j_Singleton.getInstance();
 
-                if  ("".equals(lastFeedingTime))
-                    lastFeedingTime = "ausstehend";
-                
-                // feedingcycle
-                timeOfDay = MainWindow.getInstance().getTimeOfDay();
-                time1 = timesJsonObject.getString("time1"); 
-                time2 = timesJsonObject.getString("time2");
-                time3 = timesJsonObject.getString("time3");
-                time4 = timesJsonObject.getString("time4");
-                
-                if (time1.equals(timeOfDay))
-                {
-                    pi4j_instance.feed();
-                    lastFeedingTime = time1;
-                    string = string + ";" + lastFeedingTime;
-                    publish(string);
-                }
-                
-                else if (time2.equals(timeOfDay))
-                {
-                    pi4j_instance.feed();
-                    lastFeedingTime = time2;
-                    string = string + ";" + lastFeedingTime;
-                    publish(string);
-                }
-
-                else if (time3.equals(timeOfDay))
-                {
-                    pi4j_instance.feed();
-                    lastFeedingTime = time3;
-                    string = string + ";" + lastFeedingTime;
-                    publish(string);
-                }
-
-                else if (time4.equals(timeOfDay))
-                {
-                    pi4j_instance.feed();
-                    lastFeedingTime = time4;
-                    string = string + ";" + lastFeedingTime;
-                    publish(string);
-                }
-                               
-                string = string + ";" + lastFeedingTime;
-                
-                publish(string);
-
-                TimeUnit.MILLISECONDS.sleep(500);
+                System.out.println("pi4j instance created");
             }
+
+            while (!isCancelled())
+            {
+                string = null;
+
+                // test
+                System.out.println("while vom AbstractFeedingWorker");
+
+                // nicht mehr im EDT Thread -> Exception wird geworten -> mit trycatch abfangen
+                // behoben durch eine neue Mathode im MainWindow: createInstance
+                machineStateOn = MainWindow.getInstance().isMachineStateOn();
+
+                // test
+                System.out.println("machineState: " + machineStateOn);
+
+                if (machineStateOn)
+                {
+                    // test
+                    System.out.println("if vom AbstractFeedingWorker");
+
+                    // next feeding
+                    timesJsonObject = MainWindow.getInstance().getTimes();
+                    string = next(timesJsonObject);
+
+                    if ("".equals(lastFeedingTime))
+                    {
+                        lastFeedingTime = "ausstehend";
+                    }
+
+                    // feedingcycle
+                    timeOfDay = MainWindow.getInstance().getTimeOfDay();
+                    time1 = timesJsonObject.getString("time1");
+                    time2 = timesJsonObject.getString("time2");
+                    time3 = timesJsonObject.getString("time3");
+                    time4 = timesJsonObject.getString("time4");
+
+                    if (time1.equals(timeOfDay))
+                    {
+                        pi4j_instance.feed();
+                        lastFeedingTime = time1;
+                        string = string + ";" + lastFeedingTime;
+                        publish(string);
+                    }
+
+                    else
+                    {
+                        if (time2.equals(timeOfDay))
+                        {
+                            pi4j_instance.feed();
+                            lastFeedingTime = time2;
+                            string = string + ";" + lastFeedingTime;
+                            publish(string);
+                        }
+                        else
+                        {
+                            if (time3.equals(timeOfDay))
+                            {
+                                pi4j_instance.feed();
+                                lastFeedingTime = time3;
+                                string = string + ";" + lastFeedingTime;
+                                publish(string);
+                            }
+
+                            else
+
+                            {
+                                if (time4.equals(timeOfDay))
+                                {
+                                    pi4j_instance.feed();
+                                    lastFeedingTime = time4;
+                                    string = string + ";" + lastFeedingTime;
+                                    publish(string);
+                                }
+                            }
+                        }
+                    }
+
+                    string = string + ";" + lastFeedingTime;
+
+                    publish(string);
+
+                    TimeUnit.MILLISECONDS.sleep(500);
+                }
+            }
+
+            pi4j_instance.closeController();
+
         }
-        
-        pi4j_instance.closeController();
-        
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
         return 1;
     }
 }
