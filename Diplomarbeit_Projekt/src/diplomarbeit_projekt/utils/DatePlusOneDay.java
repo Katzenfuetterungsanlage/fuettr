@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Florian
  */
-public class DatePulsOneDay
+public class DatePlusOneDay
 {
     public static Date addOneDay(Date date)
     {

@@ -5,7 +5,7 @@
  */
 package diplomarbeit_projekt.utils;
 
-import static diplomarbeit_projekt.utils.DatePulsOneDay.addOneDay;
+import static diplomarbeit_projekt.utils.DatePlusOneDay.addOneDay;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
