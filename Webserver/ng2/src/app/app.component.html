@@ -14,25 +14,25 @@
                         <img src="assets/home.png"> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/feed">
+                    <a class="nav-link" routerLink="/feed" i18n>
                         <img src="assets/feed.png"> Fütterung</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/position">
+                    <a class="nav-link" routerLink="/position" i18n>
                         <img src="assets/control.png"> Positionen</a>
                 </li>
                 <li ngbDropdown class="nav-item dropdown" style="cursor: pointer">
-                    <a class="nav-link dropdown-toggle" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" ngbDropdownToggle aria-haspopup="true" aria-expanded="false" i18n>
                         <img src="assets/settings.png"> Einstellungen</a>
                     <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
-                        <a class="nav-link dropdown-item" routerLink="/info">
+                        <a class="nav-link dropdown-item" routerLink="/info" i18n>
                             <img src="assets/info.png"> Geräteinfo</a>
-                        <a class="nav-link dropdown-item" routerLink="/update">
+                        <a class="nav-link dropdown-item" routerLink="/update" i18n>
                             <img src="assets/update.png"> Update</a>
                     </div>
                 </li>
             </ul>
-            <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
+            <button class="btn btn-outline-danger" (click)="logout()" i18n>Logout</button>
         </div>
     </nav>
     <p>

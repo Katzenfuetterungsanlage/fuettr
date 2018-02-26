@@ -13,8 +13,8 @@ import * as itf from '../interfaces';
   templateUrl: './feed.component.html',
   animations: [
     trigger('SaveAnimation', [
-      state('false', style({ 'margin-left': '-126px' })),
-      state('true', style({ 'margin-left': '0' })),
+      state('false', style({ 'margin-left': '-100%', 'visibility': 'hidden' })),
+      state('true', style({ 'margin-left': '0', 'visibility': 'visible' })),
       transition('* => *', animate('300ms'))
     ])
   ]

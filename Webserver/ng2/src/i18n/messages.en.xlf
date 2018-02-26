@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" 
+  xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="f7893236d961820aec5f025316c57ef34e37d98c" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Feeding-Cycle                                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f08c2c282da8a7ee3d3ea7f1a1113aa087bd85ac" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positions                                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac1e8780f3234be3bfcd68f6294be4572a477172" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Settings                                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ea595519855df4344004ba8bd8b0790595589a3f" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Device-Info                                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c9e55cd8eb7ce3f3b1f758328565d9cf3303818f" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html">
+        <source>Logout</source>
+        <target>Logout</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4820e3039edb57b10bc2d0f84fc402183111f8c2" datatype="html">
+        <source>Positions-info</source>
+        <target>Position-Info</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/position.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="60933bf3b44aa629e7f5af1e96f85b70c6a5b792" datatype="html">
+        <source>Motor 1:</source>
+        <target>Motor 1:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/position.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ca5a4c9bb40da619351e03239463cb3f82ba9e5d" datatype="html">
+        <source>Motor 2:</source>
+        <target>Motor 2:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/position.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e83d7d48c1314d2a7600bb24b9dbef3daa6c0603" datatype="html">
+        <source>Sensor 1:</source>
+        <target>Sensor 1:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/position.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52a97972f0f4e3b6929a44bb6d3d8f9f34e90e83" datatype="html">
+        <source>Sensor 2:</source>
+        <target>Sensor 2:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/position.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9d19609a484710ad5fc6ad73173ed4861e0ac038" datatype="html">
+        <source>Letzte erfolgte Fütterung:                                                             
+          <x id="INTERPOLATION" equiv-text="{{last_time}}"/>
+        </source>
+        <target>Last successfull feeding:                                                             
+          <x id="INTERPOLATION" equiv-text="{{last_time}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8601b93b019e37e83693abf6f32f8dce2d3748ce" datatype="html">
+        <source>Nächste Fütterung erfolgt um:                                                             
+          <x id="INTERPOLATION" equiv-text="{{next_time}}"/>
+        </source>
+        <target>Next feeding at:                                                             
+          <x id="INTERPOLATION" equiv-text="{{next_time}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="31e6db49656b792e46f447aaea3c9f8666036910" datatype="html">
+        <source>Nächste Fütterung erfolgt in:                                                             
+          <x id="INTERPOLATION" equiv-text="{{next_time_in}}"/>
+        </source>
+        <target>Next feeding in:                                                             
+          <x id="INTERPOLATION" equiv-text="{{next_time_in}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="886ca229e329608b0d97715bdd5c79899f88bbb2" datatype="html">
+        <source>Warning! </source>
+        <target>Warning! </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b20a09d283ac7cc3f24a5bcdf955165b024d0f84" datatype="html">
+        <source>Error! </source>
+        <target>Error! </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="45016b18fa96c9db30825587d3655862d55432c1" datatype="html">
+        <source>Fütterungszeiten</source>
+        <target>Feeding-Times</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f1c9ca1d6b0c3ce7482ed5b6e38f36237fb2a105" datatype="html">
+        <source>Zeit 1:</source>
+        <target>Time 1:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3beaf23e955b9e256c4ba7cde1b1611d6b846efa" datatype="html">
+        <source>Zeit 2:</source>
+        <target>Time 2:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e14212838cad2e5967c693b9ba6149dc75c98e6f" datatype="html">
+        <source>Zeit 3:</source>
+        <target>Time 3:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fd21129bb4413174b68c7397266c5bc96a50dd75" datatype="html">
+        <source>Zeit 4:</source>
+        <target>Time 4:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="15368bac515726a0e76840d391572575973a9987" datatype="html">
+        <source> Maschine:                                                             
+          <x id="INTERPOLATION" equiv-text="{{machine_state}}"/>
+        </source>
+        <target> Machine:                                                             
+          <x id="INTERPOLATION" equiv-text="{{machine_state}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/home.component.ts</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9097fe8cc37f7a1da516952fb7411bbc2b9d8ce9" datatype="html">
+        <source>Zeit 1</source>
+        <target>Time 1</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="461ba10d6095cd15ba42f5deb46866632cfa914a" datatype="html">
+        <source>Zeit 2</source>
+        <target>Time 2</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1a109691d0446f454060e91a30ebda44307cafb9" datatype="html">
+        <source>Zeit 3</source>
+        <target>Time 3</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="31f731f664b20e5b37f9c47c37023a65f0e100cc" datatype="html">
+        <source>Zeit 4</source>
+        <target>Time 4</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8f07af49a3022e7bcda6a8a9be2bebacda0b3167" datatype="html">
+        <source>Format: HH:MM</source>
+        <target>Format: HH:MM</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6891b4771db92f1254e37f11863c4aeca730e19" datatype="html">
+        <source>Zeit 1 muss eine gültige Zeit sein</source>
+        <target>Time 1 must be valid</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="493fbab78c19d9b474fe280a13192f6a62fced7e" datatype="html">
+        <source>Zeit 1 darf nicht leer sein!</source>
+        <target>Time 1 shouldn't be emty!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3ade39c4be5a3408280efcefdd1abd27f8164cb4" datatype="html">
+        <source>Zeit 2 muss größer als                                                             
+          <x id="INTERPOLATION" equiv-text="{{time1}}"/> sein                                                
+        </source>
+        <target>Time 2 must be bigger than                                                             
+          <x id="INTERPOLATION" equiv-text="{{time1}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a121d01356812377eec357787fd541f44dd3f975" datatype="html">
+        <source>Zeit 2 muss eine gültige Zeit sein</source>
+        <target>time 2 must be valid</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="58ab15b84c5008bae5a8be3b07c57c2882373dc6" datatype="html">
+        <source>Zeit 2 darf nicht leer sein!</source>
+        <target>Time 2 shouldn't be empty!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="73bfa68c08f67973eed5f42cb25efa78ea9ac85e" datatype="html">
+        <source>Zeit 3 muss größer als                                                             
+          <x id="INTERPOLATION" equiv-text="{{time2}}"/> sein                                                
+        </source>
+        <target>Time 3 must be bigger than                                                             
+          <x id="INTERPOLATION" equiv-text="{{time2}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a159f4f67b25619a032b3e6b490015cc5354e3e5" datatype="html">
+        <source>Zeit 3 muss eine gültige Zeit sein</source>
+        <target>Time 3 must be valid</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="687febe5f350f7627ff00913e00265fed0a43d56" datatype="html">
+        <source>Zeit 3 darf nicht leer sein!</source>
+        <target>Time 3 shouldn't be empty!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="62c5bfc4e996083eca86b24c8a3b05f4ca31b9fe" datatype="html">
+        <source>Zeit 4 muss größer als                                                             
+          <x id="INTERPOLATION" equiv-text="{{time3}}"/> sein                                                
+        </source>
+        <target>Time 4 must be bigger than                                                             
+          <x id="INTERPOLATION" equiv-text="{{time3}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5b4ccf1a38840aef1eccb944a78014e8950d1131" datatype="html">
+        <source>Zeit 4 muss eine gültige Zeit sein</source>
+        <target>Time 4 must be valid</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7bc3d29f759a7c4e496df2cfd8ee6d4d1883616f" datatype="html">
+        <source>Zeit 4 darf nicht leer sein!</source>
+        <target>Time 4 shouldn't be emtpy!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b24932d0f2269e4b41d0f936fdb5de1b94da401" datatype="html">
+        <source>Abbrechen</source>
+        <target>Cancel</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="05d6def11b80c405276ad18c4fc5183e8cea4f75" datatype="html">
+        <source>Speichern</source>
+        <target>Save</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d1aa437ab434741e35e37ba4841cf400c41dc3bb" datatype="html">
+        <source>Gespeichert.</source>
+        <target>Saved.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9250ce0530cd71133924ea7842ac8081df21422f" datatype="html">
+        <source>Misslungen.</source>
+        <target>Failed.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ce64c0d455125ee780a18dd655ff404843af9b19" datatype="html">
+        <source>Geräteinformation</source>
+        <target>Device information</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/info.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dd5b3832ae40b38410aef110c690c45f74f6eb7b" datatype="html">
+        <source>Seriennummer:</source>
+        <target>Serialnumber:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/info.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="874556ea6c89df7e6565743bba8db9c6eb7ce846" datatype="html">
+        <source>Interner Rechner:</source>
+        <target>Internal Device:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/info.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="158339f513b65b5dd4cf293bcfd3874c91c7e56f" datatype="html">
+        <source>WLAN Status:</source>
+        <target>WIFI Status:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/info.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1fa449ae281cbbefb871daba489548cab7a8a930" datatype="html">
+        <source>IP Adresse:</source>
+        <target>IP Address:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/info.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="26ef46008345bfe2e2e5ae82fafaaab6a6f98084" datatype="html">
+        <source>Softwareversion:</source>
+        <target>Softwareversion:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/info.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e34c2f09de16616be1bf7f0c2d34f24ccba3f92f" datatype="html">
+        <source>Klick the button to check for updates:</source>
+        <target>Klick the button to check for updates:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b8850632df233ccb2d02f91cfad0be499b61d109" datatype="html">
+        <source>Check for updates</source>
+        <target>Check for updates</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="047f50bc5b5d17b5bec0196355953e1a5c590ddb" datatype="html">
+        <source>Update</source>
+        <target>Update</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="21c4db7613a2ff6688f6d3d163aa3374cdc47637" datatype="html">
+        <source>Check again</source>
+        <target>Check again</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dd7b4ad691429ff2371ba8235765fd56459e08a8" datatype="html">
+        <source>Update                                                             
+          <x id="INTERPOLATION" equiv-text="{{updater}}"/>
+        </source>
+        <target>Update                                                             
+          <x id="INTERPOLATION" equiv-text="{{updater}}"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="93b888c28163ede43b3e6003653bccd1888f6914" datatype="html">
+        <source>WARNING!</source>
+        <target>WARNING!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4c328af1489b647f3fa83ec337a93f830001971" datatype="html">
+        <source>Do you really want to shutdown? Your device will power off and can&apos;t be started via the network again. You have to pull the power cable and put it back in.</source>
+        <target>Do you really want to shutdown? Your device will power off and can't be started via the network again. You have to pull the power cable and put it back in.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <target>Cancel</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="05d2f499c7411bd9e4707f3b583f5eb9d0843e3a" datatype="html">
+        <source>Shutdown</source>
+        <target>Shutdown</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/update.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4b61b26d97bc3411434de14c321838ac9b10bd47" datatype="html">
+        <source>The requested url:                                                             
+          <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;"/>
+          <x id="INTERPOLATION" equiv-text="{{url}}"/>
+          <x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> does not exist on this server                                                             
+          <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>(404)                                                            
+          <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+        </source>
+        <target>The requested url:                                                             
+          <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;"/>
+          <x id="INTERPOLATION" equiv-text="{{url}}"/>
+          <x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> does not exist on this server                                                             
+          <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>(404)                                                            
+          <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/error404.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c47252d6cffe14a672e7ef04b2cc30e761f240ae" datatype="html">
+        <source>Zurück</source>
+        <target>Back</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/cat/cat.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="73cbe4f9d00961ddd07290fed65f6baf7156c616" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Feeding-Cycle                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3175c66c57547ae2fc56c7a2cf8f6bec100ac3b1" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positions                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="20648516ba37e8223f799ce3edd26d2bccf2dca5" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Settings                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ff4b679991d7783a767d71c05d78dd24771aeecd" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Device-Info                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1e61d47c0b1b2fcc629796e2ef767c6b65eb06b9" datatype="html">
+        <source>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                
+        </source>
+        <target>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="600727f6430534b8461c5c95080b4f100462b8d7" datatype="html">
+        <source>Benutzer:</source>
+        <target>User:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8d79cbcceb777364202a0fa298728b910c018525" datatype="html">
+        <source>Passwort:</source>
+        <target>Password:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9c52e6ae9ed252eb83d3b624e3abf7e36dffb1c" datatype="html">
+        <source>Invalid username or password.</source>
+        <target>Invalid username or password.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71c77bb8cecdf11ec3eead24dd1ba506573fa9cd" datatype="html">
+        <source>Submit</source>
+        <target>Login</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

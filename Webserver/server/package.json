@@ -19,7 +19,7 @@
     "debug": "^2.6.9",
     "debug-sx": "^0.1.7",
     "express": "^4.16.2",
-    "express-jwt": "^5.3.0",
+    "express-request-language": "^1.1.15",
     "jsonwebtoken": "^8.1.0",
     "mongodb": "^2.2.34",
     "pug": "^2.0.0-rc.4",

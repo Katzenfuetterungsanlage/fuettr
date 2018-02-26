@@ -3,13 +3,13 @@
     <br>
 </div>
 <div class="container-fluid">
-    <h4>Klick the button to check for updates:</h4>
+    <h4 i18n>Klick the button to check for updates:</h4>
     <br>
-    <button type="button" class="btn btn-secondary btn-lg" (click)="open(updatemodal)">Check for updates</button>
+    <button type="button" class="btn btn-secondary btn-lg" (click)="open(updatemodal)" i18n>Check for updates</button>
 </div>
 <ng-template #updatemodal let-c="close">
     <div class="modal-header">
-        <h4 class="modal-title">Update</h4>
+        <h4 class="modal-title" i18n>Update</h4>
         <button type="button" class="close" (click)="c()">&times;</button>
     </div>
     <div class="modal-body">
@@ -20,26 +20,26 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button *ngIf="!show2" type="button" class="btn btn-secondary" (click)="refresh()">Check again</button>
-        <button *ngIf="show2" type="button" class="btn btn-secondary">Check again</button>
-        <button *ngIf="show" type="button" class="btn btn-primary" (click)="update()">Update {{updater}}</button>
-        <button *ngIf="show2" type="button" class="btn btn-primary">Update {{updater}}</button>
+        <button *ngIf="!show2" type="button" class="btn btn-secondary" (click)="refresh()" i18n>Check again</button>
+        <button *ngIf="show2" type="button" class="btn btn-secondary" i18n>Check again</button>
+        <button *ngIf="show" type="button" class="btn btn-primary" (click)="update()" i18n>Update {{updater}}</button>
+        <button *ngIf="show2" type="button" class="btn btn-primary" i18n>Update {{updater}}</button>
     </div>
 </ng-template>
 <ng-template #shutdownmodal let-c="close">
     <div class="modal-header">
         <h4 class="modal-title">
-            <strong>WARNING!</strong>
+            <strong i18n>WARNING!</strong>
         </h4>
         <button type="button" class="close" (click)="c()">&times;</button>
     </div>
     <div class="modal-body">
-        <p>Do you really want to shutdown? Your device will power off and can't be started via the network again. You have to pull the power cable and put it back in.</p>
+        <p i18n>Do you really want to shutdown? Your device will power off and can't be started via the network again. You have to pull the power cable and put it back in.</p>
         <img src="assets/put_it_back.jpg" width="100%" class="text-center">
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="c()">Cancel</button>
-        <button type="button" class="btn btn-secondary" (click)="shutdown()">Shutdown</button>
+        <button i18n type="button" class="btn btn-secondary" (click)="c()">Cancel</button>
+        <button i18n type="button" class="btn btn-secondary" (click)="shutdown()">Shutdown</button>
     </div>
 </ng-template>
 

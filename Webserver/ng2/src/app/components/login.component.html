@@ -14,24 +14,27 @@
                     <img src="assets/home.png"> Home</a>
             </li>
             <li class="nav-item" disabled style="cursor: not-allowed">
-                <a class="nav-link" disabled>
+                <a class="nav-link" disabled i18n>
                     <img src="assets/feed.png"> Fütterung</a>
             </li>
             <li class="nav-item" disabled style="cursor: not-allowed">
-                <a class="nav-link" disabled>
+                <a class="nav-link" disabled i18n>
                     <img src="assets/control.png"> Positionen</a>
             </li>
             <li class="nav-item dropdown" style="cursor: not-allowed">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown" aria-haspopup="true" aria-expanded="false" i18n>
                     <img src="assets/settings.png"> Einstellungen</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown">
-                    <a class="nav-link dropdown-item" disabled>
+                    <a class="nav-link dropdown-item" disabled i18n>
                         <img src="assets/info.png"> Geräteinfo</a>
-                    <a class="nav-link dropdown-item" disabled>
+                    <a class="nav-link dropdown-item" disabled i18n>
                         <img src="assets/update.png"> Update</a>
                 </div>
             </li>
         </ul>
+        <div *ngFor="let lang of languages">
+            <a *ngIf="lang.code !== localeId" href="/{{lang.code}}"><img src="{{lang.img}}"></a>
+        </div>
     </div>
 </nav>
 <p>
@@ -44,14 +47,14 @@
 <div class="container jumbotron align-middle">
     <form #login="ngForm" class="form-horizontal" (ngSubmit)="submit(login.value)">
         <div class="form-group">
-            <label for="usr">Benutzer:</label>
-            <input type="text" class="form-control" id="usr" placeholder="Benutzername" name="user" ngModel required>
+            <label for="usr" i18n>Benutzer:</label>
+            <input type="text" class="form-control" id="usr" placeholder="User" name="user" ngModel required>
         </div>
         <div class="form-group">
-            <label for="pwd">Passwort:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Passwort" name="password" ngModel required>
+            <label for="pwd" i18n>Passwort:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Password" name="password" ngModel required>
         </div>
-        <div class="alert alert-danger" *ngIf="fail">Invalid username or password.</div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <div class="alert alert-danger" *ngIf="fail" i18n>Invalid username or password.</div>
+        <button type="submit" class="btn btn-success" i18n>Submit</button>
     </form>
 </div>

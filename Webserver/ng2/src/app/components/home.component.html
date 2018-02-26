@@ -3,9 +3,9 @@
         <div class="col-md-8">
             <div class="container-fluid">
                 <div class="jumbotron text-center">
-                    <p>Letzte erfolgte Fütterung: {{last_time}} </p>
-                    <p>Nächste Fütterung erfolgt um: {{next_time}}</p>
-                    <p>Nächste Fütterung erfolgt in: {{next_time_in}}</p>
+                    <p i18n>Letzte erfolgte Fütterung: {{last_time}} </p>
+                    <p i18n>Nächste Fütterung erfolgt um: {{next_time}}</p>
+                    <p i18n>Nächste Fütterung erfolgt in: {{next_time_in}}</p>
                 </div>
                 <ul style="list-style-type: none; margin-left: -40px;">
                     <li *ngFor="let warning_message of ErrorsAndWarnings.Warnings">
@@ -13,7 +13,7 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true" (click)="ack(warning_message)">&times;</span>
                             </button>
-                            <strong>Warning! </strong>{{warning_message.message}}
+                            <strong i18n>Warning! </strong>{{warning_message.message}}
                         </div>
                     </li>
                     <li *ngFor="let error_message of ErrorsAndWarnings.Errors">
@@ -21,20 +21,20 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true" (click)="ack(error_message)">&times;</span>
                             </button>
-                            <strong>Error! </strong>{{error_message.message}}
+                            <strong i18n>Error! </strong>{{error_message.message}}
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="col-md-4">
-            <h2 class="text-center">Fütterungszeiten</h2>
+            <h2 class="text-center" i18n>Fütterungszeiten</h2>
             <div class="container-fluid">
                 <table class="table">
                     <tbody>
                         <tr *ngIf="time1_show">
                             <td class="text-right">
-                                <h4>Zeit 1:</h4>
+                                <h4 i18n>Zeit 1:</h4>
                             </td>
                             <td>
                                 <span class="btn btn-secondary">{{time1}}</span>
@@ -42,7 +42,7 @@
                         </tr>
                         <tr *ngIf="time2_show">
                             <td class="text-right">
-                                <h4>Zeit 2:</h4>
+                                <h4 i18n>Zeit 2:</h4>
                             </td>
                             <td>
                                 <span class="btn btn-secondary">{{time2}}</span>
@@ -50,7 +50,7 @@
                         </tr>
                         <tr *ngIf="time3_show">
                             <td class="text-right">
-                                <h4>Zeit 3:</h4>
+                                <h4 i18n>Zeit 3:</h4>
                             </td>
                             <td>
                                 <span class="btn btn-secondary">{{time3}}</span>
@@ -58,7 +58,7 @@
                         </tr>
                         <tr *ngIf="time4_show">
                             <td class="text-right">
-                                <h4>Zeit 4:</h4>
+                                <h4 i18n>Zeit 4:</h4>
                             </td>
                             <td>
                                 <span class="btn btn-secondary">{{time4}}</span>
@@ -72,7 +72,7 @@
     <nav class="navbar fixed-bottom navbar-inverse text-nowrap" style="background-color: #191816">
         <div class="row" style="background-color: #191816">
             <div class="col-6">
-                <span class="nav-link" style="color:#c6bfb9"> Maschine: {{machine_state}}</span>
+                <span class="nav-link" style="color:#c6bfb9" i18n> Maschine: {{machine_state}}</span>
             </div>
             <div class="col-6">
                 <span class="nav-link text-right" style="color:#c6bfb9">{{Time}}</span>

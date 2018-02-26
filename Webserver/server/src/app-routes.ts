@@ -24,15 +24,28 @@ export class AppRoutes {
   public constructor() {
     this._routes = express();
 
-    this._routes.use(express.static(path.join(__dirname, '../../ng2/dist')));
-    this._routes.get('**', (req, res, next) => {
-      res.sendFile(path.join(__dirname, '../../ng2/dist/index.html'));
+    this._routes.use('/de', express.static(path.join(__dirname, '../../ng2/dist/de')));
+    this._routes.get('/de/**', (req, res, next) => {
+      res.sendFile(path.join(__dirname, '../../ng2/dist/de/index.html'));
     });
+    this._routes.use('/en', express.static(path.join(__dirname, '../../ng2/dist/en')));
+    this._routes.get('/en/**', (req, res, next) => {
+      res.sendFile(path.join(__dirname, '../../ng2/dist/en/index.html'));
+    });
+    this._routes.use('/', (req, res, next) => this.languageselector(req, res, next));
     this._routes.use((req, res, next) => this.error404Handler(req, res, next));
     // tslint:disable-next-line:max-line-length
-    this._routes.use((err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) =>
-      this.errorHandler(err, req, res, next)
-    );
+    this._routes.use((err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) => this.errorHandler(err, req, res, next));
+  }
+
+  public languageselector(req: express.Request, res: express.Response, next: express.NextFunction) {
+    if (req.language === 'de-DE' || req.language === 'de-AT') {
+      res.redirect('/de');
+      return;
+    } else {
+      res.redirect('/en');
+      return;
+    }
   }
 
   public error404Handler(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -44,7 +57,7 @@ export class AppRoutes {
   public errorHandler(err: express.Errback, req: express.Request, res: express.Response, next: express.NextFunction) {
     const ts = new Date().toLocaleString();
     log.warn('Error %s\n%e', ts, err);
-    res.status(500).render('error500.pug', {
+    res.status(500).render(path.join(__dirname, 'views/error500.pug'), {
       time: ts,
       err: err,
       href: 'mailto:greflm13@htl-kaindorf.ac.at?subject=Füttr server failed ' + ts,

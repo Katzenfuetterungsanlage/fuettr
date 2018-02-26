@@ -4,6 +4,7 @@ import * as bodyparser from 'body-parser';
 import * as http from 'http';
 import * as fs from 'fs';
 import * as jwt from 'jsonwebtoken';
+import * as requestLanguage from 'express-request-language';
 import { SHA512 } from 'crypto-js';
 import { Login } from './interfaces';
 
@@ -36,6 +37,11 @@ export class Server {
 
     this._express.use(bodyparser.json());
     this._express.use(bodyparser.urlencoded({ extended: true }));
+    this._express.use(
+      requestLanguage({
+        languages: ['en-GB', 'de-DE', 'de-AT']
+      })
+    );
     this._express.set('views', path.join(__dirname, '/views'));
     const pugEngine = this._express.set('view engine', 'pug');
     pugEngine.locals.pretty = true;
