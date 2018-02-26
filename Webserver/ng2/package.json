@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "prestart": "ng build --prod && cd ../server && gulp cleanAndBuild",
+    "prestart": "npm run build-linux && cd ../server && gulp cleanAndBuild",
     "start": "node ../server/dist/main.js",
     "build": "git pull && sudo rsync -aP /home/pi/git/fuettr_prototype/rc.local /etc/rc.local && sudo reboot",
     "build-linux": "for lang in en de; do ng build --output-path-dist/$lang --aot --prod --bh /$lang/ --i18n-format=xlf --locale=$lang; done",
