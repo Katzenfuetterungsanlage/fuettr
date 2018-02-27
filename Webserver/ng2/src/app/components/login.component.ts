@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, Inject } from '@angular/core';
+import { Component, LOCALE_ID, Inject, OnInit } from '@angular/core';
 
 import { HttpputService } from '../services/httpput.service';
 import { AuthService } from '../services/auth.service';
@@ -10,11 +10,20 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public fail = false;
   public languages = [{ code: 'en', img: 'assets/en.png' }, { code: 'de', img: 'assets/de.png' }];
+  public activelang;
 
   constructor(private authService: AuthService, private router: Router, @Inject(LOCALE_ID) protected localeId: string) {}
+
+  public ngOnInit(): void {
+    if (this.localeId === 'de') {
+      this.activelang = 'de';
+    } else {
+      this.activelang = 'en';
+    }
+  }
 
   public submit(user) {
     this.authService

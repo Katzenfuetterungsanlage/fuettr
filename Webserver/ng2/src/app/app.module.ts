@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,7 +39,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     LoginComponent
   ],
   imports: [NgbModule.forRoot(), BrowserModule, HttpClientModule, AppRoutingModule, HttpModule, FormsModule, BrowserAnimationsModule],
-  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, AuthGuard, {
+  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, AuthGuard, NgbDropdown, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
