@@ -1,7 +1,6 @@
 <div *ngIf="!login">
     <nav class="navbar navbar-toggleable-sm navbar-inverse text-nowrap" style="background-color: #191816">
-        <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()" aria-controls="Navbar" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand logo" (click)="click()" routerLink="/home">
@@ -22,9 +21,9 @@
                         <img src="assets/control.png"> Positionen</a>
                 </li>
                 <li ngbDropdown class="nav-item dropdown" style="cursor: pointer">
-                    <a class="nav-link dropdown-toggle" ngbDropdownToggle aria-haspopup="true" aria-expanded="false" i18n>
+                    <a class="nav-link dropdown-toggle" ngbDropdownToggle i18n>
                         <img src="assets/settings.png"> Einstellungen</a>
-                    <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
+                    <div ngbDropdownMenu class="dropdown-menu">
                         <a class="nav-link dropdown-item" routerLink="/info" i18n>
                             <img src="assets/info.png"> Geräteinfo</a>
                         <a class="nav-link dropdown-item" routerLink="/update" i18n>

@@ -9,16 +9,16 @@
                 </div>
                 <ul style="list-style-type: none; margin-left: -40px;">
                     <li *ngFor="let warning_message of ErrorsAndWarnings.Warnings">
-                        <div class="alert alert-warning alert-dismissable fade show" role="alert" [hidden]="warning_message.hidden">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <div class="alert alert-warning alert-dismissable fade show" [hidden]="warning_message.hidden">
+                            <button type="button" class="close">
                                 <span aria-hidden="true" (click)="ack(warning_message)">&times;</span>
                             </button>
                             <strong i18n>Warning! </strong>{{warning_message.message}}
                         </div>
                     </li>
                     <li *ngFor="let error_message of ErrorsAndWarnings.Errors">
-                        <div class="alert alert-danger alert-dismissable fade show" role="alert" [hidden]="error_message.hidden">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <div class="alert alert-danger alert-dismissable fade show" [hidden]="error_message.hidden">
+                            <button type="button" class="close">
                                 <span aria-hidden="true" (click)="ack(error_message)">&times;</span>
                             </button>
                             <strong i18n>Error! </strong>{{error_message.message}}
