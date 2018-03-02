@@ -17,13 +17,13 @@ const routes: Routes = [
   {
     path: 'position',
     component: PositionComponent,
-    data: { title: 'Füttr - Positionen' },
+    data: { title: 'Füttr - Positions' },
     canActivate: [AuthGuard]
   },
   {
     path: 'feed',
     component: FeedComponent,
-    data: { title: 'Füttr - Fütterung' },
+    data: { title: 'Füttr - Feeding-Cycle' },
     canActivate: [AuthGuard]
   },
   { path: 'info', component: InfoComponent, data: { title: 'Füttr - Info' }, canActivate: [AuthGuard] },

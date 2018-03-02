@@ -19,13 +19,14 @@ export class AppComponent implements OnInit {
   private lick = 0;
   public navShow = false;
   public login = false;
+  public activelang;
 
   public constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private httpputService: HttpputService,
-    private authservice: AuthService
+    private authservice: AuthService,
   ) {}
 
   ngOnInit() {
@@ -121,8 +122,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleState() {
-    const bool = this.navShow;
-    this.navShow = bool === false ? true : false;
+    this.navShow = !this.navShow;
   }
 
   getRandomInt(min, max) {
