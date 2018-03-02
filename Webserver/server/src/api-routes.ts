@@ -161,7 +161,7 @@ export class ApiRoutes {
   public async putMeHere(req: express.Request, res: express.Response, next: express.NextFunction) {
     const token = <string>req.headers.authorization.slice(7);
     let auth;
-    jwt.verify(token, this._publkey, err => {
+    await jwt.verify(token, this._publkey, err => {
       if (err != undefined) {
         log.fine(err);
         auth = false;
@@ -170,9 +170,6 @@ export class ApiRoutes {
       }
       auth = true;
     });
-    const OK = {
-      ok: 'ok'
-    };
     if (auth) {
       switch (req.query.q) {
         case 'times': {
@@ -183,13 +180,8 @@ export class ApiRoutes {
           break;
         }
 
-        case 'ackErr': {
-          this.getToJava('/ackErr', JSON.stringify(req.body));
-          break;
-        }
-
-        case 'ackWarn': {
-          this.getToJava('/ackWarn', JSON.stringify(req.body));
+        case 'changeState': {
+          this.getToJava('/ChangeMachineState', JSON.stringify(req.body));
           break;
         }
 

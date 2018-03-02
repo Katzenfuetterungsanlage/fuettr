@@ -44,7 +44,7 @@ export interface Status {
   lastFeeding: string;
   nextFeeding: string;
   nextFeedingIn: string;
-  machineState: string;
+  machineState: boolean;
 }
 
 export interface Info {

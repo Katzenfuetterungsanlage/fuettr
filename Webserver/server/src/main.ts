@@ -23,19 +23,35 @@ const consolelogger: debugsx.IHandler = debugsx.createConsoleHandler('stdout', '
   { level: 'ERR', color: 'red', inverse: true },
   { level: 'WARN', color: 'magenta', inverse: true }
 ]);
-// tslint:disable-next-line:max-line-length
-const filelogger: debugsx.IHandler = debugsx.createFileHandler(
-  '/var/log/fuettr/' + 'server_' + date.toLocaleDateString() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds() + '.log',
-  '*::INFO, *::FINE, *::SEVERE, *::ERR, *::WARN',
-  '-*',
-  [
-    { level: 'INFO', color: 'cyan', inverse: true },
-    { level: 'FINE', color: 'white', inverse: true },
-    { level: 'SEVERE', color: 'red', inverse: true },
-    { level: 'ERR', color: 'red', inverse: true },
-    { level: 'WARN', color: 'magenta', inverse: true }
-  ]
-);
+let filelogger: debugsx.IHandler;
+if (process.platform !== 'win32') {
+  // tslint:disable-next-line:max-line-length
+  filelogger = debugsx.createFileHandler(
+    '/var/log/fuettr/' + 'server_' + date.toLocaleDateString() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds() + '.log',
+    '*::INFO, *::FINE, *::SEVERE, *::ERR, *::WARN',
+    '-*',
+    [
+      { level: 'INFO', color: 'cyan', inverse: true },
+      { level: 'FINE', color: 'white', inverse: true },
+      { level: 'SEVERE', color: 'red', inverse: true },
+      { level: 'ERR', color: 'red', inverse: true },
+      { level: 'WARN', color: 'magenta', inverse: true }
+    ]
+  );
+} else {
+  filelogger = debugsx.createFileHandler(
+    'log/' + 'server_' + date.toLocaleDateString() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds() + '.log',
+    '*::INFO, *::FINE, *::SEVERE, *::ERR, *::WARN',
+    '-*',
+    [
+      { level: 'INFO', color: 'cyan', inverse: true },
+      { level: 'FINE', color: 'white', inverse: true },
+      { level: 'SEVERE', color: 'red', inverse: true },
+      { level: 'ERR', color: 'red', inverse: true },
+      { level: 'WARN', color: 'magenta', inverse: true }
+    ]
+  );
+}
 debugsx.addHandler(consolelogger, filelogger);
 
 const port = 17325;

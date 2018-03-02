@@ -5,10 +5,10 @@
     <body>
       <trans-unit id="f7893236d961820aec5f025316c57ef34e37d98c" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                                                
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/app.component.ts</context>
@@ -17,10 +17,10 @@
       </trans-unit>
       <trans-unit id="f08c2c282da8a7ee3d3ea7f1a1113aa087bd85ac" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                                                
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/app.component.ts</context>
@@ -29,10 +29,10 @@
       </trans-unit>
       <trans-unit id="ac1e8780f3234be3bfcd68f6294be4572a477172" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                                                
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/app.component.ts</context>
@@ -41,10 +41,10 @@
       </trans-unit>
       <trans-unit id="ea595519855df4344004ba8bd8b0790595589a3f" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                                                
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/app.component.ts</context>
@@ -53,10 +53,10 @@
       </trans-unit>
       <trans-unit id="c9e55cd8eb7ce3f3b1f758328565d9cf3303818f" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                                                                
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Aktualisierungen                                                                
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Aktualisierungen                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/app.component.ts</context>
@@ -112,10 +112,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="9d19609a484710ad5fc6ad73173ed4861e0ac038" datatype="html">
-        <source>Letzte erfolgte Fütterung:                                                                                 
+        <source>Letzte erfolgte Fütterung:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{last_time}}"/>
         </source>
-        <target>Letzte erfolgte Fütterung:                                                                                 
+        <target>Letzte erfolgte Fütterung:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{last_time}}"/>
         </target>
         <context-group purpose="location">
@@ -124,10 +124,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="8601b93b019e37e83693abf6f32f8dce2d3748ce" datatype="html">
-        <source>Nächste Fütterung erfolgt um:                                                                                 
+        <source>Nächste Fütterung erfolgt um:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{next_time}}"/>
         </source>
-        <target>Nächste Fütterung erfolgt um:                                                                                 
+        <target>Nächste Fütterung erfolgt um:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{next_time}}"/>
         </target>
         <context-group purpose="location">
@@ -136,10 +136,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="31e6db49656b792e46f447aaea3c9f8666036910" datatype="html">
-        <source>Nächste Fütterung erfolgt in:                                                                                 
+        <source>Nächste Fütterung erfolgt in:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{next_time_in}}"/>
         </source>
-        <target>Nächste Fütterung erfolgt in:                                                                                 
+        <target>Nächste Fütterung erfolgt in:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{next_time_in}}"/>
         </target>
         <context-group purpose="location">
@@ -208,15 +208,23 @@
         </context-group>
       </trans-unit>
       <trans-unit id="15368bac515726a0e76840d391572575973a9987" datatype="html">
-        <source> Maschine:                                                                                 
+        <source> Maschine:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{machine_state}}"/>
         </source>
-        <target> Maschine:                                                                                 
+        <target> Maschine:                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{machine_state}}"/>
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/home.component.ts</context>
           <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2e002bff021e08986e6393341fc2f3115f99537e" datatype="html">
+        <source>Maschine:</source>
+        <target>Maschine:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/feed.component.ts</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9097fe8cc37f7a1da516952fb7411bbc2b9d8ce9" datatype="html">
@@ -276,11 +284,11 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3ade39c4be5a3408280efcefdd1abd27f8164cb4" datatype="html">
-        <source>Zeit 2 muss größer als                                                                                 
-          <x id="INTERPOLATION" equiv-text="{{time1}}"/> sein                                                                
+        <source>Zeit 2 muss größer als                                                                                                     
+          <x id="INTERPOLATION" equiv-text="{{time1}}"/> sein                                                                                
         </source>
-        <target>Zeit 2 muss größer als                                                                                 
-          <x id="INTERPOLATION" equiv-text="{{time1}}"/> sein                                                                
+        <target>Zeit 2 muss größer als                                                                                                     
+          <x id="INTERPOLATION" equiv-text="{{time1}}"/> sein                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/feed.component.ts</context>
@@ -304,11 +312,11 @@
         </context-group>
       </trans-unit>
       <trans-unit id="73bfa68c08f67973eed5f42cb25efa78ea9ac85e" datatype="html">
-        <source>Zeit 3 muss größer als                                                                                 
-          <x id="INTERPOLATION" equiv-text="{{time2}}"/> sein                                                                
+        <source>Zeit 3 muss größer als                                                                                                     
+          <x id="INTERPOLATION" equiv-text="{{time2}}"/> sein                                                                                
         </source>
-        <target>Zeit 3 muss größer als                                                                                 
-          <x id="INTERPOLATION" equiv-text="{{time2}}"/> sein                                                                
+        <target>Zeit 3 muss größer als                                                                                                     
+          <x id="INTERPOLATION" equiv-text="{{time2}}"/> sein                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/feed.component.ts</context>
@@ -332,11 +340,11 @@
         </context-group>
       </trans-unit>
       <trans-unit id="62c5bfc4e996083eca86b24c8a3b05f4ca31b9fe" datatype="html">
-        <source>Zeit 4 muss größer als                                                                                 
-          <x id="INTERPOLATION" equiv-text="{{time3}}"/> sein                                                                
+        <source>Zeit 4 muss größer als                                                                                                     
+          <x id="INTERPOLATION" equiv-text="{{time3}}"/> sein                                                                                
         </source>
-        <target>Zeit 4 muss größer als                                                                                 
-          <x id="INTERPOLATION" equiv-text="{{time3}}"/> sein                                                                
+        <target>Zeit 4 muss größer als                                                                                                     
+          <x id="INTERPOLATION" equiv-text="{{time3}}"/> sein                                                                                
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/feed.component.ts</context>
@@ -380,19 +388,15 @@
         <target>Gespeichert.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/feed.component.ts</context>
-          <context context-type="linenumber">72</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/components/feed.component.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9250ce0530cd71133924ea7842ac8081df21422f" datatype="html">
-        <source>Misslungen.</source>
-        <target>Misslungen.</target>
+      <trans-unit id="a57cc165d1ef1ed9c5230fdc548770ca9e8d4be2" datatype="html">
+        <source>Misslungen</source>
+        <target>Misslungen</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/feed.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ce64c0d455125ee780a18dd655ff404843af9b19" datatype="html">
@@ -480,10 +484,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="dd7b4ad691429ff2371ba8235765fd56459e08a8" datatype="html">
-        <source>Update                                                                                 
+        <source>Update                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{updater}}"/>
         </source>
-        <target>Aktualisieren                                                                                 
+        <target>Aktualisieren                                                                                                     
           <x id="INTERPOLATION" equiv-text="{{updater}}"/>
         </target>
         <context-group purpose="location">
@@ -528,18 +532,18 @@
         </context-group>
       </trans-unit>
       <trans-unit id="4b61b26d97bc3411434de14c321838ac9b10bd47" datatype="html">
-        <source>The requested url:                                                                                 
+        <source>The requested url:                                                                                                     
           <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{url}}"/>
-          <x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> does not exist on this server                                                                                 
-          <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>(404)                                                                                
+          <x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> does not exist on this server                                                                                                     
+          <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>(404)                                                                                                    
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
         </source>
-        <target>Die angeforderte Url:                                                                                 
+        <target>Die angeforderte Url:                                                                                                     
           <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{url}}"/>
-          <x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> existiert nicht auf diesem Server                                                                                 
-          <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>(404)                                                                                
+          <x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> existiert nicht auf diesem Server                                                                                                     
+          <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>(404)                                                                                                    
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
         </target>
         <context-group purpose="location">
@@ -557,10 +561,10 @@
       </trans-unit>
       <trans-unit id="73cbe4f9d00961ddd07290fed65f6baf7156c616" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                        
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Fütterung                                                        
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/login.component.ts</context>
@@ -569,10 +573,10 @@
       </trans-unit>
       <trans-unit id="3175c66c57547ae2fc56c7a2cf8f6bec100ac3b1" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                        
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Positionen                                                        
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/login.component.ts</context>
@@ -581,10 +585,10 @@
       </trans-unit>
       <trans-unit id="20648516ba37e8223f799ce3edd26d2bccf2dca5" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                        
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Einstellungen                                                        
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/login.component.ts</context>
@@ -593,10 +597,10 @@
       </trans-unit>
       <trans-unit id="ff4b679991d7783a767d71c05d78dd24771aeecd" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                        
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Geräteinfo                                                        
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/login.component.ts</context>
@@ -605,10 +609,10 @@
       </trans-unit>
       <trans-unit id="1e61d47c0b1b2fcc629796e2ef767c6b65eb06b9" datatype="html">
         <source>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Update                                                        
         </source>
         <target>
-          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Aktualisierungen                                        
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/> Aktualisierungen                                                        
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/login.component.ts</context>

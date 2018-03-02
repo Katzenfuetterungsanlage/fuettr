@@ -12,11 +12,8 @@ import * as itf from '../interfaces';
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   animations: [
-    trigger('SaveAnimation', [
-      state('false', style({ 'margin-left': '-100%', 'visibility': 'hidden' })),
-      state('true', style({ 'margin-left': '0', 'visibility': 'visible' })),
-      transition('* => *', animate('300ms'))
-    ])
+    trigger('SaveAnimation', [state('false', style({ opacity: '0.0' })), state('true', style({ opacity: '1.0' })), transition('* => *', animate('300ms'))]),
+    trigger('FailAnimation', [state('false', style({ opacity: '0.0' })), state('true', style({ opacity: '1.0' })), transition('* => *', animate('300ms'))])
   ]
 })
 export class FeedComponent implements OnInit {
@@ -24,6 +21,7 @@ export class FeedComponent implements OnInit {
   public saved = true;
   public failed = false;
   public savedstate = false;
+  public machine_state = false;
   public time1: string;
   public time2: string;
   public time3: string;
@@ -53,12 +51,7 @@ export class FeedComponent implements OnInit {
   public time4Valid = false;
   public time4notNull = false;
 
-  constructor(
-    private httpgetService: HttpgetService,
-    private httpputService: HttpputService,
-    private timeCalculator: TimeCalculator,
-    private app: AppComponent
-  ) { }
+  constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private timeCalculator: TimeCalculator, private app: AppComponent) {}
 
   public onKey(): void {
     this.doppelpoint();
@@ -186,10 +179,20 @@ export class FeedComponent implements OnInit {
       this.onKey();
     });
 
+    this.httpgetService.get('status').then((res: itf.Status) => {
+      this.machine_state = res.machineState;
+    });
+
     this.app.lic();
     setTimeout(() => {
       this.app.navShow = false;
     }, 0);
+  }
+
+  public changeState(): void {
+    this.httpputService.changeState(this.machine_state).then((res: itf.Status) => {
+      this.machine_state = res.machineState;
+    });
   }
 
   public cancel(): void {
@@ -207,11 +210,18 @@ export class FeedComponent implements OnInit {
   }
 
   public save(): void {
-
-    if (this.time1 === '' || this.time1 === null || this.time1 === undefined) { this.time1 = '--:--'; }
-    if (this.time2 === '' || this.time2 === null || this.time2 === undefined) { this.time2 = '--:--'; }
-    if (this.time3 === '' || this.time3 === null || this.time3 === undefined) { this.time3 = '--:--'; }
-    if (this.time4 === '' || this.time4 === null || this.time4 === undefined) { this.time4 = '--:--'; }
+    if (this.time1 === '' || this.time1 === null || this.time1 === undefined) {
+      this.time1 = '--:--';
+    }
+    if (this.time2 === '' || this.time2 === null || this.time2 === undefined) {
+      this.time2 = '--:--';
+    }
+    if (this.time3 === '' || this.time3 === null || this.time3 === undefined) {
+      this.time3 = '--:--';
+    }
+    if (this.time4 === '' || this.time4 === null || this.time4 === undefined) {
+      this.time4 = '--:--';
+    }
 
     const value = {
       identifier: 'Times',
@@ -245,7 +255,7 @@ export class FeedComponent implements OnInit {
         this.failed = true;
         setTimeout(() => {
           this.failed = false;
-        }, 1500);
+        }, 3000);
       });
   }
 

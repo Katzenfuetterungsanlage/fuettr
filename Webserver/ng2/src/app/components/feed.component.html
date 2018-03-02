@@ -2,6 +2,13 @@
   <h1 class="bigger-h1" i18n>Fütterungszeiten</h1>
   <br>
 </div>
+<div class="container-fluid">
+  <h2 i18n>Maschine:</h2>
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="machine_state">
+    <span class="slider"></span>
+  </label>
+</div>
 <div class="container-fluid bigger">
   <form #time="ngForm" (ngSubmit)="save()">
     <div class="row">
@@ -69,9 +76,10 @@
     <div class="btn-group col-lg-4">
       <button i18n type="cancel" class="btn btn-secondary" (click)="cancel()" style="z-index: 1020 !important;">Abbrechen</button>
       <button i18n type="submit" class="btn btn-success" (click)="save()" style="z-index: 1020 !important;" [disabled]="!time.form.valid || !time1Valid || !time2ValidMin || !time2Valid || !time3ValidMin || !time3Valid || !time4ValidMin || !time4Valid || !time1notNull || !time2notNull || !time3notNull || !time4notNull">Speichern</button>
-      <button i18n class="btn" style="background-color: #2B3E50; z-index: 1010 !important; margin-left: -126px !important; color: #2B3E50">Gespeichert.</button>
-      <button i18n *ngIf="saved" class="btn btn-success savedAnimate" [@SaveAnimation]="savedstate" disabled>Gespeichert.</button>
-      <button i18n *ngIf="failed" class="btn btn-danger failedAnimate" disabled>Misslungen.</button>
+      <button i18n *ngIf="saved" class="btn btn-success" [@SaveAnimation]="savedstate" disabled>Gespeichert.</button>
     </div>
   </div>
+  <br>
+  <br>
+  <div i18n class="alert alert-danger" [@FailAnimation]="failed">Misslungen</div>
 </div>

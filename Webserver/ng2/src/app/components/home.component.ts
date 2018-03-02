@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.last_time = res.lastFeeding;
       this.next_time = res.nextFeeding;
       this.next_time_in = res.nextFeedingIn;
-      this.machine_state = res.machineState;
+      this.machine_state = res.machineState === true ? 'On' : 'Off';
     });
   }
 
