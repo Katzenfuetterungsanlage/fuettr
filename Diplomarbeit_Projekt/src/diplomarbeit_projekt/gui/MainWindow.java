@@ -1171,7 +1171,7 @@ public class MainWindow extends javax.swing.JFrame
             // "bedingte Berwertung" is not working like it should - state is always "Aus"
             mongodb_instance.setInfoDoc(new BasicDBObject("identifier", "Status")
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
-                    .append("nextFeedingIn", nextFeedingIn).append("machineState", machineStateOn ? "An" : "Aus"), "Status");
+                    .append("nextFeedingIn", nextFeedingIn).append("machineState", machineStateOn), "Status");
 
             return 1;
         }

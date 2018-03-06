@@ -25,7 +25,7 @@ import javax.json.JsonReader;
  */
 public class CreateUser extends javax.swing.JDialog
 {
-    private boolean saved = false; 
+    private boolean saved = true; 
     private BasicDBObject newUserDoc;
         
     /**
@@ -113,14 +113,37 @@ public class CreateUser extends javax.swing.JDialog
         jPanel2.add(jLabel1);
 
         tfUser_name.setColumns(16);
+        tfUser_name.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                tfUser_nameKeyPressed(evt);
+            }
+        });
         jPanel2.add(tfUser_name);
 
         jLabel3.setText("Passwort:");
         jPanel2.add(jLabel3);
+
+        pwtfUser_password.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                pwtfUser_passwordKeyPressed(evt);
+            }
+        });
         jPanel2.add(pwtfUser_password);
 
         jLabel5.setText("Passwort wiederholen:");
         jPanel2.add(jLabel5);
+
+        pwtfUser_passwordConfirm.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                pwtfUser_passwordConfirmKeyPressed(evt);
+            }
+        });
         jPanel2.add(pwtfUser_passwordConfirm);
 
         jPanel3.add(jPanel2);
@@ -190,6 +213,21 @@ public class CreateUser extends javax.swing.JDialog
         
         dispose();    
     }//GEN-LAST:event_onOk
+
+    private void tfUser_nameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_tfUser_nameKeyPressed
+    {//GEN-HEADEREND:event_tfUser_nameKeyPressed
+        saved = false;
+    }//GEN-LAST:event_tfUser_nameKeyPressed
+
+    private void pwtfUser_passwordKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_pwtfUser_passwordKeyPressed
+    {//GEN-HEADEREND:event_pwtfUser_passwordKeyPressed
+        saved = false;
+    }//GEN-LAST:event_pwtfUser_passwordKeyPressed
+
+    private void pwtfUser_passwordConfirmKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_pwtfUser_passwordConfirmKeyPressed
+    {//GEN-HEADEREND:event_pwtfUser_passwordConfirmKeyPressed
+        saved = false;
+    }//GEN-LAST:event_pwtfUser_passwordConfirmKeyPressed
 
     /**
      * @param args the command line arguments

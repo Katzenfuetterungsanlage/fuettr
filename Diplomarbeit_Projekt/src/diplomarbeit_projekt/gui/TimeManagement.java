@@ -26,7 +26,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
  */
 public class TimeManagement extends javax.swing.JDialog
 {
-    private boolean saved = false;
+    private boolean saved = true;
     private boolean timesChanged = false;
     private BasicDBObject newTimeDoc;
 

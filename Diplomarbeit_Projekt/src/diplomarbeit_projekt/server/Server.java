@@ -25,7 +25,6 @@ public class Server
     protected Server() throws IOException, InterruptedException
     {
         port = 62222;
-        start();
     }
     
     public static Server getInstance() throws IOException, InterruptedException

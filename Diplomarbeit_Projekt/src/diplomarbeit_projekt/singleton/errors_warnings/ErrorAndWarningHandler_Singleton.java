@@ -20,7 +20,7 @@ import javax.json.*;
        error: no feeding package
        error: feeding not succesful
  */
-public class ErrorAndWarningHandler_Singleton
+public class ErrorAndWarningHandler_Singleton 
 {
     // errors
     private Boolean error_hasFeedingFailed = false, error_hasLoadingIpOrVersionFailed = false;
@@ -31,7 +31,7 @@ public class ErrorAndWarningHandler_Singleton
     private String failedFeedingTime;
 
     private static ErrorAndWarningHandler_Singleton instance = null;
-    List<String> list = null;
+    List<String> list = new ArrayList();
 
     protected ErrorAndWarningHandler_Singleton()
     {
