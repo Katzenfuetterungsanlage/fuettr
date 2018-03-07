@@ -319,7 +319,7 @@ public class Positionsinformation extends javax.swing.JDialog
     private javax.swing.JPanel pSensor2;
     // End of variables declaration//GEN-END:variables
 
-    private class PositionWorker extends SwingWorker<Object, String>
+    private class PositionWorker extends SwingWorker<Object, String[]>
     {   
         String strSensor1, strSensor2, strEngine1, strEngine2;
         
@@ -333,7 +333,13 @@ public class Positionsinformation extends javax.swing.JDialog
                 strEngine1 = pi4j_instance.statusEngine1();
                 strEngine2 = pi4j_instance.statusEngine2();
                 
-                publish();
+                String state[] = null;
+                state[0] = strSensor1;
+                state[1] = strSensor2;
+                state[2] = strEngine1;
+                state[3] = strEngine2;
+                
+                publish(state);
                 
                 TimeUnit.MILLISECONDS.sleep(100);
             } 
@@ -341,12 +347,14 @@ public class Positionsinformation extends javax.swing.JDialog
         }
 
         @Override
-        protected void process(List<String> chunks)
+        protected void process(List<String[]> chunks)
         {
-            lbSensor1.setText(strSensor1);
-            lbSensor2.setText(strSensor2);
-            lbEngine1.setText(strEngine1);
-            lbEngine2.setText(strEngine2);
+            String state[] = chunks.get((chunks.size() - 1));
+            
+            lbSensor1.setText(state[0]);
+            lbSensor2.setText(state[1]);
+            lbEngine1.setText(state[2]);
+            lbEngine2.setText(state[3]);
         }  
     }  
 }

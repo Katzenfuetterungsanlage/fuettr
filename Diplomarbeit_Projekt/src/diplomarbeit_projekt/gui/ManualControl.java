@@ -78,7 +78,6 @@ public class ManualControl extends javax.swing.JDialog
         jPanel22 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         pPosInfo = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -220,23 +219,16 @@ public class ManualControl extends javax.swing.JDialog
 
         jPanel22.setLayout(new java.awt.GridBagLayout());
 
-        jLabel15.setText("Wenn die manuelle Steuerung aktiv ist werden währenddessen keine automatischen");
+        jLabel15.setText("Mit dieser Steuerung werden Motoren direkt in der Anlage gesteuert.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel22.add(jLabel15, gridBagConstraints);
 
-        jLabel16.setText("Fütterungen ausgeführt, weil diese deaktiviert sind.");
+        jLabel16.setText("Die nebenliegende Anzeige gibt Auskungt über den Zustand der Motoren uns Sensoren");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         jPanel22.add(jLabel16, gridBagConstraints);
-
-        jLabel17.setText("Die automatische Fütterung muss vom User selbst wieder aktiviert werden.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel22.add(jLabel17, gridBagConstraints);
 
         pText.add(jPanel22, java.awt.BorderLayout.CENTER);
 
@@ -475,7 +467,6 @@ public class ManualControl extends javax.swing.JDialog
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -519,7 +510,7 @@ public class ManualControl extends javax.swing.JDialog
     private javax.swing.JPanel pZustimmung;
     // End of variables declaration//GEN-END:variables
 
-private class PositionWorker extends SwingWorker<Object, String>
+private class PositionWorker extends SwingWorker<Object, String[]>
     {   
         String strSensor1, strSensor2, strEngine1, strEngine2;
         
@@ -533,7 +524,13 @@ private class PositionWorker extends SwingWorker<Object, String>
                 strEngine1 = pi4j_instance.statusEngine1();
                 strEngine2 = pi4j_instance.statusEngine2();
                 
-                publish();
+                String state[] = null;
+                state[0] = strSensor1;
+                state[1] = strSensor2;
+                state[2] = strEngine1;
+                state[3] = strEngine2;
+                
+                publish(state);
                 
                 TimeUnit.MILLISECONDS.sleep(100);
             } 
@@ -541,13 +538,15 @@ private class PositionWorker extends SwingWorker<Object, String>
         }
 
         @Override
-        protected void process(List<String> chunks)
+        protected void process(List<String[]> chunks)
         {
-            lbSensor1.setText(strSensor1);
-            lbSensor2.setText(strSensor2);
-            lbEngine1.setText(strEngine1);
-            lbEngine2.setText(strEngine2);
+            String state[] = chunks.get((chunks.size() - 1));
+            
+            lbSensor1.setText(state[0]);
+            lbSensor2.setText(state[1]);
+            lbEngine1.setText(state[2]);
+            lbEngine2.setText(state[3]);
         }  
-    }
+    }  
 
 }

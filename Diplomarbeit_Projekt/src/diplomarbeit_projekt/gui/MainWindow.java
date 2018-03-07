@@ -580,23 +580,13 @@ public class MainWindow extends javax.swing.JFrame
     {//GEN-HEADEREND:event_onManualControl
         if (!"Windows 10".equals(System.getProperty("os.name"))) // change to equals to Raspberry 
         {
-            if (machineStateOn == true)
-            {
-                if (JOptionPane.showConfirmDialog(this, "Um fortzufahren müssen Sie die automatische Fütterung deaktivieren. \n Wollen sie diese deaktivieren? ",
+                if (JOptionPane.showConfirmDialog(this, "Sie sind jetzt in der Lage direkt die Motoren in der Anlage zu steuern. \n Wollen sie fortfahren?",
                         "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 {
-                    machineStateOn = false;
-                    lbState.setText("Aus");
-
                     final ManualControl strDlg = new ManualControl(this, true);
                     strDlg.setVisible(true);
                 }
-            }
-            else
-            {
-                final ManualControl controlDlg = new ManualControl(this, true);
-                controlDlg.setVisible(true);
-            }
+
         }
         else
         {

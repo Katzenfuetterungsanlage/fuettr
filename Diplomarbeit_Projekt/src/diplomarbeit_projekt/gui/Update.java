@@ -184,7 +184,14 @@ public class Update extends javax.swing.JDialog
             process.waitFor();
 
             // TODO: ng build --prod | npm restart | ant jar 
-            // process = Runtime.getRuntime().exec("");
+            // process = Runtime.getRuntime().exec("ng build --prod");
+            // process.waitFor();
+            
+            // process = Runtime.getRuntime().exec("npm restart");
+            // process.waitFor();
+            
+            // process = Runtime.getRuntime().exec("ant jar");
+            // process.waitFor();
             
             // oder Anfrage an Server um ein Update
             
