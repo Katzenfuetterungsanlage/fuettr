@@ -6,8 +6,11 @@
 package diplomarbeit_projekt.gui;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -195,6 +198,11 @@ public class Update extends javax.swing.JDialog
             
             // oder Anfrage an Server um ein Update
             
+            // Raspberry macht  folgendes beim neustarten: ng build --prod | npm restart | ant jar
+            // dafür wird in einer Datei ein bestimmer text gepeichert
+            
+            write("/home/pi/updatefile/build.txt");
+            
             pTextUpdateErfolgreich.setVisible(true);
             
             Runtime.getRuntime().exec("sudo reboot");
@@ -370,6 +378,21 @@ public class Update extends javax.swing.JDialog
             lbUpdateVerfuegbar.setText("Kein Update verfügbar");
             btUpdate.setEnabled(false);
         }
+    }
+    
+    private void write(String path)
+    {
+        try (final BufferedWriter writer = 
+            new BufferedWriter(
+            new OutputStreamWriter(  
+            new FileOutputStream(path), "utf8"));) // "AutoCloseable"
+        {
+            writer.write(String.format("update = true"));
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }  
     }
 
 }

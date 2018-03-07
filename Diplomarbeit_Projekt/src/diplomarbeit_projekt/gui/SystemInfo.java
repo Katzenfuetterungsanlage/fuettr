@@ -76,7 +76,7 @@ public class SystemInfo extends javax.swing.JDialog
         lbVersion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Geräteinformation");
+        setTitle("Info");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel1.setLayout(new java.awt.BorderLayout());
