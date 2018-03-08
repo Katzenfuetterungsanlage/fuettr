@@ -200,7 +200,7 @@ public class Update extends javax.swing.JDialog
             // Raspberry macht  folgendes beim neustarten: ng build --prod | npm restart | ant jar
             // dafür wird in einer Datei ein bestimmer text gepeichert
             
-            write("/home/"+System.getProperty("user.name")+"/updatefile/build.txt");
+            write("/home/"+System.getProperty("user.name")+"/git/fuettr/build");
             
             pTextUpdateErfolgreich.setVisible(true);
             
