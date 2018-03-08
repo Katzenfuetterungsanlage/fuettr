@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -201,7 +200,7 @@ public class Update extends javax.swing.JDialog
             // Raspberry macht  folgendes beim neustarten: ng build --prod | npm restart | ant jar
             // dafür wird in einer Datei ein bestimmer text gepeichert
             
-            write("/home/pi/updatefile/build.txt");
+            write("/home/"+System.getProperty("user.name")+"/updatefile/build.txt");
             
             pTextUpdateErfolgreich.setVisible(true);
             
@@ -387,7 +386,7 @@ public class Update extends javax.swing.JDialog
             new OutputStreamWriter(  
             new FileOutputStream(path), "utf8"));) // "AutoCloseable"
         {
-            writer.write(String.format("update = true"));
+            writer.write(String.format("true"));
         }
         catch (Exception ex)
         {
