@@ -2,7 +2,16 @@
 #
 # rc.local
 
-sudo service cron start &
+update=$(<HOMEE/git/fuettr/build)
+if [ $update = true ]; then
+cd HOMEE/git/fuettr/Webserver/server
+npm i
+npm run build
+cd ../ng2
+npm i
+npm run build-linux
+echo false>HOMEE/git/fuettr/build
+fi
 
 echo "\e[92m
 --> Starting server\e[0m"

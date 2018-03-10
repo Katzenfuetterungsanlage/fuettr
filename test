@@ -1,7 +1,0 @@
-#!/bin/bash
-value=$(<build)
-echo "$value"
-if [ $value = true ]
-then
-echo false>build
-fi
