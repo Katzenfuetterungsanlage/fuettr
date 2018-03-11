@@ -47,7 +47,7 @@ export class Server {
     pugEngine.locals.pretty = true;
     this._express.use(this.logger);
     this._express.use(express.static(path.join(__dirname, '../public')));
-    this._express.use('/assets', express.static(path.join(__dirname, '../../ng2/dist/assets')));
+    this._express.use('/assets', express.static(path.join(__dirname, '../../ngx/dist/assets')));
     this._express.post('/login', (req, res, next) => this.login(req, res, next));
     this._express.post('/logout', (req, res, next) => this.logout(req, res, next));
     this._express.use('/api', ApiRoutes.ApiRouter.Routes);

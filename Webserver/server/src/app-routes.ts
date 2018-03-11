@@ -24,13 +24,13 @@ export class AppRoutes {
   public constructor() {
     this._routes = express();
 
-    this._routes.use('/de', express.static(path.join(__dirname, '../../ng2/dist/de')));
+    this._routes.use('/de', express.static(path.join(__dirname, '../../ngx/dist/de')));
     this._routes.get('/de/**', (req, res, next) => {
-      res.sendFile(path.join(__dirname, '../../ng2/dist/de/index.html'));
+      res.sendFile(path.join(__dirname, '../../ngx/dist/de/index.html'));
     });
-    this._routes.use('/en', express.static(path.join(__dirname, '../../ng2/dist/en')));
+    this._routes.use('/en', express.static(path.join(__dirname, '../../ngx/dist/en')));
     this._routes.get('/en/**', (req, res, next) => {
-      res.sendFile(path.join(__dirname, '../../ng2/dist/en/index.html'));
+      res.sendFile(path.join(__dirname, '../../ngx/dist/en/index.html'));
     });
     this._routes.use('/', (req, res, next) => this.languageselector(req, res, next));
     this._routes.use((req, res, next) => this.error404Handler(req, res, next));

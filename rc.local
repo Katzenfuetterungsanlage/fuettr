@@ -7,7 +7,7 @@ if [ $update = true ]; then
 cd HOMEE/git/fuettr/Webserver/server
 npm i
 npm run build
-cd ../ng2
+cd ../ngx
 npm i
 npm run build-linux
 echo false>HOMEE/git/fuettr/build

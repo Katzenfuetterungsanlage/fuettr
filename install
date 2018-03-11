@@ -80,7 +80,7 @@ echo -e "\e[92m
 --> installing node dependencies...\e[0m"
 sudo npm i -g npm
 sudo npm i -g @angular/cli gulp npm-install-missing
-cd $THISUSER/git/fuettr/Webserver/ng2 && sudo npm i --unsafe-perm
+cd $THISUSER/git/fuettr/Webserver/ngx && sudo npm i --unsafe-perm
 cd $THISUSER/git/fuettr/Webserver/server && sudo npm i
 
 echo -e "\e[92m
@@ -97,7 +97,7 @@ openssl rsa -in $THISUSER/git/fuettr/Webserver/server/keys/server-private.pem -p
 echo -e "\e[92m
 --> building server...\e[0m"
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
-cd $THISUSER/git/fuettr/Webserver/ng2 && sudo npm run build-linux
+cd $THISUSER/git/fuettr/Webserver/ngx && sudo npm run build-linux
 cd $THISUSER/git/fuettr/Webserver/server && sudo gulp cleanAndBuild
 
 #echo -e "\e[92m

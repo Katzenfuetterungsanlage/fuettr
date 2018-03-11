@@ -201,7 +201,7 @@ export class ApiRoutes {
       if (error !== null) {
         log.warn(error);
       }
-      child.exec(`cd ../ng2 && sudo npm-install-missing`, (error, stdout, stderr) => {
+      child.exec(`cd ../ngx && sudo npm-install-missing`, (error, stdout, stderr) => {
         if (stdout !== '') {
           log.info(stdout);
         }
