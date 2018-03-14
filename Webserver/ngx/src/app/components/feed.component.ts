@@ -1,4 +1,4 @@
-import { Component, OnInit, trigger, state, animate, transition, style } from '@angular/core';
+import { Component, OnInit, trigger, state, animate, transition, style, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { HttpService } from '../services/http.service';
@@ -11,11 +11,12 @@ import * as itf from '../interfaces';
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   animations: [
+    // tslint:disable-next-line:max-line-length
     trigger('SaveAnimation', [state('false', style({ opacity: '0.0' })), state('true', style({ opacity: '1.0' })), transition('* => *', animate('300ms'))]),
     trigger('FailAnimation', [state('false', style({ opacity: '0.0' })), state('true', style({ opacity: '1.0' })), transition('* => *', animate('300ms'))])
   ]
 })
-export class FeedComponent implements OnInit {
+export class FeedComponent implements OnInit, DoCheck {
   public submit = false;
   public saved = true;
   public failed = false;
@@ -50,9 +51,9 @@ export class FeedComponent implements OnInit {
   public time4Valid = false;
   public time4notNull = false;
 
-  constructor(private httpService: HttpService, private timeCalculator: TimeCalculator, private app: AppComponent) {}
+  constructor(private httpService: HttpService, private timeCalculator: TimeCalculator, private app: AppComponent) { }
 
-  public onKey(): void {
+  public ngDoCheck(): void {
     this.doppelpoint();
     this.time1Valid = true;
     this.time2Valid = true;
@@ -175,7 +176,7 @@ export class FeedComponent implements OnInit {
       this.check3 = res.time3_active;
       this.check4 = res.time4_active;
 
-      this.onKey();
+      this.ngDoCheck();
     });
 
     this.httpService.get('status').then((res: itf.Status) => {
@@ -204,7 +205,7 @@ export class FeedComponent implements OnInit {
       this.check2 = res.time2_active;
       this.check3 = res.time3_active;
       this.check4 = res.time4_active;
-      this.onKey();
+      this.ngDoCheck();
     });
   }
 
