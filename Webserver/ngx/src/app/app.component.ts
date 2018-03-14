@@ -5,7 +5,7 @@ import 'rxjs/add/operator/mergeMap';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { HttpputService } from './services/httpput.service';
+import { HttpService } from './services/http.service';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -24,9 +24,9 @@ export class AppComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private httpputService: HttpputService,
+    private httpputService: HttpService,
     private authservice: AuthService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.router.events

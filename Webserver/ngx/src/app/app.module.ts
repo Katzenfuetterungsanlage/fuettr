@@ -17,8 +17,7 @@ import { UpdateComponent } from './components/update.component';
 import { Error404Component } from './components/error404.component';
 
 import { UpdateService } from './services/update.service';
-import { HttpgetService } from './services/httpget.service';
-import { HttpputService } from './services/httpput.service';
+import { HttpService } from './services/http.service';
 import { TimeCalculator } from './services/time.calculator.service';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './auth.interceptor';
@@ -39,7 +38,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     LoginComponent
   ],
   imports: [NgbModule.forRoot(), BrowserModule, HttpClientModule, AppRoutingModule, HttpModule, FormsModule, BrowserAnimationsModule],
-  providers: [UpdateService, HttpgetService, HttpputService, TimeCalculator, AuthService, AuthGuard, NgbDropdown, {
+  providers: [UpdateService, HttpService, TimeCalculator, AuthService, AuthGuard, NgbDropdown, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true

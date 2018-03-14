@@ -18,7 +18,7 @@
           <span class="input-group-addon">
             <input (change)="onKey()" type="checkbox" id="check1" name="time1_active" [(ngModel)]="check1">
           </span>
-          <input (keyup)="onKey()" type="text" id="time1" name="time1" [(ngModel)]="time1" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+          <input (keyup)="onKey()" type="time" id="time1" name="time1" [(ngModel)]="time1" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
             maxlength="5" #time1_="ngModel" [class.input-error]="!time1_.pattern && !time1_.pristine && !time1_.valid || !time1Valid">
         </div>
       </div>
@@ -28,7 +28,7 @@
           <span class="input-group-addon">
             <input (change)="onKey()" type="checkbox" id="check2" name="time2_active" [(ngModel)]="check2">
           </span>
-          <input (keyup)="onKey()" type="text" id="time2" name="time2" [(ngModel)]="time2" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+          <input (keyup)="onKey()" type="time" id="time2" name="time2" [(ngModel)]="time2" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
             maxlength="5" #time2_="ngModel" [class.input-error]="!time2_.pattern && !time2_.pristine && !time2_.valid || !time2ValidMin && time1Valid || !time2Valid">
         </div>
       </div>
@@ -40,7 +40,7 @@
           <span class="input-group-addon">
             <input (change)="onKey()" type="checkbox" id="check3" name="time3_active" [(ngModel)]="check3">
           </span>
-          <input (keyup)="onKey()" type="text" id="time3" name="time3" [(ngModel)]="time3" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+          <input (keyup)="onKey()" type="time" id="time3" name="time3" [(ngModel)]="time3" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
             maxlength="5" #time3_="ngModel" [class.input-error]="!time3_.pattern && !time3_.pristine && !time3_.valid || !time3ValidMin && time2Valid || !time3Valid">
         </div>
       </div>
@@ -50,7 +50,7 @@
           <span class="input-group-addon">
             <input (change)="onKey()" type="checkbox" id="check4" name="time4_active" [(ngModel)]="check4">
           </span>
-          <input (keyup)="onKey()" type="text" id="time4" name="time4" [(ngModel)]="time4" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
+          <input (keyup)="onKey()" type="time" id="time4" name="time4" [(ngModel)]="time4" pattern="(\d{2}|\-\-)\:(\d{2}|\-\-)" minlength="5"
             maxlength="5" #time4_="ngModel" [class.input-error]="!time4_.pattern && !time4_.pristine && !time4_.valid || !time4ValidMin && time3Valid || !time4Valid">
         </div>
       </div>

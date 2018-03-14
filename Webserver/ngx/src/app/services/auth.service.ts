@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
-import { HttpputService } from './httpput.service';
+import { HttpService } from './http.service';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
-  constructor(private httpputService: HttpputService) { }
+  constructor(private httpputService: HttpService) { }
 
   login(user): Promise<void> {
     return this.httpputService.login(user).then(res => {
