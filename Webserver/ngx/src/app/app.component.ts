@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
   public cat = false;
   private lick = 0;
   public navShow = false;
-  public login = false;
   public activelang;
 
   public constructor(

@@ -1,43 +1,40 @@
-<div *ngIf="!login">
-    <nav class="navbar navbar-toggleable-sm navbar-inverse text-nowrap" style="background-color: #191816">
-        <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand logo" (click)="click()" routerLink="/home">
-            <img alt="Brand" class="logo-picture" src="favicon.ico" width="48"> Füttr</a>
+<nav class="navbar navbar-toggleable-sm navbar-inverse text-nowrap" style="background-color: #191816">
+    <button type="button" class="navbar-toggler navbar-toggler-right" (click)="toggleState()">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand logo" (click)="click()" routerLink="/home">
+        <img alt="Brand" class="logo-picture" src="favicon.ico" width="48"> Füttr</a>
 
-        <div class="collapse navbar-collapse" [ngClass]="{'show': navShow}" id="Navbar">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/home">
-                        <img src="assets/home.png"> Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/feed" i18n>
-                        <img src="assets/feed.png"> Fütterung</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/position" i18n>
-                        <img src="assets/control.png"> Positionen</a>
-                </li>
-                <li ngbDropdown class="nav-item dropdown" style="cursor: pointer">
-                    <a class="nav-link dropdown-toggle" ngbDropdownToggle i18n>
-                        <img src="assets/settings.png"> Einstellungen</a>
-                    <div ngbDropdownMenu class="dropdown-menu">
-                        <a class="nav-link dropdown-item" routerLink="/info" i18n>
-                            <img src="assets/info.png"> Geräteinfo</a>
-                        <a class="nav-link dropdown-item" routerLink="/update" i18n>
-                            <img src="assets/update.png"> Update</a>
-                    </div>
-                </li>
-            </ul>
-            <button class="btn btn-outline-danger" (click)="logout()" i18n>Logout</button>
-        </div>
-    </nav>
-    <p>
-        <br>
-    </p>
-</div>
-<router-outlet *ngIf="!cat && !login"></router-outlet>
+    <div class="collapse navbar-collapse" [ngClass]="{'show': navShow}" id="Navbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/home">
+                    <img src="assets/home.png"> Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/feed" i18n>
+                    <img src="assets/feed.png"> Fütterung</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/position" i18n>
+                    <img src="assets/control.png"> Positionen</a>
+            </li>
+            <li ngbDropdown class="nav-item dropdown" style="cursor: pointer">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle i18n>
+                    <img src="assets/settings.png"> Einstellungen</a>
+                <div ngbDropdownMenu class="dropdown-menu">
+                    <a class="nav-link dropdown-item" routerLink="/info" i18n>
+                        <img src="assets/info.png"> Geräteinfo</a>
+                    <a class="nav-link dropdown-item" routerLink="/update" i18n>
+                        <img src="assets/update.png"> Update</a>
+                </div>
+            </li>
+        </ul>
+        <button class="btn btn-outline-danger" (click)="logout()" i18n>Logout</button>
+    </div>
+</nav>
+<p>
+    <br>
+</p>
+<router-outlet *ngIf="!cat"></router-outlet>
 <app-cat *ngIf="cat"></app-cat>
-<app-login *ngIf="login"></app-login>
