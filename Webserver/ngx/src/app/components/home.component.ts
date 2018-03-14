@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpgetService } from '../services/httpget.service';
-import { HttpputService } from '../services/httpput.service';
+import { HttpService } from '../services/http.service';
 import { AppComponent } from '../app.component';
 import * as itf from '../interfaces';
 
@@ -32,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private clock;
   private callerr;
 
-  public constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private app: AppComponent) {}
+  public constructor(private httpService: HttpService, private app: AppComponent) {}
 
   private refreshTime() {
     this.Time = new Date().toLocaleTimeString();
@@ -66,13 +65,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private callErrWarn(): void {
-    this.httpgetService.get('errors_warnings').then(res => {
+    this.httpService.get('errors_warnings').then(res => {
       this.ErrorsAndWarnings = JSON.parse(JSON.stringify(res));
     });
   }
 
   private async addErrWarn() {
-    this.httpgetService.get('errors_warnings').then(res => {
+    this.httpService.get('errors_warnings').then(res => {
       this.AddErrorsAndWarnings = JSON.parse(JSON.stringify(res));
       let same = false;
       try {
@@ -105,7 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private callMeMaybe(): void {
-    this.httpgetService.get('times').then((res: itf.Times) => {
+    this.httpService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
       this.time3 = res.time3;
@@ -116,7 +115,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.time4_show = res.time4_active;
     });
 
-    this.httpgetService.get('status').then((res: itf.Status) => {
+    this.httpService.get('status').then((res: itf.Status) => {
       this.last_time = res.lastFeeding;
       this.next_time = res.nextFeeding;
       this.next_time_in = res.nextFeedingIn;

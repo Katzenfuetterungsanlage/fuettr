@@ -6,8 +6,10 @@ import * as itf from '../interfaces';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class HttpgetService {
+export class HttpService {
   private api = '/api/callMeMaybe?q=';
+  private putapi = '/api/putMeHere?q=';
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private ip = '/api/ip';
 
   constructor(private httpClient: HttpClient) {}
@@ -31,6 +33,38 @@ export class HttpgetService {
     const httpClientOptions = { headers: headers };
     return await this.httpClient
       .get(this.api + resource, httpClientOptions)
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  putTimes(times): Promise<itf.Times> {
+    return this.httpClient
+      .post(this.putapi + 'times', JSON.stringify(times), {
+        headers: this.headers
+      })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  login(user): Promise<itf.Login> {
+    return this.httpClient
+      .post('/login', JSON.stringify(user), { headers: this.headers })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  logout(token): Promise<Object> {
+    return this.httpClient
+      .post('/logout', token)
+      .toPromise()
+      .catch();
+  }
+
+  changeState(state): Promise<itf.Status> {
+    return this.httpClient
+      .post(this.putapi + 'changeState', JSON.stringify(state), {
+        headers: this.headers
+      })
       .toPromise()
       .catch(this.handleError);
   }

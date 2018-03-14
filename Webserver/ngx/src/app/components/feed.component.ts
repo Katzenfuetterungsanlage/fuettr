@@ -1,8 +1,7 @@
 import { Component, OnInit, trigger, state, animate, transition, style } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { HttpgetService } from '../services/httpget.service';
-import { HttpputService } from '../services/httpput.service';
+import { HttpService } from '../services/http.service';
 import { TimeCalculator } from '../services/time.calculator.service';
 import { AppComponent } from '../app.component';
 
@@ -51,7 +50,7 @@ export class FeedComponent implements OnInit {
   public time4Valid = false;
   public time4notNull = false;
 
-  constructor(private httpgetService: HttpgetService, private httpputService: HttpputService, private timeCalculator: TimeCalculator, private app: AppComponent) {}
+  constructor(private httpService: HttpService, private timeCalculator: TimeCalculator, private app: AppComponent) {}
 
   public onKey(): void {
     this.doppelpoint();
@@ -166,7 +165,7 @@ export class FeedComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.httpgetService.get('times').then((res: itf.Times) => {
+    this.httpService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
       this.time3 = res.time3;
@@ -179,7 +178,7 @@ export class FeedComponent implements OnInit {
       this.onKey();
     });
 
-    this.httpgetService.get('status').then((res: itf.Status) => {
+    this.httpService.get('status').then((res: itf.Status) => {
       this.machine_state = res.machineState;
     });
 
@@ -190,13 +189,13 @@ export class FeedComponent implements OnInit {
   }
 
   public changeState(): void {
-    this.httpputService.changeState(this.machine_state).then((res: itf.Status) => {
+    this.httpService.changeState(this.machine_state).then((res: itf.Status) => {
       this.machine_state = res.machineState;
     });
   }
 
   public cancel(): void {
-    this.httpgetService.get('times').then((res: itf.Times) => {
+    this.httpService.get('times').then((res: itf.Times) => {
       this.time1 = res.time1;
       this.time2 = res.time2;
       this.time3 = res.time3;
@@ -235,7 +234,7 @@ export class FeedComponent implements OnInit {
       time4_active: this.check4
     };
 
-    this.httpputService
+    this.httpService
       .putTimes(value)
       .then(res => {
         this.time1 = res.time1;

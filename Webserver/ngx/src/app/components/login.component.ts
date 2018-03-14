@@ -1,6 +1,5 @@
 import { Component, LOCALE_ID, Inject, OnInit } from '@angular/core';
 
-import { HttpputService } from '../services/httpput.service';
 import { AuthService } from '../services/auth.service';
 
 import * as itf from '../interfaces';
