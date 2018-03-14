@@ -3,7 +3,7 @@
 # rc.local
 
 update=$(<HOMEE/git/fuettr/build)
-if [ $update = true ]; then
+if [ x$update != xfalse ]; then
 cd HOMEE/git/fuettr/Webserver/server
 npm i
 npm run build
@@ -17,7 +17,6 @@ echo "\e[92m
 --> Starting server\e[0m"
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 17325
 systemctl start mongodb
-mongod &
 su USERR -c 'cd HOMEE/git/fuettr/Webserver/server && npm start &'
 
 _IP=$(hostname -I) || true
