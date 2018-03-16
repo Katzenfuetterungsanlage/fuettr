@@ -194,28 +194,21 @@ export class ApiRoutes {
 
   public update(req: express.Request, res: express.Response, next: express.NextFunction) {
     res.sendFile(path.join(__dirname, 'views/update.html'));
-    child.exec(`cd .. && git reset --hard && git pull && sudo npm-install-missing`, (error, stdout, stderr) => {
+    fs.writeFileSync(path.join(__dirname, '../../../build'), 'true');
+    child.exec(`git pull`, (error, stdout, stderr) => {
       if (stdout !== '') {
         log.info(stdout);
       }
       if (error !== null) {
         log.warn(error);
       }
-      child.exec(`cd ../ngx && sudo npm-install-missing`, (error, stdout, stderr) => {
+      child.exec(`sudo reboot`, (error, stdout, stderr) => {
         if (stdout !== '') {
           log.info(stdout);
         }
         if (error !== null) {
           log.warn(error);
         }
-        child.exec(`sudo reboot`, (error, stdout, stderr) => {
-          if (stdout !== '') {
-            log.info(stdout);
-          }
-          if (error !== null) {
-            log.warn(error);
-          }
-        });
       });
     });
   }
