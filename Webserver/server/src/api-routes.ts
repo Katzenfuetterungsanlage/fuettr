@@ -67,7 +67,6 @@ export class ApiRoutes {
     log.warn('Error %s\n%e', ts, err);
     res.status(500).render('error500.pug', {
       time: ts,
-      err: err,
       href: 'mailto:greflm13@htl-kaindorf.ac.at?subject=Füttr server failed ' + ts,
       serveradmin: 'Florian Greistorfer'
     });
