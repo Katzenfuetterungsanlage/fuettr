@@ -27,20 +27,16 @@ import java.util.logging.Logger;
     sensor2: conveyor belt - feed bag
         GPIO_01
     engine1: bowl
-        Transistor_1.1 GPIO_02
-        Transistor_1.2 GPIO_03
-        Transistor_1.3 GPIO_04
-        Transistor_1.4 GPIO_05
+        engine enable GPIO_02
+        engine turn clockwise GPIO_03
+        engine turn counterclockwise GPIO_04
     engine2: conveyor belt - feed bag
-        Transistor_2.1 GPIO_06
-        Transistor_2.2 GPIO_10
-        Transistor_2.3 GPIO_08
-        Transistor_2.4 GPIO_09
+        engine enable GPIO_06
+        engine turn clockwise GPIO_10
+        engine turn counterclockwise GPIO_08
 
-    1-4 -> clockwise
-    2-3 -> counterclockwise
 
-    transistor is active when voltage is supplied => pin state = high
+    the engine is enabled when voltage is supplied => pin state = high
     sensor return high when the object is in front of it
  */
 public class Pi4j_Singleton
@@ -60,11 +56,9 @@ public class Pi4j_Singleton
     private final GpioPinDigitalOutput pin02;
     private final GpioPinDigitalOutput pin03;
     private final GpioPinDigitalOutput pin04;
-    private final GpioPinDigitalOutput pin05;
     private final GpioPinDigitalOutput pin06;
     private final GpioPinDigitalOutput pin07;
     private final GpioPinDigitalOutput pin08;
-    private final GpioPinDigitalOutput pin09;
 
     private static Pi4j_Singleton instance = null;
 
@@ -80,37 +74,29 @@ public class Pi4j_Singleton
         pin01 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_01, PinPullResistance.PULL_DOWN);
         pin01.setShutdownOptions(true);
 
-        // engine1: bowl -> Transistor_1.1 -> GPIO_02
+        // engine1: bowl -> engine enable
         pin02 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, PinState.LOW);
         pin02.setShutdownOptions(true, PinState.LOW);
 
-        // engine1: bowl -> Transistor_1.2 -> GPIO_03
+        // engine1: bowl -> engine turn clockwise
         pin03 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, PinState.LOW);
         pin03.setShutdownOptions(true, PinState.LOW);
 
-        // engine1: bowl -> Transistor_1.3 -> GPIO_04
+        // engine1: bowl -> engine turn counterclockwise
         pin04 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, PinState.LOW);
         pin04.setShutdownOptions(true, PinState.LOW);
 
-        // engine1: bowl -> Transistor_1.4 -> GPIO_05
-        pin05 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, PinState.LOW);
-        pin05.setShutdownOptions(true, PinState.LOW);
-
-        // engine2: conveyor belt - feed bag -> Transistor_2.1 -> GPIO_06
+        // engine2: conveyor belt - engine enable
         pin06 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, PinState.LOW);
         pin06.setShutdownOptions(true, PinState.LOW);
 
-        // engine2: conveyor belt - feed bag -> Transistor_2.2 -> GPIO_07
+        // engine2: conveyor belt - feed bag -> engine turn clockwise
         pin07 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_10, PinState.LOW); // use GPIO_10 instead of GPIO_7 because of error
         pin07.setShutdownOptions(true, PinState.LOW);
 
-        // engine2: conveyor belt - feed bag -> Transistor_2.3 -> GPIO_08
+        // engine2: conveyor belt - feed bag -> engine turn counterclockwise
         pin08 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, PinState.LOW);
         pin08.setShutdownOptions(true, PinState.LOW);
-
-        // engine2: conveyor belt - feed bag -> Transistor_2.4 -> GPIO_09
-        pin09 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, PinState.LOW);
-        pin09.setShutdownOptions(true, PinState.LOW);
     }
 
     public static Pi4j_Singleton getInstance()
@@ -145,16 +131,14 @@ public class Pi4j_Singleton
                 Logger.getLogger(str).log(Level.FINE, str);
 
                 // 3. move bowl to the filling location
-                pin02.high();
-                pin05.high();
+                moveEngine1Clockwise();
 
                 // position reached
                 while (wait != true)
                 {
                     if (pin00.getState() == PinState.HIGH)
                     {
-                        pin02.low();
-                        pin05.low();
+                        stopEngine1();
 
                         wait = true;
                     }
@@ -175,16 +159,14 @@ public class Pi4j_Singleton
                 if (bowlUsageIndex < maxbowlUsageIndex)
                 {
                     // move bowl back to the filling location
-                    pin03.high();
-                    pin04.high();
+                    moveEngine1Counterclockwise();
 
                     //position reached
                     while (wait != true)
                     {
                         if (pin01.getState() == PinState.HIGH)
                         {
-                            pin06.low();
-                            pin09.low();
+                            stopEngine1();
 
                             wait = true;
                         }
@@ -194,16 +176,14 @@ public class Pi4j_Singleton
                     Logger.getLogger("bowl moved back to feeding location").log(Level.FINE, "bowl moved back to feeding location");
 
                     // 6. move conveyor belt until the next feed bag reaches the sensor = filling the bowl
-                    pin06.high();
-                    pin09.high();
+                    moveEngine2Clockwise();
 
                     // position reached
                     while (wait != true)
                     {
                         if (pin01.getState() == PinState.HIGH)
                         {
-                            pin06.low();
-                            pin09.low();
+                            stopEngine2();;
 
                             wait = true;
                         }
@@ -217,16 +197,14 @@ public class Pi4j_Singleton
                 else
                 {
                     // 6. move conveyor belt until the next feed bag reaches the sensor = filling the bowl
-                    pin06.high();
-                    pin09.high();
+                    moveEngine2Clockwise();
 
                     // position reached
                     while (wait != true)
                     {
                         if (pin01.getState() == PinState.HIGH)
                         {
-                            pin06.low();
-                            pin09.low();
+                            stopEngine2();
 
                             wait = true;
                         }
@@ -257,13 +235,13 @@ public class Pi4j_Singleton
     public String statusEngine1()
     {
         String strEngine1;
-        if (pin02.getState() == PinState.HIGH && pin05.getState() == PinState.HIGH)
+        if (pin02.getState() == PinState.HIGH && pin03.getState() == PinState.HIGH)
         {
             strEngine1 = "Dreht im Uhrzeigersinn";
         }
         else
         {
-            if (pin03.getState() == PinState.HIGH && pin04.getState() == PinState.HIGH)
+            if (pin02.getState() == PinState.HIGH && pin04.getState() == PinState.HIGH)
             {
                 strEngine1 = "Dreht gegen Uhrzeigersin";
             }
@@ -278,13 +256,13 @@ public class Pi4j_Singleton
     public String statusEngine2()
     {
         String strEngine2;
-        if (pin06.getState() == PinState.HIGH && pin09.getState() == PinState.HIGH)
+        if (pin06.getState() == PinState.HIGH && pin07.getState() == PinState.HIGH)
         {
             strEngine2 = "Dreht im Uhrzeigersinn";
         }
         else
         {
-            if (pin07.getState() == PinState.HIGH && pin08.getState() == PinState.HIGH)
+            if (pin06.getState() == PinState.HIGH && pin08.getState() == PinState.HIGH)
             {
                 strEngine2 = "Dreht gegen Uhrzeigersin";
             }
@@ -327,30 +305,29 @@ public class Pi4j_Singleton
     
     public void moveEngine1Clockwise()
     {
-        if (pin02.getState() == PinState.HIGH || pin05.getState() == PinState.HIGH || pin03.getState() == PinState.HIGH || pin04.getState() == PinState.HIGH)
+        if (pin04.getState() == PinState.HIGH)
         {
             stopEngine1();
         }
         
         pin02.high();
-        pin05.high();
+        pin03.high();
     }
     
     public void moveEngine1Counterclockwise()
     {
-        if (pin02.getState() == PinState.HIGH || pin05.getState() == PinState.HIGH || pin03.getState() == PinState.HIGH || pin04.getState() == PinState.HIGH)
+        if (pin03.getState() == PinState.HIGH)
         {
             stopEngine1();
         }
         
-        pin03.high();
+        pin02.high();
         pin04.high();
     }
     
     public void stopEngine1()
     {
         pin02.low();
-        pin05.low();
         
         pin03.low();
         pin04.low();
@@ -358,30 +335,29 @@ public class Pi4j_Singleton
     
     public void moveEngine2Clockwise()
     {
-        if (pin06.getState() == PinState.HIGH || pin07.getState() == PinState.HIGH || pin08.getState() == PinState.HIGH || pin09.getState() == PinState.HIGH)
+        if (pin08.getState() == PinState.HIGH)
         {
             stopEngine2();
         }
         
         pin06.high();
-        pin09.high();
+        pin07.high();
     }
     
     public void moveEngine2Counterclockwise()
     {
-        if (pin06.getState() == PinState.HIGH || pin07.getState() == PinState.HIGH || pin08.getState() == PinState.HIGH || pin09.getState() == PinState.HIGH)
+        if (pin07.getState() == PinState.HIGH)
         {
             stopEngine2();
         }
         
-        pin07.high();
+        pin06.high();
         pin08.high();
     }
     
     public void stopEngine2()
     {
         pin06.low();
-        pin09.low();
         
         pin07.low();
         pin08.low();
