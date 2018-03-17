@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import static java.util.Objects.hash;
+import java.util.concurrent.ExecutionException;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.SwingUtilities;
 
@@ -1002,18 +1003,19 @@ public class MainWindow extends javax.swing.JFrame
     }
 
     // gets the current time and date and displays it in the gui MainWindow
-    private class TimeOfDayAndDateWorker extends SwingWorker<Object, String>
+    private class TimeOfDayAndDateWorker extends SwingWorker<Object, String[]>
     {
-
+        String[] timeAndDate;
+        
         @Override
         protected Object doInBackground() throws Exception
         {
             while (!isCancelled())
             {
-                timeOfDay = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
-                date = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
+                timeAndDate[0] = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
+                timeAndDate[1] = String.format("%1$td.%1$tm.%1$tY", new Date(System.currentTimeMillis()));
 
-                publish();
+                publish(timeAndDate);
 
                 TimeUnit.MILLISECONDS.sleep(500);
             }
@@ -1021,8 +1023,13 @@ public class MainWindow extends javax.swing.JFrame
         }
 
         @Override
-        protected void process(List<String> chunks)
+        protected void process(List<String[]> chunks)
         {
+            String[] chunk = chunks.get((chunks.size() - 1));
+            
+            timeOfDay = chunk[0];
+            date = chunk[1];
+            
             lbTimeOfDay.setText(timeOfDay);
             lbDate.setText(date);
         }
@@ -1151,11 +1158,11 @@ public class MainWindow extends javax.swing.JFrame
 
     }
 
-    private class DatabaseUpdateWorker extends SwingWorker<Object, String>
+    private class DatabaseUpdateWorker extends SwingWorker<String, Object>
     {
 
         @Override
-        protected Object doInBackground() throws Exception
+        protected String doInBackground() throws Exception
         {
             // create before update
             // "bedingte Berwertung" is not working like it should - state is always "Aus"
@@ -1163,13 +1170,25 @@ public class MainWindow extends javax.swing.JFrame
                     .append("nextFeeding", nextFeedingAt).append("lastFeeding", lastFeedingTime)
                     .append("nextFeedingIn", nextFeedingIn).append("machineState", machineStateOn), "Status");
 
-            return 1;
+            return "sucessful";
         }
 
         @Override
         protected void done()
         {
-            Logger.getLogger("Database updated!").log(Level.FINE, "Database updated!");
+            try
+            {
+                if ("sucessful".equals(get()))
+                    Logger.getLogger("Database updated!").log(Level.FINE, "Database updated!");
+            }
+            catch (InterruptedException ex)
+            {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (ExecutionException ex)
+            {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

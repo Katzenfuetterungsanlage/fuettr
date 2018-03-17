@@ -39,7 +39,7 @@ public class ConnectionThread implements Runnable
         try
         {
             // o -> timeout infinity, readLine will block
-            socket.setSoTimeout(0);
+            socket.setSoTimeout(10*1000);
             BufferedReader bufferdReader = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
 

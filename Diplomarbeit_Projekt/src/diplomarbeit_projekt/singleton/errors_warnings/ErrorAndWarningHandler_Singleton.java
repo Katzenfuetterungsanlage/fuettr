@@ -5,8 +5,8 @@
  */
 package diplomarbeit_projekt.singleton.errors_warnings;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.json.*;
 
@@ -31,11 +31,11 @@ public class ErrorAndWarningHandler_Singleton
     private String failedFeedingTime;
 
     private static ErrorAndWarningHandler_Singleton instance = null;
-    List<String> list = new ArrayList();
+    private final List<String> list;
 
     protected ErrorAndWarningHandler_Singleton()
     {
-        list = new ArrayList();
+        list = new ArrayList<>();
     }
 
     public static ErrorAndWarningHandler_Singleton getInstance()
@@ -117,10 +117,13 @@ public class ErrorAndWarningHandler_Singleton
         warning_isPackageEmpty = warningOn;
     }
     
-    public void setFeedingHasFailedError (Boolean errorOn, String errorTime)
+    public void setFeedingHasFailedError (Boolean errorOn)
     {
         error_hasFeedingFailed = errorOn;
-        failedFeedingTime = errorTime;
+        if (errorOn == true)
+        {
+            failedFeedingTime = String.format("%1$tH:%1$tM", new Date(System.currentTimeMillis()));
+        }   
     }
     
     // add id to the error/warning for the web application

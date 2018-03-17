@@ -19,7 +19,7 @@ import javax.swing.AbstractListModel;
 
 */
 
-public class ErrorAndWarningModel extends AbstractListModel
+public class ErrorAndWarningModel extends AbstractListModel<String>
 {
     private final List<String> errorAndWarning; 
 
@@ -35,7 +35,7 @@ public class ErrorAndWarningModel extends AbstractListModel
     }
 
     @Override
-    public Object getElementAt(int index)
+    public String getElementAt(int index)
     {
         return errorAndWarning.get(index);
     }
