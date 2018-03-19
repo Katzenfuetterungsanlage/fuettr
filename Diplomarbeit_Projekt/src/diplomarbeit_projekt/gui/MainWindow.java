@@ -1005,7 +1005,7 @@ public class MainWindow extends javax.swing.JFrame
     // gets the current time and date and displays it in the gui MainWindow
     private class TimeOfDayAndDateWorker extends SwingWorker<Object, String[]>
     {
-        String[] timeAndDate;
+        String[] timeAndDate = new String[2];
         
         @Override
         protected Object doInBackground() throws Exception
