@@ -224,7 +224,7 @@ public class ManualControl extends javax.swing.JDialog
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel22.add(jLabel15, gridBagConstraints);
 
-        jLabel16.setText("Die nebenliegende Anzeige gibt Auskungt über den Zustand der Motoren uns Sensoren");
+        jLabel16.setText("Die nebenliegende Anzeige gibt Auskunft über den Zustand der Motoren und Sensoren.");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
