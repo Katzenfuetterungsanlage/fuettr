@@ -968,6 +968,8 @@ public class MainWindow extends javax.swing.JFrame
         }
 
         lbLastFeeding.setText("ausstehend");
+        lbNextFeedingAt.setText("-");
+        lbNextFeedingIn.setText("-");
         
         // Worker 
         timeAndDateWorker = new TimeOfDayAndDateWorker();

@@ -33,7 +33,8 @@ public class SystemInfo extends javax.swing.JDialog
                
         initComponents();
         
-        pSerialnumber.setVisible(false);
+        // remove serialnumber only in gui, code still here
+        pTable.remove(pSerialnumber);
         
         importInfo();
 
@@ -60,7 +61,7 @@ public class SystemInfo extends javax.swing.JDialog
         btSchließen = new javax.swing.JButton();
         pInfo = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        pTable = new javax.swing.JPanel();
         pSerialnumber = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lbSerialnumber = new javax.swing.JLabel();
@@ -112,7 +113,7 @@ public class SystemInfo extends javax.swing.JDialog
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 16, 32));
 
-        jPanel2.setLayout(new java.awt.GridLayout(0, 1, 4, 4));
+        pTable.setLayout(new java.awt.GridLayout(0, 1, 4, 4));
 
         pSerialnumber.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -122,7 +123,7 @@ public class SystemInfo extends javax.swing.JDialog
         lbSerialnumber.setText("<seriennummer>");
         pSerialnumber.add(lbSerialnumber);
 
-        jPanel2.add(pSerialnumber);
+        pTable.add(pSerialnumber);
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -132,7 +133,7 @@ public class SystemInfo extends javax.swing.JDialog
         lbInternal.setText("<raspberry_x>");
         jPanel8.add(lbInternal);
 
-        jPanel2.add(jPanel8);
+        pTable.add(jPanel8);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -142,7 +143,7 @@ public class SystemInfo extends javax.swing.JDialog
         lbWlanState.setText("<verbunden>");
         jPanel7.add(lbWlanState);
 
-        jPanel2.add(jPanel7);
+        pTable.add(jPanel7);
 
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -152,7 +153,7 @@ public class SystemInfo extends javax.swing.JDialog
         lbIpAddress.setText("<10.0.0.10>");
         jPanel9.add(lbIpAddress);
 
-        jPanel2.add(jPanel9);
+        pTable.add(jPanel9);
 
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -162,9 +163,9 @@ public class SystemInfo extends javax.swing.JDialog
         lbVersion.setText("<versionsnummer>");
         jPanel10.add(lbVersion);
 
-        jPanel2.add(jPanel10);
+        pTable.add(jPanel10);
 
-        jPanel3.add(jPanel2);
+        jPanel3.add(pTable);
 
         pInfo.add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -246,7 +247,6 @@ public class SystemInfo extends javax.swing.JDialog
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -261,6 +261,7 @@ public class SystemInfo extends javax.swing.JDialog
     private javax.swing.JPanel pButton;
     private javax.swing.JPanel pInfo;
     private javax.swing.JPanel pSerialnumber;
+    private javax.swing.JPanel pTable;
     // End of variables declaration//GEN-END:variables
 
     private void importInfo ()
@@ -298,7 +299,7 @@ public class SystemInfo extends javax.swing.JDialog
     private void setText ()
     {
         lbInternal.setText(internal);       
-        lbSerialnumber.setText(serialnumber);
+        //lbSerialnumber.setText(serialnumber);
         lbVersion.setText(version);
         lbWlanState.setText(wlanState);
         lbIpAddress.setText(ip);

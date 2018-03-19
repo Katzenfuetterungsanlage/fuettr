@@ -25,6 +25,8 @@ public class TimeTest2 extends javax.swing.JFrame
     {
         initComponents();
         
+        jPanel1.remove(jLabel1);
+        
         TimeOfDayAndDateWorker worker = new TimeOfDayAndDateWorker();
         worker.execute();
         
@@ -40,17 +42,25 @@ public class TimeTest2 extends javax.swing.JFrame
     private void initComponents()
     {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.FlowLayout());
+
+        jPanel1.setLayout(new java.awt.GridLayout());
+
+        jLabel3.setText("jLabel3");
+        jPanel1.add(jLabel3);
 
         jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1);
+        jPanel1.add(jLabel1);
 
         jLabel2.setText("jLabel2");
-        getContentPane().add(jLabel2);
+        jPanel1.add(jLabel2);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -108,6 +118,8 @@ public class TimeTest2 extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
 private class TimeOfDayAndDateWorker extends SwingWorker<Object, String[]>
