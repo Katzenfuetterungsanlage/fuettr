@@ -33,6 +33,8 @@ public class SystemInfo extends javax.swing.JDialog
                
         initComponents();
         
+        pSerialnumber.setVisible(false);
+        
         importInfo();
 
         setText();
@@ -59,7 +61,7 @@ public class SystemInfo extends javax.swing.JDialog
         pInfo = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        pSerialnumber = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lbSerialnumber = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
@@ -112,15 +114,15 @@ public class SystemInfo extends javax.swing.JDialog
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 1, 4, 4));
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        pSerialnumber.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         jLabel1.setText("Seriennummer:");
-        jPanel6.add(jLabel1);
+        pSerialnumber.add(jLabel1);
 
         lbSerialnumber.setText("<seriennummer>");
-        jPanel6.add(lbSerialnumber);
+        pSerialnumber.add(lbSerialnumber);
 
-        jPanel2.add(jPanel6);
+        jPanel2.add(pSerialnumber);
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -248,7 +250,6 @@ public class SystemInfo extends javax.swing.JDialog
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -259,6 +260,7 @@ public class SystemInfo extends javax.swing.JDialog
     private javax.swing.JLabel lbWlanState;
     private javax.swing.JPanel pButton;
     private javax.swing.JPanel pInfo;
+    private javax.swing.JPanel pSerialnumber;
     // End of variables declaration//GEN-END:variables
 
     private void importInfo ()

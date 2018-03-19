@@ -61,7 +61,7 @@ public class Update extends javax.swing.JDialog
         pButton = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        btSchließen = new javax.swing.JButton();
+        btClose = new javax.swing.JButton();
         pUpdate = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -89,15 +89,15 @@ public class Update extends javax.swing.JDialog
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        btSchließen.setText("Schließen");
-        btSchließen.addActionListener(new java.awt.event.ActionListener()
+        btClose.setText("Schließen");
+        btClose.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 onSchließen(evt);
             }
         });
-        jPanel5.add(btSchließen);
+        jPanel5.add(btClose);
 
         jPanel4.add(jPanel5);
 
@@ -182,28 +182,26 @@ public class Update extends javax.swing.JDialog
     {//GEN-HEADEREND:event_onUpdate
         try
         {
+            btClose.setEnabled(false);
+            
             Process process = Runtime.getRuntime().exec("git pull");
             process.waitFor();
 
             // TODO: ng build --prod | npm restart | ant jar 
             // process = Runtime.getRuntime().exec("ng build --prod");
             // process.waitFor();
-            
             // process = Runtime.getRuntime().exec("npm restart");
             // process.waitFor();
-            
             // process = Runtime.getRuntime().exec("ant jar");
             // process.waitFor();
-            
             // oder Anfrage an Server um ein Update
-            
             // Raspberry macht  folgendes beim neustarten: ng build --prod | npm restart | ant jar
             // dafür wird in einer Datei ein bestimmer text gepeichert
-            
-            write(String.format("/home/"+System.getProperty("user.name")+"/git/fuettr/build"));
-            
+            write();
+
             pTextUpdateErfolgreich.setVisible(true);
-            
+            btClose.setEnabled(true);
+
             Runtime.getRuntime().exec("sudo reboot");
 
         }
@@ -214,7 +212,7 @@ public class Update extends javax.swing.JDialog
         catch (InterruptedException ex)
         {
             Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, "WaitFor ist interrupted");
-        }        
+        }
     }//GEN-LAST:event_onUpdate
 
     private void onUeberpruefen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onUeberpruefen
@@ -345,7 +343,7 @@ public class Update extends javax.swing.JDialog
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btSchließen;
+    private javax.swing.JButton btClose;
     private javax.swing.JButton btUeberpruefen;
     private javax.swing.JButton btUpdate;
     private javax.swing.JLabel jLabel2;
@@ -378,20 +376,21 @@ public class Update extends javax.swing.JDialog
             btUpdate.setEnabled(false);
         }
     }
-    
-    private void write(String path)
+
+    private void write()
     {
-        try (final BufferedWriter writer = 
-            new BufferedWriter(
-            new OutputStreamWriter(  
-            new FileOutputStream(path), "utf8"));) // "AutoCloseable"
+        String path = String.format("/home/" + System.getProperty("user.name") + "/git/fuettr/build");
+
+        try (final BufferedWriter writer
+                = new BufferedWriter(
+                        new OutputStreamWriter(
+                                new FileOutputStream(path), "utf8"));) // "AutoCloseable"
         {
             writer.write(String.format("true"));
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }  
+        }
     }
-
 }

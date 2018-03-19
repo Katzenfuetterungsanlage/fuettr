@@ -116,7 +116,7 @@
             <Property name="text" type="java.lang.String" value="Steuerung"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="menu_manualControl">
+            <MenuItem class="javax.swing.JMenuItem" name="menuManualControl">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"/>
@@ -147,7 +147,7 @@
             <Property name="text" type="java.lang.String" value="Einstellungen"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="menu_update">
+            <MenuItem class="javax.swing.JMenuItem" name="menuUpdate">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/diplomarbeit_projekt/icons/downloadIcon16x16.png"/>

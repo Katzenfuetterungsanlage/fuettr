@@ -18,12 +18,13 @@ import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import static java.lang.String.valueOf;
 
 /**
  *
  * @author Florian
  */
-public class CreateUser extends javax.swing.JDialog
+public class CreateAndRegisterUser extends javax.swing.JDialog
 {
     private boolean saved = true; 
     private BasicDBObject newUserDoc;
@@ -31,7 +32,7 @@ public class CreateUser extends javax.swing.JDialog
     /**
      * Creates new form BenutzerAnlegen
      */
-    public CreateUser(java.awt.Frame parent, boolean modal)
+    public CreateAndRegisterUser(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
                
@@ -65,11 +66,11 @@ public class CreateUser extends javax.swing.JDialog
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfUser_name = new javax.swing.JFormattedTextField();
+        tfUserName = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
-        pwtfUser_password = new javax.swing.JPasswordField();
+        pwtfUserPassword = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        pwtfUser_passwordConfirm = new javax.swing.JPasswordField();
+        pwtfUserPasswordConfirm = new javax.swing.JPasswordField();
         pButton = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -112,39 +113,39 @@ public class CreateUser extends javax.swing.JDialog
         jLabel1.setText("Benutzername:");
         jPanel2.add(jLabel1);
 
-        tfUser_name.setColumns(16);
-        tfUser_name.addKeyListener(new java.awt.event.KeyAdapter()
+        tfUserName.setColumns(16);
+        tfUserName.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyPressed(java.awt.event.KeyEvent evt)
             {
-                tfUser_nameKeyPressed(evt);
+                tfUserNameKeyPressed(evt);
             }
         });
-        jPanel2.add(tfUser_name);
+        jPanel2.add(tfUserName);
 
         jLabel3.setText("Passwort:");
         jPanel2.add(jLabel3);
 
-        pwtfUser_password.addKeyListener(new java.awt.event.KeyAdapter()
+        pwtfUserPassword.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyPressed(java.awt.event.KeyEvent evt)
             {
-                pwtfUser_passwordKeyPressed(evt);
+                pwtfUserPasswordKeyPressed(evt);
             }
         });
-        jPanel2.add(pwtfUser_password);
+        jPanel2.add(pwtfUserPassword);
 
         jLabel5.setText("Passwort wiederholen:");
         jPanel2.add(jLabel5);
 
-        pwtfUser_passwordConfirm.addKeyListener(new java.awt.event.KeyAdapter()
+        pwtfUserPasswordConfirm.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyPressed(java.awt.event.KeyEvent evt)
             {
-                pwtfUser_passwordConfirmKeyPressed(evt);
+                pwtfUserPasswordConfirmKeyPressed(evt);
             }
         });
-        jPanel2.add(pwtfUser_passwordConfirm);
+        jPanel2.add(pwtfUserPasswordConfirm);
 
         jPanel3.add(jPanel2);
 
@@ -214,20 +215,20 @@ public class CreateUser extends javax.swing.JDialog
         dispose();    
     }//GEN-LAST:event_onOk
 
-    private void tfUser_nameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_tfUser_nameKeyPressed
-    {//GEN-HEADEREND:event_tfUser_nameKeyPressed
+    private void tfUserNameKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_tfUserNameKeyPressed
+    {//GEN-HEADEREND:event_tfUserNameKeyPressed
         saved = false;
-    }//GEN-LAST:event_tfUser_nameKeyPressed
+    }//GEN-LAST:event_tfUserNameKeyPressed
 
-    private void pwtfUser_passwordKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_pwtfUser_passwordKeyPressed
-    {//GEN-HEADEREND:event_pwtfUser_passwordKeyPressed
+    private void pwtfUserPasswordKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_pwtfUserPasswordKeyPressed
+    {//GEN-HEADEREND:event_pwtfUserPasswordKeyPressed
         saved = false;
-    }//GEN-LAST:event_pwtfUser_passwordKeyPressed
+    }//GEN-LAST:event_pwtfUserPasswordKeyPressed
 
-    private void pwtfUser_passwordConfirmKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_pwtfUser_passwordConfirmKeyPressed
-    {//GEN-HEADEREND:event_pwtfUser_passwordConfirmKeyPressed
+    private void pwtfUserPasswordConfirmKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_pwtfUserPasswordConfirmKeyPressed
+    {//GEN-HEADEREND:event_pwtfUserPasswordConfirmKeyPressed
         saved = false;
-    }//GEN-LAST:event_pwtfUser_passwordConfirmKeyPressed
+    }//GEN-LAST:event_pwtfUserPasswordConfirmKeyPressed
 
     /**
      * @param args the command line arguments
@@ -251,17 +252,21 @@ public class CreateUser extends javax.swing.JDialog
             }
         } catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAndRegisterUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAndRegisterUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAndRegisterUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(CreateUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateAndRegisterUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -272,7 +277,7 @@ public class CreateUser extends javax.swing.JDialog
         {
             public void run()
             {
-                CreateUser dialog = new CreateUser(new javax.swing.JFrame(), true);
+                CreateAndRegisterUser dialog = new CreateAndRegisterUser(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter()
                 {
                     @Override
@@ -305,9 +310,9 @@ public class CreateUser extends javax.swing.JDialog
     private javax.swing.JLabel lbUser;
     private javax.swing.JPanel pBenutzer;
     private javax.swing.JPanel pButton;
-    private javax.swing.JPasswordField pwtfUser_password;
-    private javax.swing.JPasswordField pwtfUser_passwordConfirm;
-    private javax.swing.JFormattedTextField tfUser_name;
+    private javax.swing.JPasswordField pwtfUserPassword;
+    private javax.swing.JPasswordField pwtfUserPasswordConfirm;
+    private javax.swing.JFormattedTextField tfUserName;
     // End of variables declaration//GEN-END:variables
  
     private void setValue ()
@@ -328,9 +333,9 @@ public class CreateUser extends javax.swing.JDialog
     
     private void getValue ()
     {
-        String user_name = tfUser_name.getText();
-        char[] user_password = pwtfUser_password.getPassword();
-        char[] user_passwordConfirm = pwtfUser_passwordConfirm.getPassword();
+        String user_name = tfUserName.getText();
+        char[] user_password = pwtfUserPassword.getPassword();
+        char[] user_passwordConfirm = pwtfUserPasswordConfirm.getPassword();
 
         String strUser_password = valueOf(user_password);
         String strUser_passwordConfirm = valueOf(user_passwordConfirm);
@@ -344,8 +349,8 @@ public class CreateUser extends javax.swing.JDialog
             if (!strUser_password.equals(strUser_passwordConfirm))
             {
                 JOptionPane.showMessageDialog(this, "Die Passwörter stimmen nicht überein!", "Fehler",ERROR_MESSAGE);
-                pwtfUser_password.setText("");
-                pwtfUser_passwordConfirm.setText("");
+                pwtfUserPassword.setText("");
+                pwtfUserPasswordConfirm.setText("");
             }
             else
             {
@@ -361,9 +366,9 @@ public class CreateUser extends javax.swing.JDialog
             
                 saved = true; 
             
-                tfUser_name.setText(""); 
-                pwtfUser_password.setText("");
-                pwtfUser_passwordConfirm.setText("");
+                tfUserName.setText(""); 
+                pwtfUserPassword.setText("");
+                pwtfUserPasswordConfirm.setText("");
             }
         }
     }

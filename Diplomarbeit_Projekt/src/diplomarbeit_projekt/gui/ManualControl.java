@@ -17,7 +17,7 @@ import javax.swing.SwingWorker;
 public class ManualControl extends javax.swing.JDialog
 {
     // pi4j
-   private Pi4j_Singleton pi4j_instance;   
+   private Pi4j_Singleton pi4jInstance;   
     
     // Worker
     private PositionWorker positionWorker;
@@ -35,7 +35,7 @@ public class ManualControl extends javax.swing.JDialog
         pack();
         
         // pi4j instance
-        pi4j_instance = Pi4j_Singleton.getInstance();
+        pi4jInstance = Pi4j_Singleton.getInstance();
         
         // Workers
         positionWorker = new PositionWorker();
@@ -343,7 +343,7 @@ public class ManualControl extends javax.swing.JDialog
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                onSchließen(evt);
+                onClose(evt);
             }
         });
         jPanel5.add(btSchließen);
@@ -359,43 +359,43 @@ public class ManualControl extends javax.swing.JDialog
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void onSchließen(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onSchließen
-    {//GEN-HEADEREND:event_onSchließen
+    private void onClose(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onClose
+    {//GEN-HEADEREND:event_onClose
         // stop engines when closing the conrtol dialog - security measurement
-        pi4j_instance.stopEngine1();
-        pi4j_instance.stopEngine2();
+        pi4jInstance.stopEngine1();
+        pi4jInstance.stopEngine2();
         
         dispose();
-    }//GEN-LAST:event_onSchließen
+    }//GEN-LAST:event_onClose
 
     private void onMoveEngine1Counterclockwise(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMoveEngine1Counterclockwise
     {//GEN-HEADEREND:event_onMoveEngine1Counterclockwise
-        pi4j_instance.moveEngine1Counterclockwise();
+        pi4jInstance.moveEngine1Counterclockwise();
     }//GEN-LAST:event_onMoveEngine1Counterclockwise
 
     private void onMoveEngine1Clockwise(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMoveEngine1Clockwise
     {//GEN-HEADEREND:event_onMoveEngine1Clockwise
-        pi4j_instance.moveEngine1Clockwise();
+        pi4jInstance.moveEngine1Clockwise();
     }//GEN-LAST:event_onMoveEngine1Clockwise
 
     private void onStopEngine1(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onStopEngine1
     {//GEN-HEADEREND:event_onStopEngine1
-        pi4j_instance.stopEngine1();
+        pi4jInstance.stopEngine1();
     }//GEN-LAST:event_onStopEngine1
 
     private void onMoveEngine2Counterclockwise(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMoveEngine2Counterclockwise
     {//GEN-HEADEREND:event_onMoveEngine2Counterclockwise
-        pi4j_instance.moveEngine2Counterclockwise();
+        pi4jInstance.moveEngine2Counterclockwise();
     }//GEN-LAST:event_onMoveEngine2Counterclockwise
 
     private void onMoveEngine2Clockwise(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onMoveEngine2Clockwise
     {//GEN-HEADEREND:event_onMoveEngine2Clockwise
-        pi4j_instance.moveEngine2Clockwise();
+        pi4jInstance.moveEngine2Clockwise();
     }//GEN-LAST:event_onMoveEngine2Clockwise
 
     private void onStopEngine2(java.awt.event.ActionEvent evt)//GEN-FIRST:event_onStopEngine2
     {//GEN-HEADEREND:event_onStopEngine2
-        pi4j_instance.stopEngine2();
+        pi4jInstance.stopEngine2();
     }//GEN-LAST:event_onStopEngine2
 
     /**
@@ -519,10 +519,10 @@ private class PositionWorker extends SwingWorker<Object, String[]>
         {                        
             while (!isCancelled())
             {
-                strSensor1 = pi4j_instance.statusSensor1();
-                strSensor2 = pi4j_instance.statusSensor2();
-                strEngine1 = pi4j_instance.statusEngine1();
-                strEngine2 = pi4j_instance.statusEngine2();
+                strSensor1 = pi4jInstance.statusSensor1();
+                strSensor2 = pi4jInstance.statusSensor2();
+                strEngine1 = pi4jInstance.statusEngine1();
+                strEngine2 = pi4jInstance.statusEngine2();
                 
                 String state[] = null;
                 state[0] = strSensor1;

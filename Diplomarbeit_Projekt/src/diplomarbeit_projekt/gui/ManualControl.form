@@ -561,7 +561,7 @@
                         <Property name="text" type="java.lang.String" value="Schlie&#xdf;en"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onSchlie&#xdf;en"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onClose"/>
                       </Events>
                     </Component>
                   </SubComponents>

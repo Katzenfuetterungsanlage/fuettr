@@ -18,7 +18,8 @@ import java.util.logging.Logger;
  */
 public class HashPassword
 {
-   public static String hash(String passwordToHash, String salt)
+
+    public static String hash(String passwordToHash, String salt)
     {
         String generatedPassword = null;
         try
@@ -44,5 +45,5 @@ public class HashPassword
             Logger.getLogger(HashPassword.class.getName()).log(Level.SEVERE, null, ex);
         }
         return generatedPassword;
-    } 
+    }
 }

@@ -27,7 +27,6 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 public class TimeManagement extends javax.swing.JDialog
 {
     private boolean saved = true;
-    private boolean timesChanged = false;
     private BasicDBObject newTimeDoc;
 
     /**
@@ -341,16 +340,16 @@ public class TimeManagement extends javax.swing.JDialog
     {//GEN-HEADEREND:event_onCancel
         if (saved == false)
         {
-            if (JOptionPane.showConfirmDialog(this, "Fenster wirklich schließen? Nicht gespeicherte Inhalte gehen verloren!",
+            if (JOptionPane.showConfirmDialog(this, "Nicht gespeicherte Inhalte gehen verloren! Wollen Sie speichern bevor Sie das Fenster schießen?",
                     "Hinweis", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
             {
+                getValues();
+                
                 dispose();
             }
         }
         else
         {
-            timesChanged = true;
-
             dispose();
         }
     }//GEN-LAST:event_onCancel

@@ -85,7 +85,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JButton" name="btSchlie&#xdf;en">
+                    <Component class="javax.swing.JButton" name="btClose">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Schlie&#xdf;en"/>
                       </Properties>

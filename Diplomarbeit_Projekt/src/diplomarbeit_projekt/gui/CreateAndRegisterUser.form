@@ -125,12 +125,12 @@
                         <Property name="text" type="java.lang.String" value="Benutzername:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JFormattedTextField" name="tfUser_name">
+                    <Component class="javax.swing.JFormattedTextField" name="tfUserName">
                       <Properties>
                         <Property name="columns" type="int" value="16"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfUser_nameKeyPressed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfUserNameKeyPressed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -138,9 +138,9 @@
                         <Property name="text" type="java.lang.String" value="Passwort:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JPasswordField" name="pwtfUser_password">
+                    <Component class="javax.swing.JPasswordField" name="pwtfUserPassword">
                       <Events>
-                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pwtfUser_passwordKeyPressed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pwtfUserPasswordKeyPressed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -148,9 +148,9 @@
                         <Property name="text" type="java.lang.String" value="Passwort wiederholen:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JPasswordField" name="pwtfUser_passwordConfirm">
+                    <Component class="javax.swing.JPasswordField" name="pwtfUserPasswordConfirm">
                       <Events>
-                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pwtfUser_passwordConfirmKeyPressed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pwtfUserPasswordConfirmKeyPressed"/>
                       </Events>
                     </Component>
                   </SubComponents>

@@ -190,11 +190,11 @@ public class MainWindow extends javax.swing.JFrame
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         fuetterungszeiten_verwalten = new javax.swing.JMenuItem();
         steuerung = new javax.swing.JMenu();
-        menu_manualControl = new javax.swing.JMenuItem();
+        menuManualControl = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         positionsinformationen = new javax.swing.JMenuItem();
         einstellungen = new javax.swing.JMenu();
-        menu_update = new javax.swing.JMenuItem();
+        menuUpdate = new javax.swing.JMenuItem();
         benutzer_anlegen = new javax.swing.JMenuItem();
         wlan = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -488,16 +488,16 @@ public class MainWindow extends javax.swing.JFrame
 
         steuerung.setText("Steuerung");
 
-        menu_manualControl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"))); // NOI18N
-        menu_manualControl.setText("manuelle Steuerung");
-        menu_manualControl.addActionListener(new java.awt.event.ActionListener()
+        menuManualControl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/controlpanelIcon16x16.png"))); // NOI18N
+        menuManualControl.setText("manuelle Steuerung");
+        menuManualControl.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 onManualControl(evt);
             }
         });
-        steuerung.add(menu_manualControl);
+        steuerung.add(menuManualControl);
         steuerung.add(jSeparator3);
 
         positionsinformationen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/infoIcon16x16.png"))); // NOI18N
@@ -515,16 +515,16 @@ public class MainWindow extends javax.swing.JFrame
 
         einstellungen.setText("Einstellungen");
 
-        menu_update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/downloadIcon16x16.png"))); // NOI18N
-        menu_update.setText("Update");
-        menu_update.addActionListener(new java.awt.event.ActionListener()
+        menuUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/downloadIcon16x16.png"))); // NOI18N
+        menuUpdate.setText("Update");
+        menuUpdate.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 onUpdate(evt);
             }
         });
-        einstellungen.add(menu_update);
+        einstellungen.add(menuUpdate);
 
         benutzer_anlegen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/diplomarbeit_projekt/icons/userIcon16x16.png"))); // NOI18N
         benutzer_anlegen.setText("Benutzer anlegen");
@@ -692,7 +692,7 @@ public class MainWindow extends javax.swing.JFrame
             userDoc = mongodb_instance.getUserDoc();
         }
 
-        final CreateUser userDlg = new CreateUser(this, true);
+        final CreateAndRegisterUser userDlg = new CreateAndRegisterUser(this, true);
         userDlg.setVisible(true);
 
         if (userDlg.isSaved())
@@ -875,9 +875,9 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JLabel lbTime4;
     private javax.swing.JLabel lbTime4Description;
     private javax.swing.JLabel lbTimeOfDay;
-    private javax.swing.JMenuItem menu_manualControl;
+    private javax.swing.JMenuItem menuManualControl;
+    private javax.swing.JMenuItem menuUpdate;
     private javax.swing.JMenuItem menu_switchOnOff;
-    private javax.swing.JMenuItem menu_update;
     private javax.swing.JMenuItem neustarten;
     private javax.swing.JPanel pCenter;
     private javax.swing.JPanel pEast;
@@ -949,13 +949,13 @@ public class MainWindow extends javax.swing.JFrame
         // update and manualControl not available while machine state = on 
         if (machineStateOn == true)
         {
-            menu_update.setEnabled(false);
-            menu_manualControl.setEnabled(false);
+            menuUpdate.setEnabled(false);
+            menuManualControl.setEnabled(false);
         }
         else
         {
-            menu_update.setEnabled(true);
-            menu_manualControl.setEnabled(true);
+            menuUpdate.setEnabled(true);
+            menuManualControl.setEnabled(true);
         }
     }
 
