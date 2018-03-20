@@ -31,7 +31,7 @@ export class Server {
   private _publkey: Buffer;
   private _privkey: Buffer;
 
-  constructor() {
+  private constructor() {
     this._publkey = fs.readFileSync(path.join(__dirname, '../keys/server-public.pem'));
     this._privkey = fs.readFileSync(path.join(__dirname, '../keys/server-private.pem'));
 
@@ -39,7 +39,7 @@ export class Server {
     this._express.use(bodyparser.urlencoded({ extended: true }));
     this._express.use(
       requestLanguage({
-        languages: ['en-GB', 'de-DE', 'de-AT']
+        languages: ['en-GB', 'en-US', 'de-DE', 'de-AT']
       })
     );
     this._express.set('views', path.join(__dirname, '/views'));
