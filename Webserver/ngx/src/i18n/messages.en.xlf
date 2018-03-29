@@ -385,7 +385,7 @@
       </trans-unit>
       <trans-unit id="d1aa437ab434741e35e37ba4841cf400c41dc3bb" datatype="html">
         <source>Gespeichert.</source>
-        <target>Saved..</target>
+        <target>Saved.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/feed.component.ts</context>
           <context context-type="linenumber">79</context>

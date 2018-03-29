@@ -7,8 +7,8 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class HttpService {
-  private api = '/api/callMeMaybe?q=';
-  private putapi = '/api/putMeHere?q=';
+  private api = '/api/callMeMaybe/';
+  private putapi = '/api/putMeHere/';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private ip = '/api/ip';
 

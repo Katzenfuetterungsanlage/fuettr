@@ -41,8 +41,8 @@ export class ApiRoutes {
     this._routes = express.Router();
 
     this._routes.use('/node_modules', express.static(path.join(__dirname, '../node_modules')));
-    this._routes.post('/putMeHere', (req, res, next) => this.putMeHere(req, res, next));
-    this._routes.get('/callMeMaybe', (req, res, next) => this.callMeMaybe(req, res, next));
+    this._routes.post('/putMeHere/:data', (req, res, next) => this.putMeHere(req, res, next));
+    this._routes.get('/callMeMaybe/:data', (req, res, next) => this.callMeMaybe(req, res, next));
     this._routes.get('/getUpdate', (req, res, next) => this.update(req, res, next));
     this._routes.get('/shutdown', this.shutdown);
     this._routes.get('/ip', (req, res, next) => this.getIp(req, res, next));
@@ -95,7 +95,7 @@ export class ApiRoutes {
   }
 
   public async callMeMaybe(req: express.Request, res: express.Response, next: express.NextFunction) {
-    switch (req.query.q) {
+    switch (req.params.data) {
       case 'errors_warnings': {
         this.getFromJava(res, 'errors_warnings');
         // res.send(JSON.stringify({}));
@@ -170,7 +170,7 @@ export class ApiRoutes {
       auth = true;
     });
     if (auth) {
-      switch (req.query.q) {
+      switch (req.params.data) {
         case 'times': {
           await FuettrDB.Instance.putTimes(req.body);
           await setTimeout(() => {}, 10);

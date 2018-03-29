@@ -11,9 +11,14 @@ import * as itf from '../interfaces';
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   animations: [
-    // tslint:disable-next-line:max-line-length
-    trigger('SaveAnimation', [state('false', style({ opacity: '0.0' })), state('true', style({ opacity: '1.0' })), transition('* => *', animate('300ms'))]),
-    trigger('FailAnimation', [state('false', style({ opacity: '0.0' })), state('true', style({ opacity: '1.0' })), transition('* => *', animate('300ms'))])
+    trigger('SaveAnimation', [
+      state('false', style({ opacity: '0.0' })),
+      state('true', style({ opacity: '1.0' })),
+      transition('* => *', animate('300ms'))]),
+    trigger('FailAnimation', [
+      state('false', style({ opacity: '0.0' })),
+      state('true', style({ opacity: '1.0' })),
+      transition('* => *', animate('300ms'))])
   ]
 })
 export class FeedComponent implements OnInit, DoCheck {
@@ -22,10 +27,10 @@ export class FeedComponent implements OnInit, DoCheck {
   public failed = false;
   public savedstate = false;
   public machine_state = false;
-  public time1: string;
-  public time2: string;
-  public time3: string;
-  public time4: string;
+  public time1 = '';
+  public time2 = '';
+  public time3 = '';
+  public time4 = '';
   public check1: boolean;
   public check2: boolean;
   public check3: boolean;
@@ -51,7 +56,7 @@ export class FeedComponent implements OnInit, DoCheck {
   public time4Valid = false;
   public time4notNull = false;
 
-  constructor(private httpService: HttpService, private timeCalculator: TimeCalculator, private app: AppComponent) { }
+  constructor(private httpService: HttpService, private timeCalculator: TimeCalculator, private app: AppComponent) {}
 
   public ngDoCheck(): void {
     this.doppelpoint();
