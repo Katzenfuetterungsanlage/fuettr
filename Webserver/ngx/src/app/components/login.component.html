@@ -52,10 +52,11 @@
 </p>
 
 <div class="container jumbotron align-middle">
-    <form #login="ngForm" class="form-horizontal" (ngSubmit)="submit(login.value)">
+    <form #login="ngForm" class="form-horizontal" (ngSubmit)="submit(login.value)" autocomplete="on">
         <div class="form-group">
             <label for="usr" i18n>Benutzer:</label>
-            <input type="text" class="form-control" id="usr" placeholder="User" name="user" autocomplete="username" ngModel required>
+            <input type="text" class="form-control" id="usr" placeholder="User" name="user" autocomplete="username" autofocus ngModel
+                required>
         </div>
         <div class="form-group">
             <label for="pwd" i18n>Passwort:</label>
