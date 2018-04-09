@@ -55,11 +55,12 @@
     <form #login="ngForm" class="form-horizontal" (ngSubmit)="submit(login.value)">
         <div class="form-group">
             <label for="usr" i18n>Benutzer:</label>
-            <input type="text" class="form-control" id="usr" placeholder="User" name="user" ngModel required>
+            <input type="text" class="form-control" id="usr" placeholder="User" name="user" autocomplete="username" ngModel required>
         </div>
         <div class="form-group">
             <label for="pwd" i18n>Passwort:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Password" name="password" ngModel required>
+            <input type="password" class="form-control" id="pwd" placeholder="Password" name="password" autocomplete="current-password"
+                ngModel required>
         </div>
         <div class="alert alert-danger" *ngIf="fail" i18n>Invalid username or password.</div>
         <button type="submit" class="btn btn-success" i18n>Submit</button>
