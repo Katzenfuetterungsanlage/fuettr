@@ -60,10 +60,10 @@ export class Server {
     let token = '';
     const username = req.body.user;
     const userpass = SHA512(req.body.password).toString();
-    const Users = await FuettrDB.Instance.getUsers();
-    for (let i = 0; i < Users.length; i++) {
-      let name = JSON.parse(JSON.stringify(Users[i])).user_name;
-      let pass = JSON.parse(JSON.stringify(Users[i])).user_password;
+    const users = await FuettrDB.Instance.getUsers();
+    for (let i = 0; i < users.length; i++) {
+      let name = users[i].user_name;
+      let pass = users[i].user_password;
       if (userpass === pass && username === name) {
         token = await jwt.sign({ user: username }, this._privkey, { expiresIn: '10h', algorithm: 'RS256' });
       }

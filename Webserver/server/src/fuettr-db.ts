@@ -52,8 +52,8 @@ export class FuettrDB {
     return Positions[0];
   }
 
-  public async getUsers(): Promise<string[]> {
-    const Users = await this._users.find({ identifier: 'User' }).toArray();
+  public async getUsers(): Promise<DbUser[]> {
+    const Users: DbUser[] = await this._users.find({ identifier: 'User' }).toArray();
     return Users;
   }
 
@@ -130,4 +130,9 @@ export class FuettrDB {
       throw err;
     }
   }
+}
+
+export interface DbUser {
+  user_name: string;
+  user_password: string;
 }
