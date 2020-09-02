@@ -16,7 +16,7 @@
   "private": true,
   "repository": {},
   "dependencies": {
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.3.1",
     "crypto-js": "^3.1.9-1",
     "debug": "^2.6.9",
     "debug-sx": "^0.1.7",
