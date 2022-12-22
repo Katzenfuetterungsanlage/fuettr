@@ -22,7 +22,7 @@
     "debug-sx": "^0.1.7",
     "express": "^4.16.3",
     "express-request-language": "^1.1.15",
-    "jsonwebtoken": "^8.2.1",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^2.2.35",
     "pug": "^2.0.3",
     "spin": "0.0.1"
